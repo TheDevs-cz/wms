@@ -33,10 +33,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Column(nullable: true)]
     public null|string $name = null;
 
-    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
-    #[Column(nullable: true)]
-    public null|string $avatar = null;
-
     public function __construct(
         #[Id]
         #[Immutable]
@@ -88,7 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // Just to satisfy the interface ...
     }
 
-    public function getDisplayName(): string
+    public function displayName(): string
     {
         return $this->name ?? $this->email;
     }

@@ -16,6 +16,7 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
         echo "== Clearing cache and installing composer =="
         # Delete temp, it might be incompatible with current changes
         rm -rf var/cache/*
+        mkdir -p var/log
 
         # Always have up to date dependencies
         composer install --no-interaction

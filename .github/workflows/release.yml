@@ -64,7 +64,7 @@ jobs:
             - docker
         environment:
             name: production
-            url: https://wms.thedevs.cz
+            url: https://wms.artaris.cz
         steps:
             -   uses: appleboy/ssh-action@master
                 with:
