@@ -7,7 +7,7 @@ namespace TheDevs\WMS\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use TheDevs\WMS\Tests\TestingLogin;
 
-final class HomepageControllerTest extends WebTestCase
+final class DashboardControllerTest extends WebTestCase
 {
     public function testAnonymousUserWillBeRedirectedToLogin(): void
     {
@@ -18,7 +18,7 @@ final class HomepageControllerTest extends WebTestCase
         $this->assertResponseRedirects('/login');
     }
 
-    public function testLoggedUserWillBeRedirected(): void
+    public function testResponseIsSuccessful(): void
     {
         $browser = self::createClient();
 
@@ -26,6 +26,6 @@ final class HomepageControllerTest extends WebTestCase
 
         $browser->request('GET', '/');
 
-        $this->assertResponseRedirects('/projects');
+        $this->assertResponseIsSuccessful();
     }
 }

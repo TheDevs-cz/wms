@@ -9,11 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class HomepageController extends AbstractController
+final class DashboardController extends AbstractController
 {
-    #[Route(path: '/', name: 'homepage')]
+    #[Route(path: '/', name: 'dashboard')]
     public function __invoke(#[CurrentUser] User $user): Response
     {
-        return $this->redirectToRoute('projects');
+        return $this->render('dashboard.html.twig');
     }
 }

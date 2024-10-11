@@ -15,7 +15,7 @@ final class ResetPasswordController extends AbstractController
     public function __invoke(#[CurrentUser] null|UserInterface $user = null): Response
     {
         if ($user !== null) {
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('dashboard');
         }
 
         throw $this->createNotFoundException();
