@@ -3,7 +3,7 @@
 ## Development
 Simply run `docker compose up`
 
-Application runs at `http://localhost:8080`
+Application runs at http://localhost:8080
 
 ## Quick start
 To create your user run (replace email+password placeholders):
@@ -11,7 +11,8 @@ To create your user run (replace email+password placeholders):
 
 ### Adminer (Database)
 
-Runs at `http://localhost:8000`  
+http://localhost:8000
+
 Driver: `postgres`  
 User: `postgres`  
 Password: `postgres`  
@@ -19,4 +20,4 @@ Database: `wms`
 
 ### Mail catcher
 
-Runs at `http://localhost:8025`
+http://localhost:8025
