@@ -8,8 +8,6 @@ RUN rm $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini
 
 COPY --link --chmod=755 .docker/docker-entrypoint.sh /usr/local/bin/docker-php-entrypoint
 
-ENTRYPOINT ["docker-php-entrypoint"]
-
 COPY composer.json composer.lock symfony.lock ./
 RUN composer install --no-dev --no-interaction --no-scripts
 
