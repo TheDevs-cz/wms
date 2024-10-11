@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editace profilu{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            {{ form_row(form.name) }}
+
+            <p>
+                <button class="btn btn-primary" type="submit">Uložit</button>
+            </p>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+
