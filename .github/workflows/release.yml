@@ -1,54 +1,75 @@
+# https://github.com/docker/build-push-action/blob/master/docs/advanced/tags-labels.md
+
 name: Release
+
 permissions:
-  contents: write 
-  pull-requests: write
+    contents: read
+    deployments: write
+    packages: write
 
 on:
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'API Platform core tag'
-        required: true
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+    workflow_run:
+        workflows: [Tests]
+        types:
+            - completed
+        branches:
+            - main
 
 jobs:
-  tests:
-    name: Update api-platform/core
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v4
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      -
-        name: Build Docker images
-        uses: docker/bake-action@v4
-        with:
-          pull: true
-          load: true
-          files: |
-            compose.yaml
-            compose.override.yaml
-          set: |
-            php.cache-from=type=gha,scope=php-${{github.ref}}
-            php.cache-from=type=gha,scope=php-refs/heads/main
-            php.cache-to=type=gha,scope=php-${{github.ref}},mode=max
-            pwa.cache-from=type=gha,scope=pwa-${{github.ref}}
-            pwa.cache-from=type=gha,scope=pwa-refs/heads/main
-            pwa.cache-to=type=gha,scope=pwa-${{github.ref}},mode=max
-      -
-        name: Update API Platform
-        run: docker compose run php composer update api-platform/core:${{ inputs.tag }}
-      -
-        name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          commit-message: 'chore: api-platform ${{ inputs.tag }}'
-          branch: api-platform-core
-          title: 'chore: api-platform ${{ inputs.tag }}'
-          body: 'Updates api-platform/core to ${{ inputs.tag }}'
+    docker:
+        name: "Docker images"
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Docker meta
+                id: meta
+                uses: docker/metadata-action@v5
+                with:
+                    # list of Docker images to use as base name for tags
+                    images: ghcr.io/thedevs-cz/wms
+                    # generate Docker tags based on the following events/attributes
+                    tags: |
+                        type=ref,event=branch
+                        type=sha
+
+            -   name: Set up Docker Buildx
+                uses: docker/setup-buildx-action@v3
+
+            -   name: Login to GHCR
+                if: github.event_name != 'pull_request'
+                uses: docker/login-action@v3
+                with:
+                    registry: ghcr.io
+                    username: ${{ github.repository_owner }}
+                    password: ${{ secrets.GITHUB_TOKEN }}
+
+            -   name: Build and push
+                uses: docker/build-push-action@v5
+                with:
+                    context: .
+                    push: ${{ github.event_name != 'pull_request' }}
+                    tags: ${{ steps.meta.outputs.tags }}
+                    labels: ${{ steps.meta.outputs.labels }}
+                    cache-from: type=gha, scope=${{ github.workflow }}
+                    cache-to: type=gha, scope=${{ github.workflow }}
+                    build-args: APP_VERSION=${{ github.sha }}
+
+    deploy:
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        needs:
+            - docker
+        environment:
+            name: prod
+            url: https://wms.thedevs.cz
+        steps:
+            -   uses: appleboy/ssh-action@master
+                with:
+                    host: wms.thedevs.cz
+                    username: ${{ secrets.DEPLOY_USERNAME }}
+                    key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+                    script_stop: true
+                    script: cd /deployment/wms && ./deploy.sh
