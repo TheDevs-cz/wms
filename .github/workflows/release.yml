@@ -63,7 +63,7 @@ jobs:
         needs:
             - docker
         environment:
-            name: prod
+            name: production
             url: https://wms.thedevs.cz
         steps:
             -   uses: appleboy/ssh-action@master
