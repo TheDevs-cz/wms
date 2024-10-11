@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\ConsoleCommands;
 
+use TheDevs\WMS\Entity\User;
 use TheDevs\WMS\Message\User\RegisterUser;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -35,15 +36,18 @@ final class RegisterUserConsoleCommand extends Command
         /** @var string $plainTextPassword */
         $plainTextPassword = $input->getArgument('password');
 
-        $this->messageBus->dispatch(
-            new RegisterUser(
-                $email,
-                $plainTextPassword,
-                null,
-            ),
+        $registerUser = new RegisterUser(
+            $email,
+            $plainTextPassword,
+            null,
+            [User::ROLE_ADMIN],
         );
 
-        $output->writeln('<info>User successfully registered</info>');
+        $this->messageBus->dispatch(
+            $registerUser,
+        );
+
+        $output->writeln("<info>User successfully registered: $email $plainTextPassword</info>");
 
         return self::SUCCESS;
     }

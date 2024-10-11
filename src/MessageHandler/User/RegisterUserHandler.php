@@ -33,11 +33,13 @@ readonly final class RegisterUserHandler
             $this->provideIdentity->next(),
             $message->email,
             $this->clock->now(),
+            roles: $message->roles,
         );
 
         $hashedPassword = $this->passwordHasher->hashPassword($user, $message->plainTextPassword);
 
         $user->changePassword($hashedPassword);
+
 
         $this->userRepository->save($user);
 

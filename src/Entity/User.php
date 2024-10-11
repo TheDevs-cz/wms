@@ -21,10 +21,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const string ROLE_ADMIN = 'ROLE_ADMIN';
 
-    /** @var array<string> */
-    #[Column(type: Types::JSON)]
-    private array $roles = [];
-
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     #[Column]
     public string $password = '';
@@ -48,6 +44,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
         #[Column(options: ['default' => true])]
         public bool $confirmed = true,
+
+        /** @var array<string> */
+        #[Column(type: Types::JSON)]
+        private array $roles = [],
     ) {
     }
 

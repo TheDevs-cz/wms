@@ -10,6 +10,8 @@ readonly final class RegisterUser
         public string $email,
         public string $plainTextPassword,
         public null|string $name,
+        /** @var array<string> */
+        public array $roles,
     ) {
     }
 }
