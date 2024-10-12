@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sklady{% endblock %}
+
+{% block content %}
+    <h1>Sklady</h1>
+
+    {% for warehouse in warehouses %}
+        <p>
+            {{ warehouse.title }}
+        </p>
+    {% endfor %}
+{% endblock %}

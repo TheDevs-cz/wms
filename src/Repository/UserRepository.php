@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TheDevs\WMS\Repository;
 
 use Doctrine\ORM\NoResultException;
+use Ramsey\Uuid\UuidInterface;
 use TheDevs\WMS\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use TheDevs\WMS\Exceptions\UserNotFound;
@@ -40,5 +41,19 @@ readonly final class UserRepository
         } catch (NoResultException) {
             throw new UserNotFound();
         }
+    }
+
+    /**
+     * @throws UserNotFound
+     */
+    public function getById(UuidInterface $id): User
+    {
+        $user = $this->entityManager->find(User::class, $id);
+
+        if ($user instanceof User) {
+            return $user;
+        }
+
+        throw new UserNotFound();
     }
 }
