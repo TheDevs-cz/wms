@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\Message\Warehouse;
 
-readonly final class AddWarehouse
+use Ramsey\Uuid\UuidInterface;
+
+readonly final class DeactivateWarehouse
 {
     public function __construct(
-        public string $title,
+        public UuidInterface $warehouseId,
     ) {
     }
 }

@@ -29,7 +29,7 @@ class PasswordResetToken
         public UuidInterface $id,
 
         #[ManyToOne]
-        #[JoinColumn(nullable: false, onDelete: "CASCADE")]
+        #[JoinColumn(nullable: false)]
         readonly public User $user,
 
         #[Column(type: Types::DATETIME_IMMUTABLE)]

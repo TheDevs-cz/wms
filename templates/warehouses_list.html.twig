@@ -5,9 +5,47 @@
 {% block content %}
     <h1>Sklady</h1>
 
-    {% for warehouse in warehouses %}
-        <p>
-            {{ warehouse.title }}
-        </p>
-    {% endfor %}
+    <p>
+        <a class="btn btn-outline-primary" href="{{ path('add_warehouse') }}">
+            <i class="bi bi-plus-lg"></i> Přidat sklad
+        </a>
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Název</th>
+                    <th scope="col">Stav</th>
+                    <th scope="col" class="text-end">Akce</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for warehouse in warehouses %}
+                    <tr>
+                        <td>{{ warehouse.title }}</td>
+                        <td>
+                            {% if not warehouse.deactivatedAt %}
+                                <span class="badge bg-success">Aktivní</span>
+                            {% else %}
+                                <span class="badge bg-warning">Neaktivní</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <a href="{{ path('edit_warehouse', {'id': warehouse.id}) }}" class="btn btn-sm btn-primary me-2">
+                                <i class="bi bi-pencil"></i> Editovat
+                            </a>
+
+                            {% if not warehouse.deactivatedAt %}
+                                <a href="{{ path('deactivate_warehouse', {'id': warehouse.id}) }}" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-slash-circle"></i> Deaktivovat
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 {% endblock %}

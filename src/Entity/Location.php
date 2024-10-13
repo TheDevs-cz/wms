@@ -18,6 +18,10 @@ use Ramsey\Uuid\UuidInterface;
 #[Entity]
 class Location
 {
+    #[Immutable]
+    #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    public null|DateTimeImmutable $deactivatedAt = null;
+
     public function __construct(
         #[Id]
         #[Immutable]
@@ -26,7 +30,7 @@ class Location
 
         #[ManyToOne]
         #[Immutable]
-        #[JoinColumn(nullable: false, onDelete: "CASCADE")]
+        #[JoinColumn(nullable: false)]
         public Warehouse $warehouse,
 
         #[Column(type: Types::DATETIME_IMMUTABLE)]

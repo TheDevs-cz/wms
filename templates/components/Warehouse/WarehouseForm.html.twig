@@ -2,13 +2,13 @@
     {{ form_start(form, {
         attr: {
             'data-action': 'live#action:prevent',
-            'data-live-action-param': 'add'
+            'data-live-action-param': warehouse ? 'edit' : 'add',
         }
     }) }}
 
     {{ form_widget(form) }}
 
-    <button type="submit" class="btn btn-primary">Přidat</button>
+    <button type="submit" class="btn btn-primary">Uložit</button>
 
     {{ form_end(form) }}
 </div>

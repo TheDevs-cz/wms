@@ -16,8 +16,14 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
 
 #[Entity]
-class StockItem
+class StockItem implements EntityWithEvents
 {
+    use HasEvents;
+
+    #[Immutable]
+    #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    public null|DateTimeImmutable $deactivatedAt = null;
+
     public function __construct(
         #[Id]
         #[Immutable]
@@ -26,16 +32,24 @@ class StockItem
 
         #[ManyToOne]
         #[Immutable]
-        #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-        public Product $product,
+        public null|Product $product,
 
         #[ManyToOne]
         #[Immutable]
-        #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
-        public Location $location,
+        #[JoinColumn(nullable: false)]
+        public Position $position,
 
         #[Column(type: Types::DATETIME_IMMUTABLE)]
         readonly public DateTimeImmutable $stockedAt,
+
+        #[Column]
+        public int $quantity,
+
+        #[Column(nullable: true)]
+        readonly public null|string $sku,
+
+        #[Column(nullable: true)]
+        readonly public null|string $ean,
     ) {
     }
 }

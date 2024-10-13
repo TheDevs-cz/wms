@@ -21,6 +21,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const string ROLE_ADMIN = 'ROLE_ADMIN';
 
+    #[Immutable]
+    #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    public null|DateTimeImmutable $deactivatedAt = null;
+
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     #[Column]
     public string $password = '';

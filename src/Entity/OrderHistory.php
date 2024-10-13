@@ -27,12 +27,12 @@ class OrderHistory
 
         #[Immutable]
         #[ManyToOne]
-        #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+        #[JoinColumn(nullable: false)]
         public Order $order,
 
         #[Immutable]
         #[ManyToOne]
-        #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+        #[JoinColumn(nullable: false)]
         public User $author,
 
         #[Column(type: Types::DATETIME_IMMUTABLE)]

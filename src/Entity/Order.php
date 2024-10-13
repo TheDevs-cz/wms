@@ -19,8 +19,10 @@ use TheDevs\WMS\Value\OrderStatus;
 
 #[Entity]
 #[Table(name: '`order`')]
-class Order
+class Order implements EntityWithEvents
 {
+    use HasEvents;
+
     public function __construct(
         #[Id]
         #[Immutable]
@@ -29,7 +31,7 @@ class Order
 
         #[ManyToOne]
         #[Immutable]
-        #[JoinColumn(nullable: false, onDelete: "CASCADE")]
+        #[JoinColumn(nullable: false)]
         public User $user,
 
         #[Column(type: Types::DATETIME_IMMUTABLE)]
@@ -46,5 +48,6 @@ class Order
         // TODO: items
         // TODO: carrier (+ price)?
         // TODO: cod (+ price)?
+        // TODO: warehouse?
     }
 }

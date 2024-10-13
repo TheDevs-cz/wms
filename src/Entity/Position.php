@@ -16,7 +16,7 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
 
 #[Entity]
-class Product
+class Position
 {
     #[Immutable]
     #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
@@ -31,19 +31,13 @@ class Product
         #[ManyToOne]
         #[Immutable]
         #[JoinColumn(nullable: false)]
-        public User $user,
-
-        #[Column]
-        readonly public string $sku,
-
-        #[Column]
-        readonly public string $ean,
+        public Location $location,
 
         #[Column(type: Types::DATETIME_IMMUTABLE)]
-        readonly public DateTimeImmutable $importedAt,
+        readonly public DateTimeImmutable $createdAt,
 
         #[Column]
-        public string $title,
+        public string $name,
     ) {
     }
 }

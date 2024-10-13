@@ -3,7 +3,7 @@
 {% block title %}Sklady{% endblock %}
 
 {% block content %}
-    <h1>Vytvořit nový sklad</h1>
+    <h1>Editace skladu</h1>
 
     <p>
         <a class="btn btn-outline-secondary" href="{{ path('warehouses') }}">
@@ -11,5 +11,5 @@
         </a>
     </p>
 
-    <twig:Warehouse:WarehouseForm />
+    <twig:Warehouse:WarehouseForm warehouse="{{ warehouse }}" />
 {% endblock %}

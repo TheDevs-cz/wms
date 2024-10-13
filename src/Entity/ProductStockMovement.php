@@ -26,27 +26,24 @@ class ProductStockMovement
 
         #[Immutable]
         #[ManyToOne]
-        #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+        #[JoinColumn(nullable: false)]
         public User $author,
 
         #[Immutable]
         #[ManyToOne]
-        #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+        #[JoinColumn(nullable: false)]
         public Product $product,
 
         #[Immutable]
         #[ManyToOne]
-        #[JoinColumn(onDelete: 'CASCADE')]
         public null|Location $fromLocation,
 
         #[Immutable]
         #[ManyToOne]
-        #[JoinColumn(onDelete: 'CASCADE')]
         public null|Location $toLocation,
 
         #[Immutable]
         #[ManyToOne]
-        #[JoinColumn(onDelete: 'CASCADE')]
         public null|Order $order,
 
         #[Column(type: Types::DATETIME_IMMUTABLE)]

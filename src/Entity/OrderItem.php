@@ -24,12 +24,12 @@ class OrderItem
 
         #[ManyToOne]
         #[Immutable]
-        #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+        #[JoinColumn(nullable: false)]
         public Order $order,
 
         #[ManyToOne]
         #[Immutable]
-        #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
+        #[JoinColumn(nullable: false)]
         public Product $product,
 
         #[Immutable]
@@ -37,5 +37,6 @@ class OrderItem
         public int $quantity,
     ) {
         // TODO: price?
+        // TODO: stock item?
     }
 }

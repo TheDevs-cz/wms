@@ -6,6 +6,7 @@ namespace TheDevs\WMS\FormData;
 
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use TheDevs\WMS\Entity\Warehouse;
 
 final class WarehouseFormData
 {
