@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace TheDevs\WMS\Controller\Warehouse;
+namespace TheDevs\WMS\Controller\Position;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use TheDevs\WMS\Entity\User;
-use TheDevs\WMS\Entity\Warehouse;
+use TheDevs\WMS\Entity\Position;
 
-final class EditWarehouseController extends AbstractController
+final class GeneratePositionsController extends AbstractController
 {
 
-    #[Route(path: '/admin/warehouse/{id}/edit', name: 'warehouse_edit')]
+    #[Route(path: '/admin/positions/generate', name: 'position_generate')]
     #[IsGranted(User::ROLE_ADMIN)]
     public function __invoke(
-        Warehouse $warehouse,
+        Position $position,
     ): Response
     {
-        return $this->render('warehouse/edit.html.twig', [
-            'warehouse' => $warehouse,
+        return $this->render('position/generate.html.twig', [
+            'position' => $position,
         ]);
     }
 }

@@ -18,7 +18,7 @@ use Ramsey\Uuid\UuidInterface;
 #[Entity]
 class Position
 {
-    #[Immutable]
+    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     public null|DateTimeImmutable $deactivatedAt = null;
 
@@ -28,8 +28,8 @@ class Position
         #[Column(type: UuidType::NAME, unique: true)]
         public UuidInterface $id,
 
-        #[ManyToOne]
-        #[Immutable]
+        #[ManyToOne(fetch: 'EAGER')]
+        #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
         #[JoinColumn(nullable: false)]
         public Location $location,
 
@@ -39,5 +39,16 @@ class Position
         #[Column]
         public string $name,
     ) {
+    }
+
+    public function edit(Location $location, string $name): void
+    {
+        $this->location = $location;
+        $this->name = $name;
+    }
+
+    public function deactivate(DateTimeImmutable $deactivatedAt): void
+    {
+        $this->deactivatedAt = $deactivatedAt;
     }
 }

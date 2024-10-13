@@ -6,7 +6,7 @@
     <h1>Sklady</h1>
 
     <p>
-        <a class="btn btn-outline-primary" href="{{ path('add_warehouse') }}">
+        <a class="btn btn-outline-primary" href="{{ path('warehouse_add') }}">
             <i class="bi bi-plus-lg"></i> Přidat sklad
         </a>
     </p>
@@ -32,12 +32,12 @@
                             {% endif %}
                         </td>
                         <td class="text-end">
-                            <a href="{{ path('edit_warehouse', {'id': warehouse.id}) }}" class="btn btn-sm btn-primary me-2">
+                            <a href="{{ path('warehouse_edit', {'id': warehouse.id}) }}" class="btn btn-sm btn-primary me-2">
                                 <i class="bi bi-pencil"></i> Editovat
                             </a>
 
                             {% if not warehouse.deactivatedAt %}
-                                <a href="{{ path('deactivate_warehouse', {'id': warehouse.id}) }}" class="btn btn-sm btn-danger">
+                                <a href="{{ path('warehouse_deactivate', {'id': warehouse.id}) }}" class="btn btn-sm btn-danger">
                                     <i class="bi bi-slash-circle"></i> Deaktivovat
                                 </a>
                             {% endif %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editace lokace{% endblock %}
+
+{% block content %}
+    <h1>Editace lokace</h1>
+
+    <p>
+        <a class="btn btn-outline-secondary" href="{{ path('locations') }}">
+            <i class="bi bi-arrow-left"></i> Zpět
+        </a>
+    </p>
+
+    <twig:Location:LocationForm location="{{ location }}" />
+{% endblock %}

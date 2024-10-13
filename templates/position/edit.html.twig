@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editace pozice{% endblock %}
+
+{% block content %}
+    <h1>Editace pozice</h1>
+
+    <p>
+        <a class="btn btn-outline-secondary" href="{{ path('positions') }}">
+            <i class="bi bi-arrow-left"></i> Zpět
+        </a>
+    </p>
+
+    <twig:Position:PositionForm position="{{ position }}" />
+{% endblock %}

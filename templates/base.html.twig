@@ -72,27 +72,17 @@
                                         <i class="bi bi-gear"></i> Nastavení
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item" href=""{{ path('warehouses') }}">Sklady</a>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('warehouses') }}">Sklady</a>
                                         </li>
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item" href="#">Lokace (má vazbu na sklad)</a>
-                                            <ul>
-                                                <li><a class="dropdown-item" href="#">Vygenerování lokací pro sklad</a></li>
-                                                <li><a class="dropdown-item" href="#">Vytvoření lokace</a></li>
-                                                <li><a class="dropdown-item" href="#">Upravit lokaci</a></li>
-                                                <li><a class="dropdown-item" href="#">Smazat lokaci</a></li>
-                                                <li><a class="dropdown-item" href="#">Přejmenování lokace</a></li>
-                                            </ul>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('locations') }}">Lokace</a>
                                         </li>
-                                        <li class="dropdown-submenu">
-                                            <a class="dropdown-item" href="#">Pozice (má vazbu na lokaci)</a>
-                                            <ul>
-                                                <li><a class="dropdown-item" href="#">Vytvoření pozice</a></li>
-                                                <li><a class="dropdown-item" href="#">Upravit pozici</a></li>
-                                                <li><a class="dropdown-item" href="#">Smazat pozici</a></li>
-                                                <li><a class="dropdown-item" href="#">Generování pozic pro lokaci</a></li>
-                                            </ul>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ path('positions') }}">Pozice</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#">Uživatelé</a>
                                         </li>
                                     </ul>
                                 </li>
