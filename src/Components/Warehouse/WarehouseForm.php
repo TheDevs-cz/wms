@@ -51,7 +51,7 @@ final class WarehouseForm extends AbstractController
     }
 
     #[LiveAction]
-    public function add(): Response
+    public function handleAdd(): Response
     {
         $this->submitForm();
 
@@ -70,7 +70,7 @@ final class WarehouseForm extends AbstractController
     }
 
     #[LiveAction]
-    public function edit(): Response
+    public function handleEdit(): Response
     {
         $this->submitForm();
 
