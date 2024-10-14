@@ -33,7 +33,7 @@ readonly final class ProcessProductImportHandler
     public function __invoke(ProcessProductImport $message): void
     {
         try {
-            $product = $this->productQuery->searchByEan($message->userId, $message->ean);
+            $product = $this->productQuery->getByEanForUser($message->userId, $message->ean);
 
             $product->edit(
                 title: $message->title,

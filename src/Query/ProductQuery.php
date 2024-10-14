@@ -32,7 +32,7 @@ readonly final class ProductQuery
     /**
      * @throws ProductNotFound
      */
-    public function searchByEan(UuidInterface $userId, string $ean): Product
+    public function getByEanForUser(UuidInterface $userId, string $ean): Product
     {
         try {
             /** @var Product $row */
@@ -43,6 +43,27 @@ readonly final class ProductQuery
                 ->setParameter('ean', $ean)
                 ->andWhere('p.user = :userId')
                 ->setParameter('userId', $userId)
+                ->getQuery()
+                ->getSingleResult();
+
+            return $row;
+        } catch (NoResultException $e) {
+            throw new ProductNotFound(previous: $e);
+        }
+    }
+
+    /**
+     * @throws ProductNotFound
+     */
+    public function getByEan(string $ean): Product
+    {
+        try {
+            /** @var Product $row */
+            $row = $this->entityManager->createQueryBuilder()
+                ->from(Product::class, 'p')
+                ->select('p')
+                ->where('p.ean = :ean')
+                ->setParameter('ean', $ean)
                 ->getQuery()
                 ->getSingleResult();
 

@@ -16,7 +16,7 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
 
 #[Entity]
-class ProductStockMovement
+class StockMovement
 {
     public function __construct(
         #[Id]
@@ -29,18 +29,29 @@ class ProductStockMovement
         #[JoinColumn(nullable: false)]
         public User $author,
 
-        #[Immutable]
-        #[ManyToOne]
-        #[JoinColumn(nullable: false)]
-        public Product $product,
+        #[Column]
+        readonly public string $ean,
+
+        #[Column(nullable: true)]
+        readonly public null|string $sku,
+
+        #[Column]
+        readonly public int $oldQuantity,
+
+        #[Column]
+        readonly public int $newQuantity,
 
         #[Immutable]
         #[ManyToOne]
-        public null|Location $fromLocation,
+        public null|Product $product,
 
         #[Immutable]
         #[ManyToOne]
-        public null|Location $toLocation,
+        public null|Position $fromPosition,
+
+        #[Immutable]
+        #[ManyToOne]
+        public null|Position $toPosition,
 
         #[Immutable]
         #[ManyToOne]
