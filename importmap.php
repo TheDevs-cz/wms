@@ -42,4 +42,8 @@ return [
         'version' => '1.11.3',
         'type' => 'css',
     ],
+    'bootswatch/dist/zephyr/bootstrap.min.css' => [
+        'version' => '5.3.3',
+        'type' => 'css',
+    ],
 ];
