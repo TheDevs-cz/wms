@@ -25,9 +25,21 @@
             <tbody>
                 {% for position in positions %}
                     <tr>
-                        <td>{{ position.name }}</td>
-                        <td>{{ position.location.name }}</td>
-                        <td>{{ position.location.warehouse.title }}</td>
+                        <td>
+                            <a href="{{ path('position_info', {'id': position.id}) }}">
+                                {{ position.name }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('location_info', {'id': position.location.id}) }}">
+                                {{ position.location.name }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('warehouse_info', {'id': position.location.warehouse.id}) }}">
+                                {{ position.location.warehouse.title }}
+                            </a>
+                        </td>
                         <td>
                             {% if not position.deactivatedAt %}
                                 <span class="badge bg-success">Aktivní</span>
@@ -36,6 +48,10 @@
                             {% endif %}
                         </td>
                         <td class="text-end">
+                            <a href="{{ path('qr_code_generate', {'builder': 'default', 'data': url('position_info', {'id': position.id})}) }}" class="btn btn-sm btn-outline-primary me-1">
+                                <i class="bi bi-printer"></i> Tisk štítku
+                            </a>
+
                             <a href="{{ path('position_edit', {'id': position.id}) }}" class="btn btn-sm btn-outline-primary me-1">
                                 <i class="bi bi-pencil"></i> Editovat
                             </a>

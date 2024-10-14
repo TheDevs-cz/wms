@@ -28,8 +28,16 @@
             <tbody>
                 {% for location in locations %}
                     <tr>
-                        <td>{{ location.name }}</td>
-                        <td>{{ location.warehouse.title }}</td>
+                        <td>
+                            <a href="{{ path('location_info', {'id': location.id}) }}">
+                                {{ location.name }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('warehouse_info', {'id': location.warehouse.id}) }}">
+                                {{ location.warehouse.title }}
+                            </a>
+                        </td>
                         <td>
                             {% if not location.deactivatedAt %}
                                 <span class="badge bg-success">Aktivní</span>
@@ -38,6 +46,10 @@
                             {% endif %}
                         </td>
                         <td class="text-end">
+                            <a href="{{ path('qr_code_generate', {'builder': 'default', 'data': url('location_info', {'id': location.id})}) }}" class="btn btn-sm btn-outline-primary me-1">
+                                <i class="bi bi-printer"></i> Tisk štítku
+                            </a>
+
                             <a href="{{ path('location_edit', {'id': location.id}) }}" class="btn btn-sm btn-outline-primary me-1">
                                 <i class="bi bi-pencil"></i> Editovat
                             </a>

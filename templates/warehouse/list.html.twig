@@ -23,7 +23,11 @@
             <tbody>
                 {% for warehouse in warehouses %}
                     <tr>
-                        <td>{{ warehouse.title }}</td>
+                        <td>
+                            <a href="{{ path('warehouse_info', {'id': warehouse.id}) }}">
+                                {{ warehouse.title }}
+                            </a>
+                        </td>
                         <td>
                             {% if not warehouse.deactivatedAt %}
                                 <span class="badge bg-success">Aktivní</span>
