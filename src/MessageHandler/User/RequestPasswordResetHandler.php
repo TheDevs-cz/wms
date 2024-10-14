@@ -43,7 +43,7 @@ readonly final class RequestPasswordResetHandler
             $this->clock->now()->modify('+8 hours'),
         );
 
-        $this->passwordResetTokenRepository->save($token);
+        $this->passwordResetTokenRepository->add($token);
 
         // TODO: send email
     }

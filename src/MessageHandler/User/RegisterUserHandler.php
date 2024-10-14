@@ -41,7 +41,7 @@ readonly final class RegisterUserHandler
         $user->changePassword($hashedPassword);
 
 
-        $this->userRepository->save($user);
+        $this->userRepository->add($user);
 
         $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);

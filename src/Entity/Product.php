@@ -28,7 +28,7 @@ class Product
         #[Column(type: UuidType::NAME, unique: true)]
         public UuidInterface $id,
 
-        #[ManyToOne]
+        #[ManyToOne(fetch: 'EAGER')]
         #[Immutable]
         #[JoinColumn(nullable: false)]
         public User $user,
@@ -46,7 +46,26 @@ class Product
         public string $title,
 
         #[Column(nullable: true)]
+        public null|string $category,
+
+        #[Column(nullable: true)]
+        public null|string $manufacturer,
+
+        #[Column(nullable: true)]
         public null|string $image,
     ) {
+    }
+
+    public function edit(
+        string $title,
+        null|string $category,
+        null|string $manufacturer,
+        null|string $image,
+    ): void
+    {
+        $this->title = $title;
+        $this->category = $category;
+        $this->manufacturer = $manufacturer;
+        $this->image = $image;
     }
 }

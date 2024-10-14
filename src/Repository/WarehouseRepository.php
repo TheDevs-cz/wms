@@ -30,7 +30,7 @@ readonly final class WarehouseRepository
         throw new WarehouseNotFound();
     }
 
-    public function save(Warehouse $warehouse): void
+    public function add(Warehouse $warehouse): void
     {
         $this->entityManager->persist($warehouse);
     }

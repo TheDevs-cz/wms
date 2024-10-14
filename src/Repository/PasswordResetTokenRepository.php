@@ -15,7 +15,7 @@ readonly final class PasswordResetTokenRepository
     ) {
     }
 
-    public function save(PasswordResetToken $token): void
+    public function add(PasswordResetToken $token): void
     {
         $this->entityManager->persist($token);
     }

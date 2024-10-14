@@ -20,6 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const string ROLE_ADMIN = 'ROLE_ADMIN';
+    public const string ROLE_CUSTOMER = 'ROLE_CUSTOMER';
 
     #[Immutable]
     #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]

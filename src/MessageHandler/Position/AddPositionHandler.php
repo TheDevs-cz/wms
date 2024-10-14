@@ -38,6 +38,6 @@ readonly final class AddPositionHandler
             $message->name,
         );
 
-        $this->positionRepository->save($position);
+        $this->positionRepository->add($position);
     }
 }

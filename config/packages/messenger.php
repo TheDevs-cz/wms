@@ -2,6 +2,7 @@
 
 use Symfony\Component\Mailer\Messenger\SendEmailMessage;
 use Symfony\Config\FrameworkConfig;
+use TheDevs\WMS\Message\Product\ProcessProductImport;
 
 return static function (FrameworkConfig $framework): void {
     $messenger = $framework->messenger();
@@ -25,4 +26,5 @@ return static function (FrameworkConfig $framework): void {
 
     $messenger->routing('TheDevs\WMS\Events\*')->senders(['async']);
     $messenger->routing(SendEmailMessage::class)->senders(['async']);
+    $messenger->routing(ProcessProductImport::class)->senders(['async']);
 };

@@ -30,7 +30,7 @@ readonly final class PositionRepository
         throw new PositionNotFound();
     }
 
-    public function save(Position $warehouse): void
+    public function add(Position $warehouse): void
     {
         $this->entityManager->persist($warehouse);
     }

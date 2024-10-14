@@ -29,6 +29,6 @@ readonly final class AddWarehouseHandler
             $message->title,
         );
 
-        $this->warehouseRepository->save($warehouse);
+        $this->warehouseRepository->add($warehouse);
     }
 }

@@ -17,7 +17,7 @@ readonly final class UserRepository
     ) {
     }
 
-    public function save(User $user): void
+    public function add(User $user): void
     {
         $this->entityManager->persist($user);
     }

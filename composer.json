@@ -20,6 +20,7 @@
         "ext-iconv": "*",
         "ext-simplexml": "*",
         "ext-uuid": "*",
+        "ext-dom": "*",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^3.0",

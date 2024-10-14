@@ -38,6 +38,6 @@ readonly final class AddLocationHandler
             $message->name,
         );
 
-        $this->locationRepository->save($location);
+        $this->locationRepository->add($location);
     }
 }
