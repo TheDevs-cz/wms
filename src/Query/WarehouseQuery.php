@@ -25,4 +25,35 @@ readonly final class WarehouseQuery
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return array<string, int>
+     */
+    public function positionsCount(): array
+    {
+        $sql = <<<SQL
+SELECT w.id AS warehouse_id, COUNT(p.id) AS total_positions
+FROM warehouse w
+LEFT JOIN location l ON w.id = l.warehouse_id
+LEFT JOIN position p ON l.id = p.location_id
+GROUP BY w.id
+SQL;
+
+        $result = $this->entityManager
+            ->getConnection()
+            ->fetchAllAssociative($sql);
+
+        /** @var array<string, int> $positionsPerWarehouse */
+        $positionsPerWarehouse = [];
+
+        foreach ($result as $row) {
+            /**
+             * @var array{warehouse_id: string, total_positions: int} $row
+             */
+
+            $positionsPerWarehouse[$row['warehouse_id']] = (int) $row['total_positions'];
+        }
+
+        return $positionsPerWarehouse;
+    }
 }

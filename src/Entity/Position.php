@@ -28,7 +28,7 @@ class Position
         #[Column(type: UuidType::NAME, unique: true)]
         public UuidInterface $id,
 
-        #[ManyToOne(fetch: 'EAGER')]
+        #[ManyToOne(fetch: 'EAGER', inversedBy: 'positions')]
         #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
         #[JoinColumn(nullable: false)]
         public Location $location,

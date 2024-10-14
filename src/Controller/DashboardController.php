@@ -8,12 +8,22 @@ use TheDevs\WMS\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use TheDevs\WMS\Query\WarehouseQuery;
+use TheDevs\WMS\Repository\WarehouseRepository;
 
 final class DashboardController extends AbstractController
 {
+    public function __construct(
+        readonly private WarehouseQuery $warehouseQuery,
+    ) {
+    }
+
     #[Route(path: '/', name: 'dashboard')]
     public function __invoke(#[CurrentUser] User $user): Response
     {
-        return $this->render('dashboard.html.twig');
+        return $this->render('dashboard.html.twig', [
+            'warehouses' => $this->warehouseQuery->getAll(),
+            'positionsCount' => $this->warehouseQuery->positionsCount(),
+        ]);
     }
 }

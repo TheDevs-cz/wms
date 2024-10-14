@@ -3,5 +3,24 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    ... tady bude dashboard
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+        {% for warehouse in warehouses %}
+            <div class="col">
+                <a href="{{ path('warehouse_info', {'id': warehouse.id}) }}" class="text-decoration-none">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-0">{{ warehouse.title }}</h4>
+                        </div>
+                        <div class="card-body">
+                            Počet lokací: <strong>{{ warehouse.locationsCount }}</strong><br>
+                            Počet pozic: <strong>{{ positionsCount[warehouse.id.toString] }}</strong><br>
+                            Obsazenost: <strong>0%</strong>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+
+    </div>
 {% endblock %}
