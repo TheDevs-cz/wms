@@ -49,5 +49,6 @@ return static function (SecurityConfig $securityConfig): void {
         ->path('^/')
         ->roles([AuthenticatedVoter::IS_AUTHENTICATED_FULLY]);
 
-    $securityConfig->roleHierarchy(User::ROLE_ADMIN, ['ROLE_USER']);
+    $securityConfig->roleHierarchy(User::ROLE_WAREHOUSEMAN, ['ROLE_USER']);
+    $securityConfig->roleHierarchy(User::ROLE_ADMIN, [User::ROLE_WAREHOUSEMAN]);
 };

@@ -17,13 +17,14 @@
     "require": {
         "php": ">=8.3",
         "ext-ctype": "*",
+        "ext-dom": "*",
         "ext-iconv": "*",
         "ext-simplexml": "*",
         "ext-uuid": "*",
-        "ext-dom": "*",
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^3.0",
+        "endroid/qr-code-bundle": "^5.0",
         "jetbrains/phpstorm-attributes": "^1.0",
         "knplabs/knp-time-bundle": "^2.2",
         "monolog/monolog": "^3.0",
@@ -148,9 +149,10 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
+            "endroid/installer": true,
+            "php-http/discovery": false,
             "symfony/flex": true,
-            "symfony/runtime": true,
-            "php-http/discovery": false
+            "symfony/runtime": true
         }
     }
 }
