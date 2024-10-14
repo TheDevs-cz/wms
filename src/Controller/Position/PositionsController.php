@@ -9,12 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use TheDevs\WMS\Entity\User;
-use TheDevs\WMS\Query\ProductQuery;
+use TheDevs\WMS\Query\PositionQuery;
 
 final class PositionsController extends AbstractController
 {
     public function __construct(
-        readonly private ProductQuery $positionQuery,
+        readonly private PositionQuery $positionQuery,
     ) {
     }
 
