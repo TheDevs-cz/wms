@@ -42,7 +42,7 @@ final class ChangeUserPasswordController extends AbstractController
             return $this->redirectToRoute('user_profile');
         }
 
-        return $this->render('change_password.html.twig', [
+        return $this->render('user/change_password.html.twig', [
             'form' => $form,
         ]);
     }

@@ -41,7 +41,7 @@ final class EditUserProfileController extends AbstractController
             return $this->redirectToRoute('user_profile');
         }
 
-        return $this->render('edit_user_profile.html.twig', [
+        return $this->render('user/edit_profile.html.twig', [
             'form' => $form,
         ]);
     }

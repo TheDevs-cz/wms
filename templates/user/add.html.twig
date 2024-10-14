@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Přidat uživatele{% endblock %}
+
+{% block content %}
+    <h1>Přidat uživatele</h1>
+
+    <p>
+        <a class="btn btn-outline-secondary" href="{{ path('users') }}">
+            <i class="bi bi-arrow-left"></i> Zpět
+        </a>
+    </p>
+
+    <twig:User:UserForm />
+{% endblock %}

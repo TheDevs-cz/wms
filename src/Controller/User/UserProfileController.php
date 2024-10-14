@@ -14,6 +14,6 @@ final class UserProfileController extends AbstractController
     #[Route(path: '/user-profile', name: 'user_profile')]
     public function __invoke(#[CurrentUser] User $user): Response
     {
-        return $this->render('user_profile.html.twig');
+        return $this->render('user/profile.html.twig');
     }
 }
