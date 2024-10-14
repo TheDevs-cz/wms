@@ -12,7 +12,7 @@ use TheDevs\WMS\Entity\User;
 
 final class AddPositionController extends AbstractController
 {
-    #[Route(path: '/admin/add-position', name: 'position_add')]
+    #[Route(path: '/admin/position/add', name: 'position_add')]
     #[IsGranted(User::ROLE_ADMIN)]
     public function __invoke(): Response
     {

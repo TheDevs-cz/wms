@@ -44,6 +44,9 @@ class Product
 
         #[Column]
         public string $title,
+
+        #[Column(nullable: true)]
+        public null|string $image,
     ) {
     }
 }

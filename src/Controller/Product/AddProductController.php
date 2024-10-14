@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheDevs\WMS\Controller\Warehouse;
+namespace TheDevs\WMS\Controller\Product;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,12 +10,12 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use TheDevs\WMS\Entity\User;
 
-final class AddWarehouseController extends AbstractController
+final class AddProductController extends AbstractController
 {
-    #[Route(path: '/admin/warehouse/add', name: 'warehouse_add')]
+    #[Route(path: '/admin/product/add', name: 'product_add')]
     #[IsGranted(User::ROLE_ADMIN)]
     public function __invoke(): Response
     {
-        return $this->render('warehouse/add.html.twig');
+        return $this->render('product/add.html.twig');
     }
 }

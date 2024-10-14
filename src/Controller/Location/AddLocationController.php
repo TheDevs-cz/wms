@@ -12,7 +12,7 @@ use TheDevs\WMS\Entity\User;
 
 final class AddLocationController extends AbstractController
 {
-    #[Route(path: '/admin/add-location', name: 'location_add')]
+    #[Route(path: '/admin/location/add', name: 'location_add')]
     #[IsGranted(User::ROLE_ADMIN)]
     public function __invoke(): Response
     {
