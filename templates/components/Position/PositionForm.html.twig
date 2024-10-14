@@ -1,18 +1,17 @@
 <div {{ attributes }} class="card">
+    {{ form_start(form, {
+        attr: {
+            'data-action': 'live#action:prevent',
+            'data-live-action-param': position ? 'handleEdit' : 'handleAdd',
+        }
+    }) }}
+
     <div class="card-body">
-        {{ form_start(form, {
-            attr: {
-                'data-action': 'live#action:prevent',
-                'data-live-action-param': position ? 'handleEdit' : 'handleAdd',
-            }
-        }) }}
-
         {{ form_widget(form) }}
-
-
-        {{ form_end(form) }}
     </div>
     <div class="card-footer">
         <button type="submit" class="btn btn-primary">Uložit</button>
     </div>
+
+    {{ form_end(form) }}
 </div>
