@@ -5,28 +5,34 @@
 {% block content %}
     <h1>Sklad {{ warehouse.title }}</h1>
 
-    <h2>Lokace</h2>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
 
-    {% if warehouse.locationsCount == 0 %}
-        <div class="alert alert-info">
-            Tento sklad nemá žádné lokace
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3>Lokace</h3>
+
+                    {% if warehouse.locationsCount == 0 %}
+                        <div class="alert alert-info">
+                            Tento sklad nemá žádné lokace
+                        </div>
+                    {% else %}
+                        <ul class="list-inline">
+                            {% for location in warehouse.locations %}
+                                <li class="list-inline-item">
+                                    <a class="btn btn-sm btn-outline-secondary mb-2" href="{{ path('location_info', {'id': location.id}) }}">
+                                        {{ location.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-    {% else %}
-        <ul class="list-inline">
-            {% for location in warehouse.locations %}
-                <li class="list-inline-item">
-                    <a class="btn btn-sm btn-outline-secondary mb-2" href="{{ path('location_info', {'id': location.id}) }}">
-                        {{ location.name }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
 
-
-    <h2>Pohyby</h2>
-
-    <div class="alert alert-info">
-        Žádná historie
+        <div class="col">
+            <twig:Stock:StockMovementsCard warehouse="{{ warehouse }}" />
+        </div>
     </div>
 {% endblock %}

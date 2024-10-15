@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Naskladňování - {{ position.name }}{% endblock %}
+
+{% block content %}
+    <h1>Naskladňování - {{ position.name }}</h1>
+
+    <p>
+        <a class="btn btn-outline-secondary" href="{{ path('position_info', {'id': position.id}) }}">
+            <i class="bi bi-arrow-left"></i> Zpět
+        </a>
+
+        <a class="btn btn-outline-primary" href="{{ path('position_unload', {'id': position.id}) }}">
+            <i class="bi bi-box-arrow-up"></i> Vyskladňování
+        </a>
+    </p>
+
+
+    <p>... Work In Progress ...</p>
+{% endblock %}

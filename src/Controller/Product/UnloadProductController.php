@@ -13,7 +13,7 @@ use TheDevs\WMS\Entity\User;
 
 final class UnloadProductController extends AbstractController
 {
-    #[Route(path: '/admin/product/{id}/unload', name: 'product_unload')]
+    #[Route(path: '/product/{id}/unload', name: 'product_unload')]
     #[IsGranted(User::ROLE_WAREHOUSEMAN)]
     public function __invoke(Product $product): Response
     {

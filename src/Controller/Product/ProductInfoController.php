@@ -21,7 +21,7 @@ final class ProductInfoController extends AbstractController
     ) {
     }
 
-    #[Route(path: '/admin/product/{id}', name: 'product_info')]
+    #[Route(path: '/product/{id}', name: 'product_info')]
     #[IsGranted(User::ROLE_WAREHOUSEMAN)]
     public function __invoke(Product $product): Response
     {

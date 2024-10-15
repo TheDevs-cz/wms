@@ -1,0 +1,23 @@
+<div {{ attributes }} data-poll="delay(30000)|$render" class="card">
+    <div class="card-body">
+        <h3>Pohyby</h3>
+
+        {% set movements = this.movements %}
+
+        {% if movements|length == 0 %}
+            <div class="alert alert-info">
+                Tento {% if product %}produkt{% elseif position%}pozice{% elseif location%}lokace{% else%}sklad{% endif%} nemá žádnou historii
+            </div>
+        {% else %}
+            <ul class="list-unstyled">
+                {% for movement in movements %}
+                    <li>
+                        <small class="me-2">{{ movement.movedAt|date('d.m.Y H:i:s') }}</small>
+                        <a href="{{ path('position_info', {'id': movement.toPosition.id}) }}">{{ movement.toPosition.name }}</a>
+                        <strong class="ms-2">{{ movement.newQuantity - movement.oldQuantity }} ks</strong>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>

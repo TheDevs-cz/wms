@@ -13,7 +13,7 @@ use TheDevs\WMS\Entity\User;
 
 final class StockUpProductController extends AbstractController
 {
-    #[Route(path: '/admin/product/{id}/stock-up', name: 'product_stock_up')]
+    #[Route(path: '/product/{id}/stock-up', name: 'product_stock_up')]
     #[IsGranted(User::ROLE_WAREHOUSEMAN)]
     public function __invoke(Product $product): Response
     {

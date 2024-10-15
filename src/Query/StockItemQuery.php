@@ -55,4 +55,36 @@ readonly final class StockItemQuery
             ->setFetchMode(StockItem::class, 'position', ClassMetadata::FETCH_EAGER)
             ->getResult();
     }
+
+    /**
+     * @return array<StockItem>
+     */
+    public function getForLocation(UuidInterface $locationId): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->from(StockItem::class, 'si')
+            ->select('si')
+            ->join('si.position', 'pos')
+            ->where('pos.location = :locationId')
+            ->setParameter('locationId', $locationId)
+            ->getQuery()
+            ->setFetchMode(StockItem::class, 'product', ClassMetadata::FETCH_EAGER)
+            ->setFetchMode(StockItem::class, 'position', ClassMetadata::FETCH_EAGER)
+            ->getResult();
+    }
+
+    /**
+     * @return array<StockItem>
+     */
+    public function getForPosition(UuidInterface $positionId): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->from(StockItem::class, 'si')
+            ->select('si')
+            ->where('si.position = :positionId')
+            ->setParameter('positionId', $positionId)
+            ->getQuery()
+            ->setFetchMode(StockItem::class, 'product', ClassMetadata::FETCH_EAGER)
+            ->getResult();
+    }
 }

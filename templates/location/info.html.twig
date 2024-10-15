@@ -5,35 +5,39 @@
 {% block content %}
     <h1>Lokace - {{ location.name }}</h1>
 
-    <h2>Pozice</h2>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
 
-    {% if location.positionsCount == 0 %}
-        <div class="alert alert-info">
-            Tato lokace nemá žádné pozice
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3>Pozice</h3>
+
+                    {% if location.positionsCount == 0 %}
+                        <div class="alert alert-info">
+                            Tato lokace nemá žádné pozice
+                        </div>
+                    {% else %}
+                        <ul class="list-inline">
+                            {% for position in location.positions %}
+                                <li class="list-inline-item">
+                                    <a class="btn btn-sm btn-outline-secondary mb-2" href="{{ path('position_info', {'id': position.id}) }}">
+                                        {{ position.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-    {% else %}
-        <ul class="list-inline">
-            {% for position in location.positions %}
-                <li class="list-inline-item">
-                    <a class="btn btn-sm btn-outline-secondary mb-2" href="{{ path('position_info', {'id': position.id}) }}">
-                        {{ position.name }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+
+        <div class="col">
+            <twig:Stock:StockItemsCard location="{{ location }}" />
+        </div>
 
 
-    <h2>Položky</h2>
-
-    <div class="alert alert-info">
-        Žádné položky na této lokaci
-    </div>
-
-
-    <h2>Pohyby</h2>
-
-    <div class="alert alert-info">
-        Žádná historie
+        <div class="col">
+            <twig:Stock:StockMovementsCard location="{{ location }}" />
+        </div>
     </div>
 {% endblock %}

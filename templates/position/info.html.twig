@@ -5,10 +5,24 @@
 {% block content %}
     <h1>Pozice - {{ position.name }}</h1>
 
-    <h5>Scénáře:</h5>
-    - naskladnit položku na tuto pozici<br>
-    - vyskladnit položku z této pozice<br>
-    - seznam zboží na této pozici<br>
-    - historie této pozice
+    <p>
+        <a class="btn btn-outline-primary me-1" href="{{ path('position_stock_up', {'id': position.id}) }}">
+            <i class="bi bi-box-arrow-in-up"></i> Naskladňování
+        </a>
+
+        <a class="btn btn-outline-primary" href="{{ path('position_unload', {'id': position.id}) }}">
+            <i class="bi bi-box-arrow-up"></i> Vyskladňování
+        </a>
+    </p>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <twig:Stock:StockItemsCard position="{{ position }}" />
+        </div>
+
+        <div class="col">
+            <twig:Stock:StockMovementsCard position="{{ position }}" />
+        </div>
+    </div>
 
 {% endblock %}

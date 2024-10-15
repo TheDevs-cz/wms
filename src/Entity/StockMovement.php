@@ -46,11 +46,11 @@ class StockMovement
         public null|Product $product,
 
         #[Immutable]
-        #[ManyToOne]
+        #[ManyToOne(fetch: 'EAGER')]
         public null|Position $fromPosition,
 
         #[Immutable]
-        #[ManyToOne]
+        #[ManyToOne(fetch: 'EAGER')]
         public null|Position $toPosition,
 
         #[Immutable]

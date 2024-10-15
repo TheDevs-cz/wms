@@ -44,50 +44,11 @@
         </div>
 
         <div class="col">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h3>Pozice</h3>
-
-                    {% if stock_items|length == 0 %}
-                        <div class="alert alert-info">
-                            Tento produkt není naskladněn na žádné pozici
-                        </div>
-                    {% else %}
-                        <ul class="list-unstyled">
-                            {% for stock_item in stock_items %}
-                                <li>
-                                    {{ stock_item.position.name }} <strong class="ms-2">{{ stock_item.quantity }} ks</strong>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-            </div>
+            <twig:Stock:StockItemsCard product="{{ product }}" />
         </div>
 
         <div class="col">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h3>Pohyby</h3>
-
-                    {% if movements|length == 0 %}
-                        <div class="alert alert-info">
-                            Tento produkt nemá žádnou historii
-                        </div>
-                    {% else %}
-                        <ul class="list-unstyled">
-                            {% for movement in movements %}
-                                <li>
-                                    <small class="me-2">{{ movement.movedAt|date('d.m.Y H:i:s') }}</small>
-                                    {{ movement.toPosition.name }}
-                                    <strong class="ms-2">{{ movement.newQuantity - movement.oldQuantity }} ks</strong>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-            </div>
+            <twig:Stock:StockMovementsCard product="{{ product }}" />
         </div>
     </div>
-
 {% endblock %}
