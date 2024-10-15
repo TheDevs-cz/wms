@@ -7,22 +7,16 @@
             }
         }) }}
 
-        <input type="radio" class="btn-check" name="options-base" id="option-info" autocomplete="off" checked>
-        <label class="btn shadow-lg" for="option-info">Info</label>
-
-        <input type="radio" class="btn-check" name="options-base" id="option-stockup" autocomplete="off">
-        <label class="btn shadow-lg" for="option-stockup">Naskladnění</label>
-
-        <input type="radio" class="btn-check" name="options-base" id="option-unload" autocomplete="off">
-        <label class="btn shadow-lg" for="option-unload">Vyskladnění</label>
+        Nascanujte zboží nebo pozici.
 
         <div class="input-group input-group-lg mt-3">
             {{ form_widget(form.code, {
                 'attr': {
                     'class': 'form-control',
-                    'placeholder': 'Naskenuj kód',
+                    'placeholder': 'Skenuj...',
                     'data-controller': 'barcode-scanner',
                     'data-action': 'barcode-scanner#onInput',
+                    'autofocus': true,
                 }
             }) }}
 
@@ -32,6 +26,10 @@
         </div>
 
         {{ form_errors(form.code) }}
+
+        {% if formSubmitted %}
+            <p class="mt-3 mb-0 text-danger">Produktový EAN nebyl nalezen v databázi</p>
+        {% endif %}
 
         {{ form_end(form) }}
     </div>
