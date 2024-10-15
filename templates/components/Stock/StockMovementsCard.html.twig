@@ -11,9 +11,9 @@
         {% else %}
             <ul class="list-unstyled">
                 {% for movement in movements %}
-                    <li>
+                    <li class="mb-1">
                         <small class="me-2">{{ movement.movedAt|date('d.m.Y H:i:s') }}</small>
-                        <a href="{{ path('position_info', {'id': movement.toPosition.id}) }}">{{ movement.toPosition.name }}</a>
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ path('position_info', {'id': movement.toPosition.id}) }}">{{ movement.toPosition.name }}</a>
                         <strong class="ms-2">{{ movement.newQuantity - movement.oldQuantity }} ks</strong>
                     </li>
                 {% endfor %}

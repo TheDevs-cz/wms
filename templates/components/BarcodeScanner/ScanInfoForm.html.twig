@@ -7,13 +7,11 @@
             }
         }) }}
 
-        Nascanujte zboží nebo pozici.
-
-        <div class="input-group input-group-lg mt-3">
+        <div class="input-group input-group-lg">
             {{ form_widget(form.code, {
                 'attr': {
                     'class': 'form-control',
-                    'placeholder': 'Skenuj...',
+                    'placeholder': 'Zboží nebo pozice...',
                     'data-controller': 'barcode-scanner',
                     'data-action': 'barcode-scanner#onInput',
                     'autofocus': true,

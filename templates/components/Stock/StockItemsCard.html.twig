@@ -6,14 +6,14 @@
 
         {% if stockItems|length == 0 %}
             <div class="alert alert-info">
-                Žádné položky na {% if position %}pozice{% elseif location %}lokaci{% endif %}
+                Žádné položky na {% if position %}pozice{% elseif location %}lokaci{% else %}skladu{% endif %}
             </div>
         {% else %}
             <ul class="list-unstyled">
                 {% for stockItem in stockItems %}
-                    <li>
+                    <li class="mb-1">
                         {% if product %}
-                            <a href="{{ path('position_info', {'id': stockItem.position.id}) }}">{{ stockItem.position.name }}</a>
+                            <a class="btn btn-sm btn-outline-secondary" href="{{ path('position_info', {'id': stockItem.position.id}) }}">{{ stockItem.position.name }}</a>
                             <strong class="ms-2">{{ stockItem.quantity }} ks</strong>
                         {% elseif position %}
                             {% if stockItem.product %}
@@ -23,7 +23,7 @@
                             {% endif %}
                             <strong class="ms-2">{{ stockItem.quantity }} ks</strong>
                         {% elseif location %}
-                            <a class="me-2" href="{{ path('position_info', {'id': stockItem.position.id}) }}">{{ stockItem.position.name }}</a>
+                            <a class="btn btn-sm btn-outline-secondary me-2" href="{{ path('position_info', {'id': stockItem.position.id}) }}">{{ stockItem.position.name }}</a>
 
                             {% if stockItem.product %}
                                 <a href="{{ path('product_info', {'id': stockItem.product.id}) }}">{{ stockItem.product.title }}</a>
