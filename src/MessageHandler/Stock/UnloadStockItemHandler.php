@@ -7,7 +7,7 @@ namespace TheDevs\WMS\MessageHandler\Stock;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use TheDevs\WMS\Exceptions\StockItemNotFound;
-use TheDevs\WMS\Message\Stock\StockUpItem;
+use TheDevs\WMS\Message\Stock\UnloadStockItem;
 use TheDevs\WMS\Query\StockItemQuery;
 
 #[AsMessageHandler]
@@ -22,7 +22,7 @@ readonly final class UnloadStockItemHandler
     /**
      * @throws StockItemNotFound
      */
-    public function __invoke(StockUpItem $message): void
+    public function __invoke(UnloadStockItem $message): void
     {
         $now = $this->clock->now();
 

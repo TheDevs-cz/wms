@@ -1,0 +1,17 @@
+<div {{ attributes }} class="card">
+    {{ form_start(form, {
+        attr: {
+            'data-action': 'live#action:prevent',
+            'data-live-action-param': 'handleSubmit',
+        }
+    }) }}
+
+    <div class="card-body">
+        {{ form_widget(form) }}
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Vyskladnit</button>
+    </div>
+
+    {{ form_end(form) }}
+</div>

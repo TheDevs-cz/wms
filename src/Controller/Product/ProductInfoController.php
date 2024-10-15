@@ -10,15 +10,25 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use TheDevs\WMS\Entity\Product;
 use TheDevs\WMS\Entity\User;
+use TheDevs\WMS\Query\StockItemQuery;
+use TheDevs\WMS\Query\StockMovementQuery;
 
 final class ProductInfoController extends AbstractController
 {
+    public function __construct(
+        readonly private StockItemQuery $stockItemQuery,
+        readonly private StockMovementQuery $stockMovementQuery,
+    ) {
+    }
+
     #[Route(path: '/admin/product/{id}', name: 'product_info')]
     #[IsGranted(User::ROLE_WAREHOUSEMAN)]
     public function __invoke(Product $product): Response
     {
         return $this->render('product/info.html.twig', [
             'product' => $product,
+            'movements' => $this->stockMovementQuery->getForProduct($product->id),
+            'stock_items' => $this->stockItemQuery->getForProduct($product->id),
         ]);
     }
 }

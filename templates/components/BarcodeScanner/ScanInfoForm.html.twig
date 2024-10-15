@@ -27,7 +27,7 @@
 
         {{ form_errors(form.code) }}
 
-        {% if formSubmitted %}
+        {% if productNotFound %}
             <p class="mt-3 mb-0 text-danger">Produktový EAN nebyl nalezen v databázi</p>
         {% endif %}
 

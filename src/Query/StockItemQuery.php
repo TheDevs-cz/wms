@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TheDevs\WMS\Query;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\NoResultException;
 use Ramsey\Uuid\UuidInterface;
 use TheDevs\WMS\Entity\StockItem;
@@ -38,5 +39,20 @@ readonly final class StockItemQuery
         } catch (NoResultException $e) {
             throw new StockItemNotFound(previous: $e);
         }
+    }
+
+    /**
+     * @return array<StockItem>
+     */
+    public function getForProduct(UuidInterface $productId): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->from(StockItem::class, 'si')
+            ->select('si')
+            ->where('si.product = :productId')
+            ->setParameter('productId', $productId)
+            ->getQuery()
+            ->setFetchMode(StockItem::class, 'position', ClassMetadata::FETCH_EAGER)
+            ->getResult();
     }
 }

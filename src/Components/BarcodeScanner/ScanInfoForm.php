@@ -24,7 +24,7 @@ final class ScanInfoForm extends AbstractController
     use ComponentWithFormTrait;
 
     #[LiveProp]
-    public bool $formSubmitted = false;
+    public bool $productNotFound = false;
 
     public function __construct(
         readonly private ProductQuery $productQuery,
@@ -58,7 +58,9 @@ final class ScanInfoForm extends AbstractController
 
             return $this->redirectToRoute('product_info', ['id' => $product->id]);
         } catch (ProductNotFound) {
-            $this->formSubmitted = true;
+            if ($data->code !== '') {
+                $this->productNotFound = true;
+            }
         }
     }
 }

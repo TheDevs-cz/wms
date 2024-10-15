@@ -5,23 +5,88 @@
 {% block content %}
     <h1>Produkt - {{ product.title }}</h1>
 
-    <h2>Objednávky</h2>
+    <p>
+        <a class="btn btn-outline-primary me-1" href="{{ path('product_stock_up', {'id': product.id}) }}">
+            <i class="bi bi-box-arrow-in-up"></i> Naskladňování
+        </a>
 
-    <div class="alert alert-info">
-        Žádné objednávky s tímto produktem
+        <a class="btn btn-outline-primary" href="{{ path('product_unload', {'id': product.id}) }}">
+            <i class="bi bi-box-arrow-up"></i> Vyskladňování
+        </a>
+    </p>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-body">
+                    {% if product.image %}
+                        <img src="{{ product.image }}" class="float-start me-2" style="max-width: 100px;max-height: 100px;">
+                    {% endif %}
+                    EAN: {{ product.ean }}<br>
+                    SKU: {{ product.sku ?? '-' }}<br>
+                    Kategorie: {{ product.category ?? '-' }}<br>
+                    Výrobce: {{ product.manufacturer ?? '-' }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3>Objednávky</h3>
+
+                    <div class="alert alert-info">
+                        Žádné objednávky s tímto produktem
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3>Pozice</h3>
+
+                    {% if stock_items|length == 0 %}
+                        <div class="alert alert-info">
+                            Tento produkt není naskladněn na žádné pozici
+                        </div>
+                    {% else %}
+                        <ul>
+                            {% for stock_item in stock_items %}
+                                <li>
+                                    Pozice: {{ stock_item.position.name }}, {{ stock_item.quantity }} ks
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3>Pohyby</h3>
+
+                    {% if movements|length == 0 %}
+                        <div class="alert alert-info">
+                            Tento produkt nemá žádnou historii
+                        </div>
+                    {% else %}
+                        <ul>
+                            {% for movement in movements %}
+                                <li>
+                                    {{ movement.movedAt|date('d.m.Y H:i:s') }}
+                                    Pozice: {{ movement.toPosition.name }}, {{ movement.newQuantity - movement.oldQuantity }} ks
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 
-
-    <h2>Pozice</h2>
-
-    <div class="alert alert-info">
-        Tento produkt není naskladněn na žádné pozici
-    </div>
-
-
-    <h2>Pohyby</h2>
-
-    <div class="alert alert-info">
-        Tento produkt nemá žádnou historii
-    </div>
 {% endblock %}

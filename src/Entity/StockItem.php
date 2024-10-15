@@ -57,7 +57,7 @@ class StockItem implements EntityWithEvents
         UuidInterface $stockedUpByUserId,
     ) {
         $this->recordThat(
-            new ItemAddedToPosition($ean, $quantity, $stockedUpByUserId, $stockedAt),
+            new ItemAddedToPosition($ean, $position->id, $quantity, $stockedUpByUserId, $stockedAt),
         );
     }
 

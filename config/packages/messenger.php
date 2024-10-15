@@ -21,6 +21,8 @@ return static function (FrameworkConfig $framework): void {
     $messenger->transport('async')
         ->options([
             'auto_setup' => false,
+            'use_notify' => true,
+            'check_delayed_interval' => 2000,
         ])
         ->dsn('%env(MESSENGER_TRANSPORT_DSN)%');
 
