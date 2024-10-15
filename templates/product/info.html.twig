@@ -53,10 +53,10 @@
                             Tento produkt není naskladněn na žádné pozici
                         </div>
                     {% else %}
-                        <ul>
+                        <ul class="list-unstyled">
                             {% for stock_item in stock_items %}
                                 <li>
-                                    Pozice: {{ stock_item.position.name }}, {{ stock_item.quantity }} ks
+                                    {{ stock_item.position.name }} <strong class="ms-2">{{ stock_item.quantity }} ks</strong>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -75,11 +75,12 @@
                             Tento produkt nemá žádnou historii
                         </div>
                     {% else %}
-                        <ul>
+                        <ul class="list-unstyled">
                             {% for movement in movements %}
                                 <li>
-                                    {{ movement.movedAt|date('d.m.Y H:i:s') }}
-                                    Pozice: {{ movement.toPosition.name }}, {{ movement.newQuantity - movement.oldQuantity }} ks
+                                    <small class="me-2">{{ movement.movedAt|date('d.m.Y H:i:s') }}</small>
+                                    {{ movement.toPosition.name }}
+                                    <strong class="ms-2">{{ movement.newQuantity - movement.oldQuantity }} ks</strong>
                                 </li>
                             {% endfor %}
                         </ul>
