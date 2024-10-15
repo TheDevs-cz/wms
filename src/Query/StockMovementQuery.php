@@ -26,6 +26,7 @@ readonly final class StockMovementQuery
             ->select('sm')
             ->where('sm.product = :productId')
             ->setParameter('productId', $productId)
+            ->orderBy('sm.movedAt', 'DESC')
             ->getQuery()
             ->setFetchMode(StockMovement::class, 'position', ClassMetadata::FETCH_EAGER)
             ->getResult();
