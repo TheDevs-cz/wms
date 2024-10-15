@@ -7,7 +7,16 @@
             }
         }) }}
 
-        <div class="input-group input-group-lg">
+        <input type="radio" class="btn-check" name="options-base" id="option-info" autocomplete="off" checked>
+        <label class="btn shadow-lg" for="option-info">Info</label>
+
+        <input type="radio" class="btn-check" name="options-base" id="option-stockup" autocomplete="off">
+        <label class="btn shadow-lg" for="option-stockup">Naskladnění</label>
+
+        <input type="radio" class="btn-check" name="options-base" id="option-unload" autocomplete="off">
+        <label class="btn shadow-lg" for="option-unload">Vyskladnění</label>
+
+        <div class="input-group input-group-lg mt-3">
             {{ form_widget(form.code, {
                 'attr': {
                     'class': 'form-control',

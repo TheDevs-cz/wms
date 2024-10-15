@@ -41,14 +41,9 @@
                     <ul class="navbar-nav me-auto">
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="goodsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-box-seam"></i> Operace se zbožím
+                            <a class="nav-link" href="{{ path('scan_info') }}">
+                                <i class="bi bi-upc-scan"></i> Skenování
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="goodsDropdown">
-                                <li><a class="dropdown-item" href="{{ path('scan_info') }}">Skenování zboží</a></li>
-                                <li><a class="dropdown-item" href="{{ path('scan_info') }}">Naskladnění zboží</a></li>
-                                <li><a class="dropdown-item" href="{{ path('scan_info') }}">Vyskladnění zboží</a></li>
-                            </ul>
                         </li>
 
                         <!-- Orders Dropdown -->
