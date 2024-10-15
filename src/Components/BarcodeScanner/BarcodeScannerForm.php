@@ -38,6 +38,10 @@ final class BarcodeScannerForm extends AbstractController
         /** @var BarcodeScanFormData $data */
         $data = $this->getForm()->getData();
 
+        if (str_starts_with($data->code, 'http')) {
+            return $this->redirect($data->code);
+        }
+
         return $this->redirectToRoute('scan_info');
     }
 }

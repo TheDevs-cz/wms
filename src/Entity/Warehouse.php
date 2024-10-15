@@ -58,4 +58,10 @@ class Warehouse
     {
         return $this->locations->count();
     }
+
+    /** @return array<Location> */
+    public function locations(): array
+    {
+        return $this->locations->toArray();
+    }
 }

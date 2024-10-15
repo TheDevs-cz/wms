@@ -5,9 +5,23 @@
 {% block content %}
     <h1>Produkt - {{ product.title }}</h1>
 
-    <h5>Scénáře:</h5>
-    - naskladnit tuto položku na vybranou pozici<br>
-    - vyskladnit tuto položku z vybrané pozice<br>
-    - seznam pozic s touto položkou<br>
-    - historie této položky
+    <h2>Objednávky</h2>
+
+    <div class="alert alert-info">
+        Žádné objednávky s tímto produktem
+    </div>
+
+
+    <h2>Pozice</h2>
+
+    <div class="alert alert-info">
+        Tento produkt není naskladněn na žádné pozici
+    </div>
+
+
+    <h2>Pohyby</h2>
+
+    <div class="alert alert-info">
+        Tento produkt nemá žádnou historii
+    </div>
 {% endblock %}

@@ -65,4 +65,10 @@ class Location
     {
         return $this->positions->count();
     }
+
+    /** @return array<Position> */
+    public function positions(): array
+    {
+        return $this->positions->toArray();
+    }
 }
