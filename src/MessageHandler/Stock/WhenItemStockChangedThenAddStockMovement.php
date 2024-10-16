@@ -36,6 +36,16 @@ readonly final class WhenItemStockChangedThenAddStockMovement
         $user = $this->userRepository->getById($event->byUserId);
         $stockItem = $this->stockItemRepository->get($event->stockItemId);
 
+        $fromPosition = $stockItem->position;
+        $toPosition = $stockItem->position;
+
+        // Adding to a position or removing from a position ...
+        if ($event->newQuantity > $event->oldQuantity) {
+            $fromPosition = null;
+        }  else {
+            $toPosition = null;
+        }
+
         $movement = new StockMovement(
             $this->provideIdentity->next(),
             $user,
@@ -44,8 +54,8 @@ readonly final class WhenItemStockChangedThenAddStockMovement
             $event->oldQuantity,
             $event->newQuantity,
             $stockItem->product,
-            $stockItem->position,
-            $stockItem->position,
+            $fromPosition,
+            $toPosition,
             null,
             $this->clock->now(),
         );
