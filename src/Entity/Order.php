@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
@@ -17,6 +18,7 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
 use TheDevs\WMS\Value\OrderStatus;
 
+#[ApiResource]
 #[Entity]
 #[Table(name: '`order`')]
 class Order implements EntityWithEvents

@@ -1,0 +1,8 @@
+api_platform:
+    title: Artaris WMS API
+    version: 1.0.0
+    enable_entrypoint: false
+    defaults:
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']

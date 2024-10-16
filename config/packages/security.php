@@ -7,6 +7,7 @@ use TheDevs\WMS\Entity\User;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Config\SecurityConfig;
+use TheDevs\WMS\Services\Security\ApiTokenAuthenticator;
 
 return static function (SecurityConfig $securityConfig): void {
     $securityConfig->provider('user_provider')
@@ -27,6 +28,15 @@ return static function (SecurityConfig $securityConfig): void {
         ->stateless(true)
         ->security(false);
 
+    $apiFirewall = $securityConfig->firewall('api')
+        ->pattern('^/api')
+        ->stateless(true)
+        ->lazy(true)
+        ->provider('user_provider');
+
+    $apiFirewall->accessToken()
+        ->tokenHandler(ApiTokenAuthenticator::class);
+
     $mainFirewall = $securityConfig->firewall('main')
         ->lazy(true)
         ->provider('user_provider');
@@ -42,7 +52,7 @@ return static function (SecurityConfig $securityConfig): void {
         ->target('/');
 
     $securityConfig->accessControl()
-        ->path('^/(login|registration|forgotten-password|reset-password)')
+        ->path('^/(login|registration|forgotten-password|reset-password|api/docs)')
         ->roles([AuthenticatedVoter::PUBLIC_ACCESS]);
 
     $securityConfig->accessControl()

@@ -35,6 +35,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Column(nullable: true)]
     public null|string $name = null;
 
+    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
+    #[Column(unique: true, nullable: true)]
+    public null|string $apiToken = null;
+
     public function __construct(
         #[Id]
         #[Immutable]
