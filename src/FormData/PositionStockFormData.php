@@ -6,13 +6,14 @@ namespace TheDevs\WMS\FormData;
 
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
-use TheDevs\WMS\Entity\Position;
+use TheDevs\WMS\Validation\EANConstraint;
 
-final class ProductStockFormData
+final class PositionStockFormData
 {
     #[Range(min: 1, max: 1000)]
     public int $quantity = 1;
 
     #[NotBlank]
-    public null|Position $position = null;
+    #[EANConstraint]
+    public string $code = '';
 }

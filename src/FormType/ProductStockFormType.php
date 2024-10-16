@@ -41,6 +41,12 @@ final class ProductStockFormType extends AbstractType
             $positions = $this->positionQuery->getAll();
         }
 
+        $builder->add('quantity', IntegerType::class, [
+            'label' => 'Změna o počet ks',
+            'required' => true,
+            'empty_data' => 0,
+        ]);
+
         $builder->add('position', EntityType::class, [
             'class' => Position::class,
             'choice_label' => 'name',
@@ -48,12 +54,6 @@ final class ProductStockFormType extends AbstractType
             'label' => 'Pozice',
             'required' => true,
             'placeholder' => '- Vybrat -',
-        ]);
-
-        $builder->add('quantity', IntegerType::class, [
-            'label' => 'Změna o počet ks',
-            'required' => true,
-            'empty_data' => 0,
         ]);
     }
 

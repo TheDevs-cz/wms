@@ -1,0 +1,40 @@
+<div {{ attributes }}>
+    <div class="card">
+        {{ form_start(form, {
+            attr: {
+                'data-action': 'live#action:prevent',
+                'data-live-action-param': 'handleSubmit',
+            }
+        }) }}
+
+        <div class="card-body">
+            {{ form_widget(form) }}
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Vyskladnit</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+
+    {% if scannedProduct %}
+        <div class="alert alert-success mt-3 small p-2">
+            <a href="{{ path('product_info', {'id': scannedProduct.id}) }}">{{ scannedProduct.title }}</a> - vyskladněno
+        </div>
+    {% endif %}
+
+    {% if recentScans %}
+        <div class="card mt-3">
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    {% for recentScan in recentScans %}
+                        <li class="{{ scannedProduct and loop.first ? 'text-success' }}">
+                            {{ recentScan }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+</div>

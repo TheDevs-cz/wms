@@ -51,6 +51,9 @@ return static function(ContainerConfigurator $configurator): void
     // Console commands
     $services->load('TheDevs\\WMS\\ConsoleCommands\\', __DIR__ . '/../src/ConsoleCommands/**/{*.php}');
 
+    // Validators
+    $services->load('TheDevs\\WMS\\Validation\\', __DIR__ . '/../src/Validation/**/{*Validator.php}');
+
     // Services
     $services->load('TheDevs\\WMS\\Services\\', __DIR__ . '/../src/Services/**/{*.php}');
     $services->load('TheDevs\\WMS\\Query\\', __DIR__ . '/../src/Query/**/{*.php}');
