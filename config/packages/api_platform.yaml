@@ -2,6 +2,11 @@ api_platform:
     title: Artaris WMS API
     version: 1.0.0
     enable_entrypoint: false
+    swagger:
+        api_keys:
+            access_token:
+                name: Authorization
+                type: header
     defaults:
         stateless: true
         cache_headers:

@@ -18,7 +18,9 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
 use TheDevs\WMS\Value\OrderStatus;
 
-#[ApiResource]
+#[ApiResource(
+    security: 'is_granted("ROLE_USER")',
+)]
 #[Entity]
 #[Table(name: '`order`')]
 class Order implements EntityWithEvents
