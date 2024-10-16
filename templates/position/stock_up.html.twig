@@ -3,6 +3,14 @@
 {% block title %}Naskladňování - {{ position.name }}{% endblock %}
 
 {% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('warehouse_info', {'id': position.location.warehouse.id}) }}">{{ position.location.warehouse.title }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('location_info', {'id': position.location.id}) }}">{{ position.location.name }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('position_info', {'id': position.id}) }}">{{ position.name }}</a></li>
+        </ol>
+    </nav>
+
     <h1>Naskladňování - {{ position.name }}</h1>
 
     <p>

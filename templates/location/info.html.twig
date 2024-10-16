@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lokace - {{ location.name }}{% endblock %}
+{% block title %}{{ location.name }}{% endblock %}
 
 {% block content %}
-    <h1>Lokace - {{ location.name }}</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('warehouse_info', {'id': location.warehouse.id}) }}">{{ location.warehouse.title }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ location.name }}</li>
+        </ol>
+    </nav>
+
+    <h1>{{ location.name }}</h1>
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
 
