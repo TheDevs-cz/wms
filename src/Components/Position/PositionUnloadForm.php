@@ -67,7 +67,7 @@ final class PositionUnloadForm extends AbstractController
         $position = $this->position;
         assert($position !== null);
 
-        $now = $this->clock->now();
+        $now = $this->clock->now()->setTimezone(new \DateTimeZone('Europe/Prague'));
 
         $this->bus->dispatch(
             new UnloadStockItem(

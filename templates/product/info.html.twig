@@ -23,7 +23,7 @@
                     {% if product.image %}
                         <img src="{{ product.image }}" class="float-start me-2" style="max-width: 100px;max-height: 100px;">
                     {% endif %}
-                    EAN: {{ product.ean }}<br>
+                    EAN: <code>{{ product.ean }}</code><br>
                     SKU: {{ product.sku ?? '-' }}<br>
                     Kategorie: {{ product.category ?? '-' }}<br>
                     Výrobce: {{ product.manufacturer ?? '-' }}
