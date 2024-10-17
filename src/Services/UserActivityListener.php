@@ -24,6 +24,11 @@ readonly final class UserActivityListener
 
     public function __invoke(RequestEvent $event): void
     {
+        if ($event->isMainRequest() === false) {
+            // don't do anything if it's not the main request
+            return;
+        }
+
         /** @var null|User $user */
         $user = $this->security->getUser();
 
