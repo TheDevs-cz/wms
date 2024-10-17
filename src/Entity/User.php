@@ -39,6 +39,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Column(unique: true, nullable: true)]
     public null|string $apiToken = null;
 
+    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
+    #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    public null|DateTimeImmutable $lastActivity = null;
+
     public function __construct(
         #[Id]
         #[Immutable]
@@ -103,5 +107,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         null|string $name,
     ): void {
         $this->name = $name;
+    }
+
+    public function refreshLastActivity(DateTimeImmutable $now): void
+    {
+        $this->lastActivity = $now;
     }
 }
