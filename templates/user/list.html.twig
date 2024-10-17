@@ -17,6 +17,7 @@
             <tr>
                 <th scope="col">E-mail</th>
                 <th scope="col">Role</th>
+                <th scope="col">API token</th>
                 <th scope="col">Poslední aktivita</th>
             </tr>
             </thead>
@@ -26,6 +27,8 @@
                     <td>{{ user.email }}</td>
 
                     <td>{{ user.roles|join(', ') }}</td>
+
+                    <td>{{ user.apiToken }}</td>
 
                     <td>{{ user.lastActivity ? user.lastActivity|date('d.m.Y H:i:s') }}</td>
                 </tr>
