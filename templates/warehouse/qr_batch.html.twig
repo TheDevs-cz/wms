@@ -3,11 +3,11 @@
     <div style="text-align: center;padding: 0;margin: 20px auto;">
 
     {% for location in locations %}
-        <img style="margin: 10px;" src="{{ qr_code_data_uri(url('location_info', {'id': location.id}), 'default', {'labelText': location.name}) }}">
+        <img style="display: inline;float: left;padding: 10px;margin: 10px;border: 1px solid #ccc;" src="{{ qr_code_data_uri(url('location_info', {'id': location.id}), 'default', {'labelText': location.name}) }}">
     {% endfor %}
 
     {% for position in positions %}
-        <img style="margin: 10px;" src="{{ qr_code_data_uri(url('position_info', {'id': position.id}), 'default', {'labelText': position.location.name ~ ' / ' ~ position.name}) }}">
+        <img style="display: inline;float: left;padding: 10px;margin: 10px;border: 1px solid #ccc;" src="{{ qr_code_data_uri(url('position_info', {'id': position.id}), 'default', {'labelText': position.location.name ~ ' / ' ~ position.name}) }}">
     {% endfor %}
 
     </div>
