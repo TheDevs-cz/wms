@@ -52,7 +52,7 @@
                             {% endif %}
                         </td>
                         <td class="text-end">
-                            <a href="{{ path('qr_code_generate', {'builder': 'default', 'data': url('position_info', {'id': position.id})}) }}" class="btn btn-sm btn-outline-primary me-1">
+                            <a target="_blank" href="{{ path('qr_code_generate', {'builder': 'default', 'data': url('position_info', {'id': position.id})}) }}" class="btn btn-sm btn-outline-primary me-1">
                                 <i class="bi bi-printer"></i> Tisk štítku
                             </a>
 

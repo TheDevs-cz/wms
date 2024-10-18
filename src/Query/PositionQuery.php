@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TheDevs\WMS\Query;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\UuidInterface;
 use TheDevs\WMS\Entity\Position;
 
 readonly final class PositionQuery
@@ -25,4 +26,20 @@ readonly final class PositionQuery
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return array<Position>
+     */
+    public function getByWarehouse(UuidInterface $warehouseId): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->from(Position::class, 'p')
+            ->select('p, l')
+            ->join('p.location', 'l')
+            ->where('l.warehouse = :warehouseId')
+            ->setParameter('warehouseId', $warehouseId)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

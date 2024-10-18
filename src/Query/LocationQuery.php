@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TheDevs\WMS\Query;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\UuidInterface;
 use TheDevs\WMS\Entity\Location;
 
 readonly final class LocationQuery
