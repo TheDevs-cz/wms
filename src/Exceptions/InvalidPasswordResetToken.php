@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\Exceptions;
 
-final class InvalidPasswordResetToken extends \Exception
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
+
+final class InvalidPasswordResetToken extends UnrecoverableMessageHandlingException
 {
 }

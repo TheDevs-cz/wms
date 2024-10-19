@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
@@ -22,21 +23,34 @@ class OrderItem
         #[Column(type: UuidType::NAME, unique: true)]
         public UuidInterface $id,
 
-        #[ManyToOne]
+        #[ManyToOne(inversedBy: 'items')]
         #[Immutable]
         #[JoinColumn(nullable: false)]
         public Order $order,
 
         #[ManyToOne]
         #[Immutable]
-        #[JoinColumn(nullable: false)]
-        public Product $product,
+        #[JoinColumn]
+        public null|Product $product,
 
-        #[Immutable]
         #[Column]
-        public int $quantity,
+        public string $title,
+
+        #[Column]
+        readonly public int $quantity,
+
+        #[Column]
+        public string $ean,
+
+        #[Column]
+        public float $price,
+
+        #[Column(nullable: true)]
+        public null|string $sku = null,
+
+        /** @var null|array<string> */
+        #[Column(type: Types::JSON, nullable: true)]
+        public null|array $serialNumbers = null,
     ) {
-        // TODO: price?
-        // TODO: stock item?
     }
 }

@@ -9,6 +9,6 @@ use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[WithHttpStatus(Response::HTTP_NOT_FOUND)]
-final class StockItemNotFound extends UnrecoverableMessageHandlingException
+final class OrderNotFound extends UnrecoverableMessageHandlingException
 {
 }

@@ -38,8 +38,8 @@ class OrderHistory
         #[Column(type: Types::DATETIME_IMMUTABLE)]
         readonly public DateTimeImmutable $happenedAt,
 
-        #[Column]
-        readonly public OrderStatus $fromStatus,
+        #[Column(nullable: true)]
+        readonly public null|OrderStatus $fromStatus,
 
         #[Column]
         readonly public OrderStatus $toStatus,

@@ -6,8 +6,9 @@ namespace TheDevs\WMS\Exceptions;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[WithHttpStatus(Response::HTTP_NOT_FOUND)]
-final class UserNotFound extends \Exception
+final class UserNotFound extends UnrecoverableMessageHandlingException
 {
 }
