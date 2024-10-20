@@ -65,7 +65,7 @@ readonly final class CreateOrderHandler
                 title: $item->title,
                 quantity: $item->quantity,
                 ean: $item->ean,
-                price: $item->price,
+                itemPrice: $item->itemPrice,
                 sku: $item->sku,
                 serialNumbers: $item->serialNumbers,
             );

@@ -46,7 +46,7 @@ class OrderItem
         public string $ean,
 
         #[Column]
-        public float $price,
+        public float $itemPrice,
 
         #[Column(nullable: true)]
         public null|string $sku = null,

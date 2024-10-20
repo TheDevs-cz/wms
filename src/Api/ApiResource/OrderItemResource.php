@@ -26,7 +26,7 @@ final class OrderItemResource
 
     #[ApiProperty(example: 100.2)]
     #[Range(min: 1, max: 999999)]
-    public float $price = 0;
+    public float $itemPrice = 0;
 
     #[ApiProperty(example: 'ABC-001')]
     #[Length(0, 100)]
