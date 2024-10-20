@@ -22,6 +22,7 @@ readonly final class CreateOrder
         public string $carrier,
         public Address $deliveryAddress,
         public DateTimeImmutable $orderedAt,
+        public null|DateTimeImmutable $expeditionDate,
         /** @var array<OrderItemResource> */
         public array $items = [],
     ) {

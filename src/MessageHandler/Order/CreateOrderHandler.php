@@ -40,6 +40,7 @@ readonly final class CreateOrderHandler
             $message->id,
             $user,
             orderedAt: $message->orderedAt,
+            expeditionDate: $message->expeditionDate?->setTime(0, 0),
             number: $message->number,
             price: $message->price,
             cashOnDelivery: $message->cashOnDelivery,

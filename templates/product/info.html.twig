@@ -6,11 +6,11 @@
     <h1>Produkt - {{ product.title }}</h1>
 
     <p>
-        <a class="btn btn-outline-primary me-1" href="{{ path('product_stock_up', {'id': product.id}) }}">
+        <a class="btn btn-outline-primary me-1  mb-1" href="{{ path('product_stock_up', {'id': product.id}) }}">
             <i class="bi bi-box-arrow-in-up"></i> Naskladňování
         </a>
 
-        <a class="btn btn-outline-primary" href="{{ path('product_unload', {'id': product.id}) }}">
+        <a class="btn btn-outline-primary mb-1" href="{{ path('product_unload', {'id': product.id}) }}">
             <i class="bi bi-box-arrow-up"></i> Vyskladňování
         </a>
     </p>

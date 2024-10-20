@@ -14,11 +14,11 @@
     <h1>{{ position.name }}</h1>
 
     <p>
-        <a class="btn btn-outline-primary me-1" href="{{ path('position_stock_up', {'id': position.id}) }}">
+        <a class="btn btn-outline-primary me-1 mb-1" href="{{ path('position_stock_up', {'id': position.id}) }}">
             <i class="bi bi-box-arrow-in-up"></i> Naskladňování
         </a>
 
-        <a class="btn btn-outline-primary" href="{{ path('position_unload', {'id': position.id}) }}">
+        <a class="btn btn-outline-primary mb-1" href="{{ path('position_unload', {'id': position.id}) }}">
             <i class="bi bi-box-arrow-up"></i> Vyskladňování
         </a>
     </p>

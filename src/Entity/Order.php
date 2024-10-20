@@ -23,6 +23,8 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 use JetBrains\PhpStorm\Immutable;
 use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Serializer\Attribute\Context;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use TheDevs\WMS\Api\ApiResource\CreateOrderRequest;
 use TheDevs\WMS\Api\Processor\CreateOrderProcessor;
 use TheDevs\WMS\Doctrine\AddressDoctrineType;
@@ -63,6 +65,10 @@ class Order implements EntityWithEvents
 
         #[Column(type: Types::DATETIME_IMMUTABLE)]
         readonly public DateTimeImmutable $orderedAt,
+
+        #[Context([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'])]
+        #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+        readonly public null|DateTimeImmutable $expeditionDate,
 
         #[Column]
         readonly public string $number,

@@ -6,6 +6,8 @@ namespace TheDevs\WMS\Api\ApiResource;
 
 use ApiPlatform\Metadata\ApiProperty;
 use DateTimeImmutable;
+use Symfony\Component\Serializer\Attribute\Context;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -47,6 +49,9 @@ final class CreateOrderRequest
 
     #[NotNull]
     public null|DateTimeImmutable $orderedAt = null;
+
+    #[ApiProperty(example: '2024-10-20')]
+    public null|DateTimeImmutable $expeditionDate = null;
 
     /** @var array<OrderItemResource>  */
     #[NotBlank]

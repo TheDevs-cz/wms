@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Objednávka {{ order.number }}{% endblock %}
+
+{% block content %}
+    <h1>Objednávka {{ order.number }}</h1>
+
+    <p>
+        <a class="btn btn-outline-primary me-1 mb-1" href="#">
+            <i class="bi bi-box-seam"></i> Vychystávání
+        </a>
+
+        <a class="btn btn-outline-primary me-1 mb-1" href="#">
+            <i class="bi bi-printer"></i> Přepravní štítek
+        </a>
+
+        <a class="btn btn-outline-primary me-1 mb-1" href="#">
+            <i class="bi bi-truck"></i> Předáno dopravci
+        </a>
+    </p>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h3>Doručovací adresa</h3>
+
+                Dopravce: {{ order.carrier }}<br>
+                {{ order.deliveryAddress.name }}<br>
+                {{ order.deliveryAddress.street }}<br>
+                {{ order.deliveryAddress.city }} {{ order.deliveryAddress.postalCode }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h3>Detaily objednávky</h3>
+
+                Uživatel: {{ order.user.email }}<br>
+                Dobírka: {{ order.cashOnDelivery }} Kč<br>
+                Vytvořena: {{ order.orderedAt|date('d.m.Y H:i:s') }}<br>
+                {% if order.expeditionDate %}
+                    Expedovat dne: {{ order.expeditionDate|date('d.m.Y') }}<br>
+                {% endif %}
+                Stav: {{ order.status.value }}<br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive shadow-lg">
+    <table class="table table-hover mb-0">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">Název</th>
+            <th scope="col">Počet</th>
+            <th scope="col">Cena / ks</th>
+            <th scope="col">EAN</th>
+            <th scope="col">Pozice</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items %}
+                <tr>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.itemPrice }} Kč</td>
+                    <td>{{ item.ean }}</td>
+                    <td>....</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

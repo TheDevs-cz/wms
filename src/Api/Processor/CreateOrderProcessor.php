@@ -53,6 +53,7 @@ readonly final class CreateOrderProcessor implements ProcessorInterface
                 carrier: $data->carrier,
                 deliveryAddress: $data->deliveryAddress,
                 orderedAt: $data->orderedAt,
+                expeditionDate: $data->expeditionDate,
                 items: $data->items,
             ),
         );
