@@ -6,6 +6,7 @@ namespace TheDevs\WMS\Entity;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -35,6 +36,7 @@ use TheDevs\WMS\Value\OrderStatus;
 #[UniqueConstraint(name: 'unique_number', columns: ['number', 'user_id'])]
 #[ApiResource]
 #[Post(input: CreateOrderRequest::class, processor: CreateOrderProcessor::class)]
+#[Get]
 class Order implements EntityWithEvents
 {
     use HasEvents;
