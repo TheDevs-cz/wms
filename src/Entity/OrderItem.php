@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -23,11 +24,13 @@ class OrderItem
         #[Column(type: UuidType::NAME, unique: true)]
         public UuidInterface $id,
 
+        #[ApiProperty(readable: false)]
         #[ManyToOne(inversedBy: 'items')]
         #[Immutable]
         #[JoinColumn(nullable: false)]
         public Order $order,
 
+        #[ApiProperty(readable: false)]
         #[ManyToOne]
         #[Immutable]
         #[JoinColumn]
@@ -52,5 +55,6 @@ class OrderItem
         #[Column(type: Types::JSON, nullable: true)]
         public null|array $serialNumbers = null,
     ) {
+        $order->addItem($this);
     }
 }

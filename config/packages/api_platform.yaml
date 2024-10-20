@@ -2,6 +2,10 @@ api_platform:
     title: Artaris WMS API
     version: 1.0.0
     enable_entrypoint: false
+    use_symfony_listeners: true
+    formats:
+        json: [ 'application/json' ]
+        jsonld: [ 'application/ld+json' ]
     swagger:
         api_keys:
             access_token:

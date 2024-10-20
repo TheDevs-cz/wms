@@ -34,7 +34,7 @@ return static function(ContainerConfigurator $configurator): void
         ->tag('monolog.processor');
 
     // Controllers
-    $services->load('TheDevs\\WMS\\Controller\\', __DIR__ . '/../src/Controller/**/{*Controller.php}');
+    $services->load('TheDevs\\WMS\\Controller\\', __DIR__ . '/../src/Controller/**/{*.php}');
 
     // Components
     $services->load('TheDevs\\WMS\\Components\\', __DIR__ . '/../src/Components/**/{*.php}');
@@ -57,6 +57,9 @@ return static function(ContainerConfigurator $configurator): void
     // Services
     $services->load('TheDevs\\WMS\\Services\\', __DIR__ . '/../src/Services/**/{*.php}');
     $services->load('TheDevs\\WMS\\Query\\', __DIR__ . '/../src/Query/**/{*.php}');
+
+    // API
+    $services->load('TheDevs\\WMS\\Api\\Processor\\', __DIR__ . '/../src/Api/Processor/**/{*.php}');
 
     /** @see https://github.com/doctrine/migrations/issues/1406 */
     $services->set(FixDoctrineMigrationTableSchema::class)

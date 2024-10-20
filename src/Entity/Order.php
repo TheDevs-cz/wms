@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,9 +18,13 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use JetBrains\PhpStorm\Immutable;
 use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use TheDevs\WMS\Api\ApiResource\CreateOrderRequest;
+use TheDevs\WMS\Api\Processor\CreateOrderProcessor;
 use TheDevs\WMS\Doctrine\AddressDoctrineType;
 use TheDevs\WMS\Events\OrderReceived;
 use TheDevs\WMS\Value\Address;
@@ -25,6 +32,9 @@ use TheDevs\WMS\Value\OrderStatus;
 
 #[Entity]
 #[Table(name: '`order`')]
+#[UniqueConstraint(name: 'unique_number', columns: ['number', 'user_id'])]
+#[ApiResource]
+#[Post(input: CreateOrderRequest::class, processor: CreateOrderProcessor::class)]
 class Order implements EntityWithEvents
 {
     use HasEvents;
@@ -44,6 +54,7 @@ class Order implements EntityWithEvents
         #[Column(type: UuidType::NAME, unique: true)]
         public UuidInterface $id,
 
+        #[ApiProperty(readable: false)]
         #[ManyToOne]
         #[Immutable]
         #[JoinColumn(nullable: false)]
@@ -82,5 +93,12 @@ class Order implements EntityWithEvents
                 $id,
             ),
         );
+    }
+
+    public function addItem(OrderItem $item): void
+    {
+        if ($this->items->contains($item) === false) {
+            $this->items->add($item);
+        }
     }
 }
