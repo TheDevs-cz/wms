@@ -13,7 +13,15 @@
                 {% for movement in movements %}
                     <li class="mb-1">
                         <small class="me-2">{{ movement.movedAt|date('d.m.Y H:i:s') }}</small>
-                        <a class="btn btn-sm btn-outline-secondary" href="{{ path('position_info', {'id': movement.toPosition.id}) }}">{{ movement.toPosition.name }}</a>
+                        {% if movement.fromPosition %}
+                            <a class="btn btn-sm btn-outline-secondary" href="{{ path('position_info', {'id': movement.fromPosition.id}) }}">{{ movement.fromPosition.name }}</a>
+                        {% endif %}
+
+                        <i class="bi bi-arrow-right"></i>
+
+                        {% if movement.toPosition %}
+                            <a class="btn btn-sm btn-outline-secondary" href="{{ path('position_info', {'id': movement.toPosition.id}) }}">{{ movement.toPosition.name }}</a>
+                        {% endif %}
                         <strong class="ms-2">{{ movement.newQuantity - movement.oldQuantity }} ks</strong>
                     </li>
                 {% endfor %}
