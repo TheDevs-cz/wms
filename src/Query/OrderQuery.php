@@ -18,6 +18,19 @@ readonly final class OrderQuery
     }
 
     /**
+     * @return array<Order>
+     */
+    public function getAll(): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->from(Order::class, 'o')
+            ->select('o')
+            ->orderBy('o.orderedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * @throws OrderNotFound
      */
     public function getByNumberForUser(UuidInterface $userId, string $number): Order

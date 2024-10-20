@@ -23,7 +23,6 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 use JetBrains\PhpStorm\Immutable;
 use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use TheDevs\WMS\Api\ApiResource\CreateOrderRequest;
 use TheDevs\WMS\Api\Processor\CreateOrderProcessor;
 use TheDevs\WMS\Doctrine\AddressDoctrineType;
