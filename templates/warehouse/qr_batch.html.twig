@@ -1,14 +1,18 @@
 <html>
 <body style="padding: 0;margin: 0;">
-    <div style="text-align: center;padding: 0;margin: 20px auto;">
+    <div style="text-align: center;padding: 0;margin: 0;">
 
-    {% for location in locations %}
-        <img style="display: inline;float: left;padding: 10px;margin: 10px;border: 1px solid #ccc;" src="{{ qr_code_data_uri(url('location_info', {'id': location.id}), 'default', {'labelText': location.name}) }}">
-    {% endfor %}
+        {% for location in locations %}
+            <div {% if not loop.first %}style="page-break-before: always;"{% endif %}>
+                <img style="border: 1px solid #ccc;" src="{{ qr_code_data_uri(url('location_info', {'id': location.id}), 'default', {'labelText': location.name}) }}">
+            </div>
+        {% endfor %}
 
-    {% for position in positions %}
-        <img style="display: inline;float: left;padding: 10px;margin: 10px;border: 1px solid #ccc;" src="{{ qr_code_data_uri(url('position_info', {'id': position.id}), 'default', {'labelText': position.location.name ~ ' / ' ~ position.name}) }}">
-    {% endfor %}
+        {% for position in positions %}
+            <div style="page-break-before: always;">
+                <img style="border: 1px solid #ccc;" src="{{ qr_code_data_uri(url('position_info', {'id': position.id}), 'default', {'labelText': position.location.name ~ ' / ' ~ position.name}) }}">
+            </div>
+        {% endfor %}
 
     </div>
 </body>
