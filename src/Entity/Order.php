@@ -43,6 +43,10 @@ class Order implements EntityWithEvents
     use HasEvents;
 
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
+    #[Column(nullable: true)]
+    public null|string $label = null;
+
+    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     #[Column]
     public OrderStatus $status;
 

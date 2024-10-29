@@ -42,6 +42,56 @@ readonly final class StockItemQuery
     }
 
     /**
+     * @throws StockItemNotFound
+     */
+    public function getByPositionAndEanOfUser(UuidInterface $positionId, string $ean, UuidInterface $userId): StockItem
+    {
+        try {
+            /** @var StockItem $row */
+            $row = $this->entityManager->createQueryBuilder()
+                ->from(StockItem::class, 'si')
+                ->select('si, p')
+                ->join('si.product', 'p')
+                ->where('si.ean = :ean')
+                ->setParameter('ean', $ean)
+                ->andWhere('si.position = :positionId')
+                ->setParameter('positionId', $positionId)
+                ->andWhere('p.user = :userId')
+                ->setParameter('userId', $userId)
+                ->getQuery()
+                ->getSingleResult();
+
+            return $row;
+        } catch (NoResultException $e) {
+            throw new StockItemNotFound(previous: $e);
+        }
+    }
+
+    /**
+     * @throws StockItemNotFound
+     */
+    public function getByEanOfUser(string $ean, UuidInterface $userId): StockItem
+    {
+        try {
+            /** @var StockItem $row */
+            $row = $this->entityManager->createQueryBuilder()
+                ->from(StockItem::class, 'si')
+                ->select('si, p')
+                ->join('si.product', 'p')
+                ->where('si.ean = :ean')
+                ->setParameter('ean', $ean)
+                ->andWhere('p.user = :userId')
+                ->setParameter('userId', $userId)
+                ->getQuery()
+                ->getSingleResult();
+
+            return $row;
+        } catch (NoResultException $e) {
+            throw new StockItemNotFound(previous: $e);
+        }
+    }
+
+    /**
      * @return array<StockItem>
      */
     public function getForProduct(UuidInterface $productId): array
@@ -70,6 +120,24 @@ readonly final class StockItemQuery
             ->getQuery()
             ->setFetchMode(StockItem::class, 'product', ClassMetadata::FETCH_EAGER)
             ->setFetchMode(StockItem::class, 'position', ClassMetadata::FETCH_EAGER)
+            ->getResult();
+    }
+
+    /**
+     * @return array<StockItem>
+     */
+    public function getForPositionOfUser(UuidInterface $positionId, UuidInterface $userId): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->from(StockItem::class, 'si')
+            ->select('si, p')
+            ->join('si.position', 'pos')
+            ->join('si.product', 'p')
+            ->where('pos.id = :positionId')
+            ->setParameter('positionId', $positionId)
+            ->andWhere('p.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
             ->getResult();
     }
 

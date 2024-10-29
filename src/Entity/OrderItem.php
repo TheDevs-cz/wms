@@ -14,10 +14,18 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use JetBrains\PhpStorm\Immutable;
 use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
+use TheDevs\WMS\Events\OrderItemPrepared;
+use TheDevs\WMS\Exceptions\OrderItemAlreadyFullyPrepared;
 
 #[Entity]
-class OrderItem
+class OrderItem implements EntityWithEvents
 {
+    use HasEvents;
+
+    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
+    #[Column(options: ['default' => 0])]
+    public int $preparedQuantity = 0;
+
     public function __construct(
         #[Id]
         #[Immutable]
@@ -56,5 +64,21 @@ class OrderItem
         public null|array $serialNumbers = null,
     ) {
         $order->addItem($this);
+    }
+
+    /**
+     * @throws OrderItemAlreadyFullyPrepared
+     */
+    public function prepareForExpedition(UuidInterface $userId, UuidInterface $id, int $quantity): void
+    {
+        if ($this->preparedQuantity >= $quantity) {
+            throw new OrderItemAlreadyFullyPrepared();
+        }
+
+        $this->preparedQuantity += $quantity;
+
+        $this->recordThat(
+            new OrderItemPrepared(),
+        );
     }
 }
