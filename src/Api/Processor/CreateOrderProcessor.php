@@ -51,6 +51,8 @@ readonly final class CreateOrderProcessor implements ProcessorInterface
                 paymentPrice: $data->paymentPrice,
                 deliveryPrice: $data->deliveryPrice,
                 carrier: $data->carrier,
+                email: $data->email,
+                phone: $data->phone,
                 deliveryAddress: $data->deliveryAddress,
                 orderedAt: $data->orderedAt,
                 expeditionDate: $data->expeditionDate,

@@ -40,6 +40,7 @@
                         {{ order.carrier }}
                     </td>
                     <td>
+                        {{ order.email }} {{ order.phone }}{% if order.email or order.phone %}<br>{% endif %}
                         {{ order.deliveryAddress.name }}<br>
                         {{ order.deliveryAddress.street }}<br>
                         {{ order.deliveryAddress.city }} {{ order.deliveryAddress.postalCode }}

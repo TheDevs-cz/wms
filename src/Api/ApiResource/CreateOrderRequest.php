@@ -6,8 +6,7 @@ namespace TheDevs\WMS\Api\ApiResource;
 
 use ApiPlatform\Metadata\ApiProperty;
 use DateTimeImmutable;
-use Symfony\Component\Serializer\Attribute\Context;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -43,6 +42,15 @@ final class CreateOrderRequest
     #[Length(max: 100)]
     #[NotBlank]
     public string $carrier = '';
+
+    #[ApiProperty(example: 'john@doe.com')]
+    #[Email]
+    #[Length(max: 100)]
+    public null|string $email = null;
+
+    #[ApiProperty(example: '+420731123456789')]
+    #[Length(max: 20)]
+    public null|string $phone = null;
 
     #[NotNull]
     public null|Address $deliveryAddress = null;

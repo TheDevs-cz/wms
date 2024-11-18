@@ -26,6 +26,7 @@
             <div class="card-body">
                 <h3>Doručovací adresa</h3>
 
+                {{ order.email }} {{ order.phone }}{% if order.email or order.phone %}<br>{% endif %}
                 Dopravce: {{ order.carrier }}<br>
                 {{ order.deliveryAddress.name }}<br>
                 {{ order.deliveryAddress.street }}<br>
@@ -59,7 +60,6 @@
             <th scope="col">Počet</th>
             <th scope="col">Cena / ks</th>
             <th scope="col">EAN</th>
-            <th scope="col">Pozice</th>
         </tr>
         </thead>
         <tbody>
@@ -69,7 +69,6 @@
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.itemPrice }} Kč</td>
                     <td>{{ item.ean }}</td>
-                    <td>....</td>
                 </tr>
             {% endfor %}
         </tbody>

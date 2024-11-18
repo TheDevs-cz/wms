@@ -92,6 +92,12 @@ class Order implements EntityWithEvents
         #[Column]
         readonly public string $carrier,
 
+        #[Column(nullable: true)]
+        readonly public null|string $email,
+
+        #[Column(nullable: true)]
+        readonly public null|string $phone,
+
         #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
         #[Column(type: AddressDoctrineType::NAME)]
         public Address $deliveryAddress,

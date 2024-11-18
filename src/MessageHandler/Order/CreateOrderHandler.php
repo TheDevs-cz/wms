@@ -47,6 +47,8 @@ readonly final class CreateOrderHandler
             paymentPrice: $message->paymentPrice,
             deliveryPrice: $message->deliveryPrice,
             carrier: $message->carrier,
+            email: $message->email,
+            phone: $message->phone,
             deliveryAddress: $message->deliveryAddress,
         );
 
