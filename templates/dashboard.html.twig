@@ -3,8 +3,11 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+    {% if openOrdersCount > 0 %}
+        <div class="alert alert-warning">Objednávky k vychystání: {{ openOrdersCount }}</div>
+    {% endif %}
 
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
         {% for warehouse in warehouses %}
             <div class="col">
                 <a href="{{ path('warehouse_info', {'id': warehouse.id}) }}" class="text-decoration-none">

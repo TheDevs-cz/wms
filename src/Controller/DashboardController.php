@@ -8,6 +8,7 @@ use TheDevs\WMS\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use TheDevs\WMS\Query\OrderQuery;
 use TheDevs\WMS\Query\WarehouseQuery;
 use TheDevs\WMS\Repository\WarehouseRepository;
 
@@ -15,6 +16,7 @@ final class DashboardController extends AbstractController
 {
     public function __construct(
         readonly private WarehouseQuery $warehouseQuery,
+        readonly private OrderQuery $orderQuery,
     ) {
     }
 
@@ -24,6 +26,7 @@ final class DashboardController extends AbstractController
         return $this->render('dashboard.html.twig', [
             'warehouses' => $this->warehouseQuery->getAll(),
             'positionsCount' => $this->warehouseQuery->positionsCount(),
+            'openOrdersCount' => $this->orderQuery->countOpenOrders(),
         ]);
     }
 }

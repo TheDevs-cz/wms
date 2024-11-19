@@ -9,6 +9,7 @@ use Doctrine\ORM\NoResultException;
 use Ramsey\Uuid\UuidInterface;
 use TheDevs\WMS\Entity\Order;
 use TheDevs\WMS\Exceptions\OrderNotFound;
+use TheDevs\WMS\Value\OrderStatus;
 
 readonly final class OrderQuery
 {
@@ -51,5 +52,16 @@ readonly final class OrderQuery
         } catch (NoResultException $e) {
             throw new OrderNotFound(previous: $e);
         }
+    }
+
+    public function countOpenOrders(): int
+    {
+        return (int) $this->entityManager->createQueryBuilder()
+            ->select('COUNT(o.id)')
+            ->from(Order::class, 'o')
+            ->where('o.status = :status')
+            ->setParameter('status', OrderStatus::Open)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }
