@@ -1,0 +1,29 @@
+<div {{ attributes }}>
+    <form data-model="norender|*" data-loading="addClass(opacity-50)">
+        <div class="input-group my-2 has-validation" style="width: 200px;">
+            <input
+                name="packageCount"
+                type="number"
+                value="{{ packageCount }}"
+                data-loading="addClass(disabled)"
+                class="form-control {{ _errors.has('packageCount') ? 'is-invalid' : '' }}"
+                placeholder="Package Count"
+                aria-label="Package Count"
+            >
+            <button
+                type="submit"
+                class="btn btn-outline-primary"
+                data-loading="addClass(disabled)"
+                data-action="live#action:prevent"
+                data-live-action-param="submit"
+            >
+                <i class="bi bi-printer"></i> Tisk štítku
+            </button>
+            {% if _errors.has('packageCount') %}
+                <div class="invalid-feedback" role="alert">
+                    {{ _errors.get('packageCount') }}
+                </div>
+            {% endif %}
+        </div>
+    </form>
+</div>

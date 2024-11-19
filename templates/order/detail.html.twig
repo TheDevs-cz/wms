@@ -3,21 +3,19 @@
 {% block title %}Objednávka {{ order.number }}{% endblock %}
 
 {% block content %}
-    <h1>Objednávka {{ order.number }}</h1>
+<h1>Objednávka {{ order.number }}</h1>
 
-    <p>
-        <a class="btn btn-outline-primary me-1 mb-1" href="#">
-            <i class="bi bi-box-seam"></i> Vychystávání
-        </a>
+<div class="mb-2">
+    <a class="btn btn-outline-primary me-1 mb-1" href="#">
+        <i class="bi bi-box-seam"></i> Vychystávání
+    </a>
 
-        <a class="btn btn-outline-primary me-1 mb-1" href="#">
-            <i class="bi bi-printer"></i> Přepravní štítek
-        </a>
+    <a class="btn btn-outline-primary me-1 mb-1" href="#">
+        <i class="bi bi-truck"></i> Předáno dopravci
+    </a>
 
-        <a class="btn btn-outline-primary me-1 mb-1" href="#">
-            <i class="bi bi-truck"></i> Předáno dopravci
-        </a>
-    </p>
+    <twig:Label:PrintLabelForm orderNumber="{{ order.number }}" />
+</div>
 
 <div class="row row-cols-1 row-cols-md-2 g-4">
 
