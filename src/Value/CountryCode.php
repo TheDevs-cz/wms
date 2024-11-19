@@ -6,7 +6,7 @@ namespace TheDevs\WMS\Value;
 
 enum CountryCode: string
 {
-    case CZ = 'cz';
-    case SK = 'sk';
-    case PL = 'pl';
+    case CZ = 'CZ';
+    case SK = 'SK';
+    case PL = 'PL';
 }

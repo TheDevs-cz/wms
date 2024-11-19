@@ -6,13 +6,20 @@ namespace TheDevs\WMS\Value;
 
 readonly final class Address
 {
+    public CountryCode $countryCode;
+
     public function __construct(
         public string $name,
         public string $street,
         public string $city,
         public string $postalCode,
-        public CountryCode $countryCode,
+        string|CountryCode $countryCode,
     ) {
+        if (is_string($countryCode)) {
+            $this->countryCode = CountryCode::from(strtoupper($countryCode));
+        } else {
+            $this->countryCode = $countryCode;
+        }
     }
 
     /** @param array{
@@ -30,7 +37,7 @@ readonly final class Address
             street: $data['street'],
             city: $data['city'],
             postalCode: $data['postalCode'],
-            countryCode: CountryCode::from($data['countryCode']),
+            countryCode: $data['countryCode'],
         );
     }
 
