@@ -43,6 +43,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     public null|DateTimeImmutable $lastActivity = null;
 
+    #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
+    #[Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    public null|DateTimeImmutable $lastLogin = null;
+
     public function __construct(
         #[Id]
         #[Immutable]
@@ -112,5 +116,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function refreshLastActivity(DateTimeImmutable $now): void
     {
         $this->lastActivity = $now;
+    }
+
+    public function hasLoggedIn(DateTimeImmutable $now): void
+    {
+        $this->lastLogin = $now;
     }
 }

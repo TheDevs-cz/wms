@@ -19,6 +19,7 @@
                 <th scope="col">Role</th>
                 <th scope="col">API token</th>
                 <th scope="col">Poslední aktivita</th>
+                <th scope="col">Poslední přihlášení</th>
             </tr>
             </thead>
             <tbody>
@@ -31,6 +32,7 @@
                     <td>{{ user.apiToken }}</td>
 
                     <td>{{ user.lastActivity ? user.lastActivity|date('d.m.Y H:i:s') }}</td>
+                    <td>{{ user.lastLogin ? user.lastLogin|date('d.m.Y H:i:s') }}</td>
                 </tr>
             {% endfor %}
             </tbody>
