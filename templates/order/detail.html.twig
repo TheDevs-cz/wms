@@ -6,9 +6,11 @@
     <h1>Objednávka {{ order.number }}</h1>
 
     <div class="mb-2">
-        <a class="btn btn-outline-primary me-1 mb-1" href="{{ path('order_prepare_item', {'id': order.id}) }}">
-            <i class="bi bi-box-seam"></i> Vychystávání
-        </a>
+        {% if not order.fullyPicked %}
+            <a class="btn btn-outline-primary me-1 mb-1" href="{{ path('order_prepare_item', {'id': order.id}) }}">
+                <i class="bi bi-box-seam"></i> Vychystávání
+            </a>
+        {% endif %}
 
         <a class="btn btn-outline-primary me-1 mb-1" href="#">
             <i class="bi bi-truck"></i> Předáno dopravci
