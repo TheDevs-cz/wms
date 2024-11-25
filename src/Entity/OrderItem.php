@@ -71,7 +71,7 @@ class OrderItem implements EntityWithEvents
      */
     public function prepareForExpedition(UuidInterface $userId, UuidInterface $id, int $quantity): void
     {
-        if ($this->preparedQuantity >= $quantity) {
+        if (($this->quantity - $this->preparedQuantity - $quantity) < 0) {
             throw new OrderItemAlreadyFullyPrepared();
         }
 
@@ -80,5 +80,10 @@ class OrderItem implements EntityWithEvents
         $this->recordThat(
             new OrderItemPrepared(),
         );
+    }
+
+    public function isFullyPrepared(): bool
+    {
+        return $this->quantity === $this->preparedQuantity;
     }
 }

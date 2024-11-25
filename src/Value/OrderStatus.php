@@ -7,7 +7,10 @@ namespace TheDevs\WMS\Value;
 enum OrderStatus: string
 {
     case Open = 'open';
-    case Completed = 'completed';
+    case Picking = 'picking';
+    case Packing = 'packing';
+    case Problem = 'problem';
     case Shipped = 'shipped';
+    case Completed = 'completed';
     case Cancelled = 'cancelled';
 }

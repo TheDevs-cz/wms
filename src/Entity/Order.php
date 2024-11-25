@@ -118,4 +118,19 @@ class Order implements EntityWithEvents
             $this->items->add($item);
         }
     }
+
+    public function pickItem(OrderItem $item): void
+    {
+    }
+
+    public function isFullyPicked(): bool
+    {
+        foreach ($this->items as $item) {
+            if ($item->isFullyPrepared() === false) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

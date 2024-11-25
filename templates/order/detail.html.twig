@@ -3,92 +3,100 @@
 {% block title %}Objednávka {{ order.number }}{% endblock %}
 
 {% block content %}
-<h1>Objednávka {{ order.number }}</h1>
+    <h1>Objednávka {{ order.number }}</h1>
 
-<div class="mb-2">
-    <a class="btn btn-outline-primary me-1 mb-1" href="#">
-        <i class="bi bi-box-seam"></i> Vychystávání
-    </a>
+    <div class="mb-2">
+        <a class="btn btn-outline-primary me-1 mb-1" href="{{ path('order_prepare_item', {'id': order.id}) }}">
+            <i class="bi bi-box-seam"></i> Vychystávání
+        </a>
 
-    <a class="btn btn-outline-primary me-1 mb-1" href="#">
-        <i class="bi bi-truck"></i> Předáno dopravci
-    </a>
+        <a class="btn btn-outline-primary me-1 mb-1" href="#">
+            <i class="bi bi-truck"></i> Předáno dopravci
+        </a>
 
-    <twig:Label:PrintLabelForm orderNumber="{{ order.number }}" />
-</div>
+        <twig:Label:PrintLabelForm orderNumber="{{ order.number }}" />
+    </div>
 
-<div class="row row-cols-1 row-cols-md-2 g-4">
+    <p>
+        <span class="badge rounded-pill bg-info">
+            {{ order.status.value }}
+        </span>
+    </p>
 
-    <div class="col">
-        <div class="card mb-3">
-            <div class="card-body">
-                <h3>Doručovací adresa</h3>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
 
-                {{ order.email }} {{ order.phone }}{% if order.email or order.phone %}<br>{% endif %}
-                Dopravce: {{ order.carrier }}<br>
-                {{ order.deliveryAddress.name }}<br>
-                {{ order.deliveryAddress.street }}<br>
-                {{ order.deliveryAddress.city }} {{ order.deliveryAddress.postalCode }}
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3>Doručovací adresa</h3>
+
+                    {{ order.email }} {{ order.phone }}{% if order.email or order.phone %}<br>{% endif %}
+                    Dopravce: {{ order.carrier }}<br>
+                    {{ order.deliveryAddress.name }}<br>
+                    {{ order.deliveryAddress.street }}<br>
+                    {{ order.deliveryAddress.city }} {{ order.deliveryAddress.postalCode }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3>Detaily objednávky</h3>
+
+                    Uživatel: {{ order.user.email }}<br>
+                    Dobírka: {{ order.cashOnDelivery }} Kč<br>
+                    Vytvořena: {{ order.orderedAt|date('d.m.Y H:i:s') }}<br>
+                    {% if order.expeditionDate %}
+                        Expedovat dne: {{ order.expeditionDate|date('d.m.Y') }}<br>
+                    {% endif %}
+                    Stav: {{ order.status.value }}<br>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="col">
-        <div class="card mb-3">
-            <div class="card-body">
-                <h3>Detaily objednávky</h3>
-
-                Uživatel: {{ order.user.email }}<br>
-                Dobírka: {{ order.cashOnDelivery }} Kč<br>
-                Vytvořena: {{ order.orderedAt|date('d.m.Y H:i:s') }}<br>
-                {% if order.expeditionDate %}
-                    Expedovat dne: {{ order.expeditionDate|date('d.m.Y') }}<br>
-                {% endif %}
-                Stav: {{ order.status.value }}<br>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="table-responsive shadow-lg">
-    <table class="table table-hover mb-0">
-        <thead class="table-dark">
-        <tr>
-            <th scope="col">SKU</th>
-            <th scope="col">Název</th>
-            <th scope="col">EAN</th>
-            <th scope="col">Počet</th>
-            <th scope="col">Cena / ks</th>
-        </tr>
-        </thead>
-        <tbody>
-            {% for item in order.items %}
-                <tr>
-                    <td>
-                        {% if item.product %}
-                            <a href="{{ path('product_info', {'id': item.product.id}) }}">
+    <div class="table-responsive shadow-lg">
+        <table class="table table-hover mb-0">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">SKU</th>
+                <th scope="col">Název</th>
+                <th scope="col">EAN</th>
+                <th scope="col">Počet</th>
+                <th scope="col">Cena / ks</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items %}
+                    <tr>
+                        <td>
+                            {% if item.product %}
+                                <a href="{{ path('product_info', {'id': item.product.id}) }}">
+                                    {{ item.sku }}
+                                </a>
+                            {% else %}
                                 {{ item.sku }}
-                            </a>
-                        {% else %}
-                            {{ item.sku }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if item.product %}
-                            <a href="{{ path('product_info', {'id': item.product.id}) }}">
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.product %}
+                                <a href="{{ path('product_info', {'id': item.product.id}) }}">
+                                    {{ item.title }}
+                                </a>
+                            {% else %}
                                 {{ item.title }}
-                            </a>
-                        {% else %}
-                            {{ item.title }}
-                        {% endif %}
-                    </td>
-                    <td>{{ item.ean }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.itemPrice }} Kč</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.ean }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.itemPrice }} Kč</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
+    <p>TODO: historie objednávky</p>
+    <p>TODO: historie položek (picking)</p>
 {% endblock %}

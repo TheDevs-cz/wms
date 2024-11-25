@@ -6,6 +6,7 @@ namespace TheDevs\WMS\MessageHandler\Order;
 
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use TheDevs\WMS\Entity\StockItem;
+use TheDevs\WMS\Exceptions\NoOrderItemFoundOnPosition;
 use TheDevs\WMS\Exceptions\OrderItemAlreadyFullyPrepared;
 use TheDevs\WMS\Exceptions\OrderItemNotFound;
 use TheDevs\WMS\Exceptions\OrderNotFound;
@@ -34,6 +35,8 @@ readonly final class PrepareOrderItemHandler
      * @throws UserNotFound
      * @throws OrderItemNotFound
      * @throws OrderItemAlreadyFullyPrepared
+     * @throws StockItemNotFound
+     * @throws NoOrderItemFoundOnPosition
      */
     public function __invoke(PrepareOrderItem $message): void
     {
@@ -47,15 +50,15 @@ readonly final class PrepareOrderItemHandler
 
         // 1) identify stockItem
         if ($message->ean !== null && $message->positionId === null) {
-            // ean ma vice pozic - nelze identifikovat pozici
             $stockItem = $this->stockItemQuery->getByEanOfUser($message->ean, $user->id);
+            // TODO: ean ma vice pozic - nelze identifikovat pozici -> throw specific exception
         }
 
         if ($message->positionId !== null && $message->ean === null) {
             // na pozici je vice itemu z objednavky - nelze identifikovat ean
             $stockItems = $this->stockItemQuery->getForPositionOfUser($message->positionId, $user->id);
 
-            throw new StockItemNotFound();
+            throw new NoOrderItemFoundOnPosition();
 
             // if (count($stockItems) === 0) {}
             // if (count($stockItems) > 0) {}
@@ -70,7 +73,7 @@ readonly final class PrepareOrderItemHandler
 
         // 2) najit orderItem ke stock itemu
         $orderItem = $this->orderItemQuery->getByEanForOrder($stockItem->ean, $message->orderId);
-
+        // todo: muze nenajit order item?
         if ($stockItem->quantity <= 0) {
             throw new \Exception('nedostatek skladovych zasob');
         }

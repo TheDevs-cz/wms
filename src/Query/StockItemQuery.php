@@ -6,9 +6,11 @@ namespace TheDevs\WMS\Query;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Ramsey\Uuid\UuidInterface;
 use TheDevs\WMS\Entity\StockItem;
+use TheDevs\WMS\Exceptions\MultipleStockItemsFound;
 use TheDevs\WMS\Exceptions\StockItemNotFound;
 
 readonly final class StockItemQuery
@@ -88,7 +90,27 @@ readonly final class StockItemQuery
             return $row;
         } catch (NoResultException $e) {
             throw new StockItemNotFound(previous: $e);
+        } catch (NonUniqueResultException $e) {
+            throw new MultipleStockItemsFound(previous: $e);
         }
+    }
+
+    /**
+     * @return array<StockItem>
+     */
+    public function findAllByEanOfUser(string $ean, UuidInterface $userId): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->from(StockItem::class, 'si')
+            ->select('si, p, pos')
+            ->join('si.product', 'p')
+            ->join('si.position', 'pos')
+            ->where('si.ean = :ean')
+            ->setParameter('ean', $ean)
+            ->andWhere('p.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
