@@ -255,7 +255,7 @@ SQL;
          *     sku: string,
          *     title: string,
          *     ean: string,
-         *     stock_quantity: float,
+         *     stock_quantity: int,
          *     unpicked_ordered_quantity: int,
          *     stock_difference: int,
          * }> $data
