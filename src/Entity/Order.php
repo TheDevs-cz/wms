@@ -123,6 +123,20 @@ class Order implements EntityWithEvents
         }
     }
 
+    public function markAsProblematic(UuidInterface $userId, DateTimeImmutable $now): void
+    {
+        $this->changeStatus(OrderStatus::Problem, $userId, $now);
+    }
+
+    public function ship(UuidInterface $userId, DateTimeImmutable $now): void
+    {
+        $this->changeStatus(OrderStatus::Shipped, $userId, $now);
+    }
+
+    public function startPacking(UuidInterface $userId, DateTimeImmutable $now): void
+    {
+        $this->changeStatus(OrderStatus::Packing, $userId, $now);
+    }
 
     /**
      * @throws OrderItemAlreadyFullyPrepared
@@ -185,7 +199,8 @@ class Order implements EntityWithEvents
 
     public function canBeShipped(): bool
     {
-        return $this->shippingLabel !== null;
+        return $this->status === OrderStatus::Packing
+            && $this->shippingLabel !== null;
     }
 
     public function canPrintLabel(): bool
@@ -209,7 +224,7 @@ class Order implements EntityWithEvents
                     $this->id,
                     $byUserId,
                     $this->status,
-                    OrderStatus::Picking,
+                    $newStatus,
                     $now,
                 ),
             );

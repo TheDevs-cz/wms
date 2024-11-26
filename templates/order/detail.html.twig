@@ -13,8 +13,14 @@
                 </a>
             {% endif %}
 
+            {% if order.canStartPacking %}
+                <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_start_packing', {'id': order.id}) }}">
+                    <i class="bi bi-truck"></i> Začít balení
+                </a>
+            {% endif %}
+
             {% if order.canBeShipped %}
-                <a class="btn btn-outline-primary me-2 mb-1" href="#">
+                <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_ship', {'id': order.id}) }}">
                     <i class="bi bi-truck"></i> Předáno dopravci
                 </a>
             {% endif %}
@@ -24,7 +30,7 @@
             {% endif %}
 
             {% if order.canMarkAsProblematic %}
-                <a class="btn btn-outline-danger me-2 mb-1" href="#">
+                <a class="btn btn-outline-danger me-2 mb-1" href="{{ path('order_mark_has_problem', {'id': order.id}) }}">
                     <i class="bi border-danger"></i> Označit jako problém
                 </a>
             {% endif %}
@@ -32,9 +38,7 @@
     </div>
 
     <p>
-        <span class="badge rounded-pill bg-info">
-            {{ order.status.value }}
-        </span>
+        <twig:Order:StatusBadge status="{{ order.status.value }}" />
     </p>
 
     <div class="row row-cols-1 row-cols-md-2 g-4">

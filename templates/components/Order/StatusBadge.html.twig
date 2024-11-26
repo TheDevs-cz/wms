@@ -1,0 +1,13 @@
+<span class="badge rounded-pill
+    {{
+        status == 'open' ? 'text-bg-warning'
+        : status == 'picking' ? 'text-bg-info'
+        : status == 'completed' ? 'text-bg-info'
+        : status == 'packing' ? 'text-bg-info'
+        : status == 'shipped' ? 'text-bg-success'
+        : status == 'problem' ? 'text-bg-danger'
+        : status == 'cancelled' ? 'text-bg-dark'
+    }}
+">
+    {{ status }}
+</span>

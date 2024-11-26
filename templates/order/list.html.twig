@@ -26,9 +26,7 @@
                         </a>
                     </td>
                     <td>
-                        <span class="badge rounded-pill {{ order.status.value == 'open' ? 'text-bg-warning' : 'text-bg-info' }}">
-                            {{ order.status.value }}
-                        </span>
+                        <twig:Order:StatusBadge status="{{ order.status.value }}" />
                     </td>
                     <td>
                         {{ order.orderedAt|date('d.m.Y H:i') }}
