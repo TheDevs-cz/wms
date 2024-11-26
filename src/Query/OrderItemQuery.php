@@ -45,6 +45,9 @@ readonly final class OrderItemQuery
      */
     public function get(): array
     {
+        return [];
+
+        /*
         $row = $this->entityManager->createQueryBuilder()
             ->from(OrderItem::class, 'oi')
             ->select('oi')
@@ -56,6 +59,6 @@ readonly final class OrderItemQuery
             ->setParameter('ean', $ean)
             ->getQuery()
             ->getSingleResult();
-
+        */
     }
 }
