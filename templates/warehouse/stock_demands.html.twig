@@ -26,9 +26,14 @@
                     <td>{{ stock_demand.unpickedOrderedQuantity }}</td>
                     <td>{{ stock_demand.stockQuantity }}</td>
                     <td>
-                        <span class="{{ stock_demand.stockDifference < 0 ? 'badge text-bg-danger' }}">
+                        {% if stock_demand.stockDifference < 0 %}
                             {{ stock_demand.stockDifference }}
-                        </span>
+                            <span class="badge text-bg-danger ms-1">
+                                 Není skladem!
+                            </span>
+                        {% else %}
+                            {{ stock_demand.stockDifference }}
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
