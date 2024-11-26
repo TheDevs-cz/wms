@@ -73,10 +73,6 @@ readonly final class PrepareOrderItemHandler
             throw new StockItemNotFound();
         }
 
-        if ($stockItem->quantity <= 0) {
-            throw new InsufficientStockItemQuantity();
-        }
-
         $order->pickItem(
             $stockItem,
             $message->userId,

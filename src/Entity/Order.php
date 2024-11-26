@@ -30,6 +30,7 @@ use TheDevs\WMS\Api\Processor\CreateOrderProcessor;
 use TheDevs\WMS\Doctrine\AddressDoctrineType;
 use TheDevs\WMS\Events\OrderReceived;
 use TheDevs\WMS\Events\OrderStatusChanged;
+use TheDevs\WMS\Exceptions\InsufficientStockItemQuantity;
 use TheDevs\WMS\Exceptions\OrderItemAlreadyFullyPrepared;
 use TheDevs\WMS\Exceptions\OrderItemNotFound;
 use TheDevs\WMS\Value\Address;
@@ -47,7 +48,7 @@ class Order implements EntityWithEvents
 
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     #[Column(nullable: true)]
-    public null|string $label = null;
+    public null|string $shippingLabel = null;
 
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     #[Column]
@@ -126,6 +127,7 @@ class Order implements EntityWithEvents
     /**
      * @throws OrderItemAlreadyFullyPrepared
      * @throws OrderItemNotFound
+     * @throws InsufficientStockItemQuantity
      */
     public function pickItem(
         StockItem $stockItem,
@@ -139,22 +141,14 @@ class Order implements EntityWithEvents
                 continue;
             }
 
-            if ($this->status !== OrderStatus::Picking) {
-                $this->recordThat(
-                    new OrderStatusChanged(
-                        $this->id,
-                        $userId,
-                        $this->status,
-                        OrderStatus::Picking,
-                        $now,
-                    ),
-                );
-            }
-
-            $this->status = OrderStatus::Picking;
-
-            $orderItem->pick($quantity);
             $stockItem->unload($userId, $quantity, $this->id, $now);
+            $orderItem->pick($quantity);
+
+            $this->changeStatus(OrderStatus::Picking, $userId, $now);
+
+            if ($this->isFullyPicked()) {
+                $this->changeStatus(OrderStatus::Completed, $userId, $now);
+            }
 
             return;
         }
@@ -171,5 +165,56 @@ class Order implements EntityWithEvents
         }
 
         return true;
+    }
+
+    public function attachShippingLabel(string $label): void
+    {
+        $this->shippingLabel = $label;
+    }
+
+    public function canBePicked(): bool
+    {
+        return $this->status === OrderStatus::Open
+            || $this->status === OrderStatus::Picking;
+    }
+
+    public function canStartPacking(): bool
+    {
+        return $this->status === OrderStatus::Completed;
+    }
+
+    public function canBeShipped(): bool
+    {
+        return $this->shippingLabel !== null;
+    }
+
+    public function canPrintLabel(): bool
+    {
+        return $this->status === OrderStatus::Picking
+            || $this->status === OrderStatus::Completed
+            || $this->status === OrderStatus::Packing;
+    }
+
+    public function canMarkAsProblematic(): bool
+    {
+        return $this->status !== OrderStatus::Problem
+            && $this->status !== OrderStatus::Shipped;
+    }
+
+    private function changeStatus(OrderStatus $newStatus, UuidInterface $byUserId, DateTimeImmutable $now): void
+    {
+        if ($this->status !== $newStatus) {
+            $this->recordThat(
+                new OrderStatusChanged(
+                    $this->id,
+                    $byUserId,
+                    $this->status,
+                    OrderStatus::Picking,
+                    $now,
+                ),
+            );
+        }
+
+        $this->status = $newStatus;
     }
 }

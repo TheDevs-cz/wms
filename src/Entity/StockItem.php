@@ -16,6 +16,7 @@ use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
 use TheDevs\WMS\Events\ItemAddedToPosition;
 use TheDevs\WMS\Events\ItemStockChanged;
+use TheDevs\WMS\Exceptions\InsufficientStockItemQuantity;
 
 #[Entity]
 class StockItem implements EntityWithEvents
@@ -71,6 +72,9 @@ class StockItem implements EntityWithEvents
         );
     }
 
+    /**
+     * @throws InsufficientStockItemQuantity
+     */
     public function unload(
         UuidInterface $userId,
         int $quantity,
@@ -78,6 +82,10 @@ class StockItem implements EntityWithEvents
         DateTimeImmutable $now,
     ): void
     {
+        if ($this->quantity < $quantity) {
+            throw new InsufficientStockItemQuantity();
+        }
+
         $oldQuantity = $this->quantity;
         $this->quantity -= $quantity;
 

@@ -6,6 +6,7 @@ namespace TheDevs\WMS\MessageHandler\Stock;
 
 use Psr\Clock\ClockInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use TheDevs\WMS\Exceptions\InsufficientStockItemQuantity;
 use TheDevs\WMS\Exceptions\StockItemNotFound;
 use TheDevs\WMS\Message\Stock\UnloadStockItem;
 use TheDevs\WMS\Query\StockItemQuery;
@@ -21,6 +22,7 @@ readonly final class UnloadStockItemHandler
 
     /**
      * @throws StockItemNotFound
+     * @throws InsufficientStockItemQuantity
      */
     public function __invoke(UnloadStockItem $message): void
     {

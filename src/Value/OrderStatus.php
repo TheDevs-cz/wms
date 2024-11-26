@@ -8,9 +8,9 @@ enum OrderStatus: string
 {
     case Open = 'open';
     case Picking = 'picking';
-    case Packing = 'packing';
-    case Problem = 'problem';
-    case Shipped = 'shipped';
     case Completed = 'completed';
+    case Packing = 'packing';
+    case Shipped = 'shipped';
+    case Problem = 'problem';
     case Cancelled = 'cancelled';
 }
