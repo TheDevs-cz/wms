@@ -128,14 +128,19 @@ class Order implements EntityWithEvents
         $this->changeStatus(OrderStatus::Problem, $userId, $now);
     }
 
-    public function ship(UuidInterface $userId, DateTimeImmutable $now): void
+    public function pack(UuidInterface $userId, DateTimeImmutable $now): void
     {
-        $this->changeStatus(OrderStatus::Shipped, $userId, $now);
+        $this->changeStatus(OrderStatus::Packed, $userId, $now);
     }
 
     public function startPacking(UuidInterface $userId, DateTimeImmutable $now): void
     {
         $this->changeStatus(OrderStatus::Packing, $userId, $now);
+    }
+
+    public function ship(UuidInterface $userId, DateTimeImmutable $now): void
+    {
+        $this->changeStatus(OrderStatus::Shipped, $userId, $now);
     }
 
     /**
@@ -197,17 +202,22 @@ class Order implements EntityWithEvents
         return $this->status === OrderStatus::Completed;
     }
 
+    public function canBePacked(): bool
+    {
+        return $this->status === OrderStatus::Packing;
+    }
+
     public function canBeShipped(): bool
     {
-        return $this->status === OrderStatus::Packing
-            && $this->shippingLabel !== null;
+        return $this->status === OrderStatus::Packed;
     }
 
     public function canPrintLabel(): bool
     {
         return $this->status === OrderStatus::Picking
             || $this->status === OrderStatus::Completed
-            || $this->status === OrderStatus::Packing;
+            || $this->status === OrderStatus::Packing
+            || $this->status === OrderStatus::Packed;
     }
 
     public function canMarkAsProblematic(): bool

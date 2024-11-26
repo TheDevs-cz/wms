@@ -19,6 +19,12 @@
                 </a>
             {% endif %}
 
+            {% if order.canBePacked %}
+                <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_pack', {'id': order.id}) }}">
+                    <i class="bi bi-box-seam-fill"></i> Zabaleno
+                </a>
+            {% endif %}
+
             {% if order.canBeShipped %}
                 <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_ship', {'id': order.id}) }}">
                     <i class="bi bi-truck"></i> Předáno dopravci

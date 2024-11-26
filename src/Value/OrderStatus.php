@@ -10,6 +10,7 @@ enum OrderStatus: string
     case Picking = 'picking';
     case Completed = 'completed';
     case Packing = 'packing';
+    case Packed = 'packed';
     case Shipped = 'shipped';
     case Problem = 'problem';
     case Cancelled = 'cancelled';
