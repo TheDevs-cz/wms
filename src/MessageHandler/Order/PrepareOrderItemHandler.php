@@ -48,11 +48,11 @@ readonly final class PrepareOrderItemHandler
         $stockItem = null;
 
         if ($message->ean !== null && $message->positionId === null) {
-            $stockItem = $this->stockItemQuery->getByEanOfUser($message->ean, $user->id);
+            $stockItem = $this->stockItemQuery->getByEanOfUser($message->ean, $order->user->id);
         }
 
         if ($message->positionId !== null && $message->ean === null) {
-            $stockItems = $this->stockItemQuery->getForPositionOfUser($message->positionId, $user->id);
+            $stockItems = $this->stockItemQuery->getForPositionOfUser($message->positionId, $order->user->id);
 
             if (count($stockItems) === 0) {
                 throw new NoOrderItemFoundOnPosition();
@@ -66,7 +66,7 @@ readonly final class PrepareOrderItemHandler
         }
 
         if ($message->ean !== null && $message->positionId !== null) {
-            $stockItem = $this->stockItemQuery->getByPositionAndEanOfUser($message->positionId, $message->ean, $user->id);
+            $stockItem = $this->stockItemQuery->getByPositionAndEanOfUser($message->positionId, $message->ean, $order->user->id);
         }
 
         if ($stockItem === null) {

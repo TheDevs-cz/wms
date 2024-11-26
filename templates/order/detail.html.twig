@@ -15,7 +15,7 @@
 
             {% if order.canStartPacking %}
                 <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_start_packing', {'id': order.id}) }}">
-                    <i class="bi bi-truck"></i> Začít balení
+                    <i class="bi bi-box-fill"></i> Začít balení
                 </a>
             {% endif %}
 
@@ -31,7 +31,7 @@
 
             {% if order.canMarkAsProblematic %}
                 <a class="btn btn-outline-danger me-2 mb-1" href="{{ path('order_mark_has_problem', {'id': order.id}) }}">
-                    <i class="bi border-danger"></i> Označit jako problém
+                    <i class="bi bi-exclamation-circle"></i> Označit jako problém
                 </a>
             {% endif %}
         </div>

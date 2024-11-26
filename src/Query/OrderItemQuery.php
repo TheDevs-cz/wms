@@ -39,4 +39,23 @@ readonly final class OrderItemQuery
             throw new OrderItemNotFound(previous: $e);
         }
     }
+
+    /**
+     * @return array<OrderItem>
+     */
+    public function get(): array
+    {
+        $row = $this->entityManager->createQueryBuilder()
+            ->from(OrderItem::class, 'oi')
+            ->select('oi')
+            ->join('oi.order', 'o')
+            ->leftJoin('oi.product', 'p')
+            ->where('o.status = :orderId')
+            ->setParameter('orderId', $orderId)
+            ->andWhere('oi.ean = :ean')
+            ->setParameter('ean', $ean)
+            ->getQuery()
+            ->getSingleResult();
+
+    }
 }
