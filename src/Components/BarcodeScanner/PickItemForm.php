@@ -18,6 +18,7 @@ use Symfony\UX\LiveComponent\DefaultActionTrait;
 use TheDevs\WMS\Entity\Order;
 use TheDevs\WMS\Entity\StockItem;
 use TheDevs\WMS\Entity\User;
+use TheDevs\WMS\Exceptions\InsufficientStockItemQuantity;
 use TheDevs\WMS\Exceptions\MultipleStockItemsFound;
 use TheDevs\WMS\Exceptions\NoOrderItemFoundOnPosition;
 use TheDevs\WMS\Exceptions\OrderItemAlreadyFullyPrepared;
@@ -26,7 +27,6 @@ use TheDevs\WMS\Exceptions\StockItemNotFound;
 use TheDevs\WMS\FormData\BarcodeScanFormData;
 use TheDevs\WMS\FormType\BarcodeScanFormType;
 use TheDevs\WMS\Message\Order\PrepareOrderItem;
-use TheDevs\WMS\Query\ProductQuery;
 use TheDevs\WMS\Query\StockItemQuery;
 use TheDevs\WMS\Repository\OrderRepository;
 use TheDevs\WMS\Services\ExtractUuid;
@@ -36,9 +36,6 @@ final class PickItemForm extends AbstractController
 {
     use DefaultActionTrait;
     use ComponentWithFormTrait;
-
-    #[LiveProp]
-    public bool $successfullyPicked = false;
 
     #[LiveProp]
     public null|Order $order = null;
@@ -98,6 +95,14 @@ final class PickItemForm extends AbstractController
                 ),
             );
 
+            $order = $this->orderRepository->get($orderId);
+
+            if ($order->isFullyPicked()) {
+                $this->addFlash('success', 'Objednávka byla plně vychystána.');
+
+                return $this->redirectToRoute('order_detail', ['id' => $orderId]);
+            }
+
             $this->addFlash('success', 'Zboží bylo vychystáno.');
 
             return $this->redirectToRoute('order_prepare_item', ['id' => $orderId]);
@@ -105,24 +110,17 @@ final class PickItemForm extends AbstractController
             $this->code = null;
             $this->error = match (get_class($e->getPrevious() ?? $e)) {
                 OrderItemAlreadyFullyPrepared::class => 'Položka objednávky již byla plně vychystána.',
-                StockItemNotFound::class => sprintf('Zboží s EANem "%s" není naskladněná.', $code),
+                StockItemNotFound::class => sprintf('Zboží s EANem "%s" není naskladněné.', $code),
                 OrderItemNotFound::class => sprintf('Zboží s EANem "%s" není v této objednávce.', $code),
                 MultipleStockItemsFound::class => sprintf('Zboží s EANem "%s" je na více pozicích.', $code),
                 NoOrderItemFoundOnPosition::class => 'Na této pozici není žádné zboží z objednávky.',
+                InsufficientStockItemQuantity::class => 'Není dostatek zboží - je potřeba naskladnit.',
                 default => throw $e,
             };
 
             if ($e->getPrevious() instanceof MultipleStockItemsFound) {
                 $this->code = $code;
             }
-        }
-
-        $order = $this->orderRepository->get($orderId);
-
-        if ($order->isFullyPicked()) {
-            $this->addFlash('success', 'Objednávka byla plně vychystána.');
-
-            return $this->redirectToRoute('order_detail', ['id' => $orderId]);
         }
     }
 

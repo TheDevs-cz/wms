@@ -29,14 +29,22 @@
                 {% for item in order.items %}
                     <tr>
                         <td>
+                            {{ item.preparedQuantity }} / {{ item.quantity }}
                             {% if item.fullyPrepared %}
                                 <span class="badge bg-success">OK</span>
                             {% endif %}
-                            {{ item.preparedQuantity }} / {{ item.quantity }}
                         </td>
                         <td>{{ item.title }}</td>
                         <td>{{ item.ean }}</td>
-                        <td>...</td>
+                        <td>
+                            {% for stockItem in stockItems[item.ean] ?? [] %}
+                                {{ stockItem.position.location.name }} / {{ stockItem.position.name }}
+                            {% endfor %}
+
+                            {% if stockItems[item.ean] ?? [] is empty %}
+                                <span class="badge bg-danger">Není naskladněno</span>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

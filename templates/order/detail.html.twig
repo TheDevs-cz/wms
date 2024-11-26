@@ -12,11 +12,15 @@
             </a>
         {% endif %}
 
-        <a class="btn btn-outline-primary me-1 mb-1" href="#">
-            <i class="bi bi-truck"></i> Předáno dopravci
-        </a>
+        {% if order.fullyPicked %}
+            <a class="btn btn-outline-primary me-1 mb-1" href="#">
+                <i class="bi bi-truck"></i> Předáno dopravci
+            </a>
+        {% endif %}
 
-        <twig:Label:PrintLabelForm orderNumber="{{ order.number }}" />
+        {% if order.fullyPicked %}
+            <twig:Label:PrintLabelForm orderNumber="{{ order.number }}" />
+        {% endif %}
     </div>
 
     <p>
@@ -91,7 +95,14 @@
                             {% endif %}
                         </td>
                         <td>{{ item.ean }}</td>
-                        <td>{{ item.quantity }}</td>
+
+                        <td>
+                            {{ item.preparedQuantity }} / {{ item.quantity }}
+                            {% if item.fullyPrepared %}
+                                <span class="badge bg-success">OK</span>
+                            {% endif %}
+                        </td>
+
                         <td>{{ item.itemPrice }} Kč</td>
                     </tr>
                 {% endfor %}
@@ -99,6 +110,12 @@
         </table>
     </div>
 
-    <p>TODO: historie objednávky</p>
-    <p>TODO: historie položek (picking)</p>
+    <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+        <div class="col">
+            <p>TODO: historie objednávky</p>
+        </div>
+        <div class="col">
+            <p>TODO: historie položek (picking)</p>
+        </div>
+    </div>
 {% endblock %}

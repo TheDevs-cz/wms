@@ -14,6 +14,7 @@ readonly final class ItemStockChanged
         public int $oldQuantity,
         public int $newQuantity,
         public UuidInterface $byUserId,
+        public null|UuidInterface $orderId,
         public DateTimeImmutable $stockedAt,
     ) {
     }

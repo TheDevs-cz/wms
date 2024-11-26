@@ -67,17 +67,22 @@ class StockItem implements EntityWithEvents
         $this->quantity += $quantity;
 
         $this->recordThat(
-            new ItemStockChanged($this->id, $oldQuantity, $this->quantity, $userId, $now),
+            new ItemStockChanged($this->id, $oldQuantity, $this->quantity, $userId, null, $now),
         );
     }
 
-    public function unload(UuidInterface $userId, int $quantity, DateTimeImmutable $now): void
+    public function unload(
+        UuidInterface $userId,
+        int $quantity,
+        null|UuidInterface $orderId,
+        DateTimeImmutable $now,
+    ): void
     {
         $oldQuantity = $this->quantity;
         $this->quantity -= $quantity;
 
         $this->recordThat(
-            new ItemStockChanged($this->id, $oldQuantity, $this->quantity, $userId, $now),
+            new ItemStockChanged($this->id, $oldQuantity, $this->quantity, $userId, $orderId, $now),
         );
     }
 }

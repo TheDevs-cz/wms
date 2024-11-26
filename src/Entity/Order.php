@@ -29,6 +29,9 @@ use TheDevs\WMS\Api\ApiResource\CreateOrderRequest;
 use TheDevs\WMS\Api\Processor\CreateOrderProcessor;
 use TheDevs\WMS\Doctrine\AddressDoctrineType;
 use TheDevs\WMS\Events\OrderReceived;
+use TheDevs\WMS\Events\OrderStatusChanged;
+use TheDevs\WMS\Exceptions\OrderItemAlreadyFullyPrepared;
+use TheDevs\WMS\Exceptions\OrderItemNotFound;
 use TheDevs\WMS\Value\Address;
 use TheDevs\WMS\Value\OrderStatus;
 
@@ -119,8 +122,44 @@ class Order implements EntityWithEvents
         }
     }
 
-    public function pickItem(OrderItem $item): void
+
+    /**
+     * @throws OrderItemAlreadyFullyPrepared
+     * @throws OrderItemNotFound
+     */
+    public function pickItem(
+        StockItem $stockItem,
+        UuidInterface $userId,
+        int $quantity,
+        DateTimeImmutable $now
+    ): void
     {
+        foreach ($this->items as $orderItem) {
+            if ($orderItem->ean !== $stockItem->ean) {
+                continue;
+            }
+
+            if ($this->status !== OrderStatus::Picking) {
+                $this->recordThat(
+                    new OrderStatusChanged(
+                        $this->id,
+                        $userId,
+                        $this->status,
+                        OrderStatus::Picking,
+                        $now,
+                    ),
+                );
+            }
+
+            $this->status = OrderStatus::Picking;
+
+            $orderItem->pick($quantity);
+            $stockItem->unload($userId, $quantity, $this->id, $now);
+
+            return;
+        }
+
+        throw new OrderItemNotFound();
     }
 
     public function isFullyPicked(): bool

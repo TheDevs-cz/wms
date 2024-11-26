@@ -27,6 +27,6 @@ readonly final class UnloadStockItemHandler
         $now = $this->clock->now();
 
         $stockItem = $this->stockItemQuery->getByPositionAndEan($message->positionId, $message->ean);
-        $stockItem->unload($message->userId, $message->quantity, $now);
+        $stockItem->unload($message->userId, $message->quantity, null, $now);
     }
 }

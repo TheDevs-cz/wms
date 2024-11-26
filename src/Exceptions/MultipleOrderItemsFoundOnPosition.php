@@ -8,6 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\WithHttpStatus;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
-final class MultipleStockItemsFound extends UnrecoverableMessageHandlingException
+final class MultipleOrderItemsFoundOnPosition extends UnrecoverableMessageHandlingException
 {
 }

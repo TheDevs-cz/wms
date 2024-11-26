@@ -7,6 +7,7 @@ namespace TheDevs\WMS\Query;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\UuidInterface;
 use TheDevs\WMS\Entity\Position;
+use TheDevs\WMS\Entity\StockItem;
 
 readonly final class PositionQuery
 {
@@ -41,5 +42,4 @@ readonly final class PositionQuery
             ->getQuery()
             ->getResult();
     }
-
 }

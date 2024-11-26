@@ -10,6 +10,7 @@ use TheDevs\WMS\Entity\StockMovement;
 use TheDevs\WMS\Events\ItemStockChanged;
 use TheDevs\WMS\Exceptions\StockItemNotFound;
 use TheDevs\WMS\Exceptions\UserNotFound;
+use TheDevs\WMS\Repository\OrderRepository;
 use TheDevs\WMS\Repository\StockItemRepository;
 use TheDevs\WMS\Repository\StockMovementRepository;
 use TheDevs\WMS\Repository\UserRepository;
@@ -24,6 +25,7 @@ readonly final class WhenItemStockChangedThenAddStockMovement
         private UserRepository $userRepository,
         private StockMovementRepository $stockMovementRepository,
         private StockItemRepository $stockItemRepository,
+        private OrderRepository $orderRepository,
     ) {
     }
 
@@ -46,6 +48,12 @@ readonly final class WhenItemStockChangedThenAddStockMovement
             $toPosition = null;
         }
 
+        $order = null;
+
+        if ($event->orderId !== null) {
+            $this->orderRepository->get($event->orderId);
+        }
+
         $movement = new StockMovement(
             $this->provideIdentity->next(),
             $user,
@@ -56,7 +64,7 @@ readonly final class WhenItemStockChangedThenAddStockMovement
             $stockItem->product,
             $fromPosition,
             $toPosition,
-            null,
+            $order,
             $this->clock->now(),
         );
 

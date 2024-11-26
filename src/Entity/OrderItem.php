@@ -14,14 +14,11 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use JetBrains\PhpStorm\Immutable;
 use Ramsey\Uuid\Doctrine\UuidType;
 use Ramsey\Uuid\UuidInterface;
-use TheDevs\WMS\Events\OrderItemPrepared;
 use TheDevs\WMS\Exceptions\OrderItemAlreadyFullyPrepared;
 
 #[Entity]
-class OrderItem implements EntityWithEvents
+class OrderItem
 {
-    use HasEvents;
-
     #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
     #[Column(options: ['default' => 0])]
     public int $preparedQuantity = 0;
@@ -69,17 +66,13 @@ class OrderItem implements EntityWithEvents
     /**
      * @throws OrderItemAlreadyFullyPrepared
      */
-    public function prepareForExpedition(UuidInterface $userId, UuidInterface $id, int $quantity): void
+    public function pick(int $quantity): void
     {
         if (($this->quantity - $this->preparedQuantity - $quantity) < 0) {
             throw new OrderItemAlreadyFullyPrepared();
         }
 
         $this->preparedQuantity += $quantity;
-
-        $this->recordThat(
-            new OrderItemPrepared(),
-        );
     }
 
     public function isFullyPrepared(): bool

@@ -71,6 +71,7 @@ readonly final class StockItemQuery
 
     /**
      * @throws StockItemNotFound
+     * @throws MultipleStockItemsFound
      */
     public function getByEanOfUser(string $ean, UuidInterface $userId): StockItem
     {
@@ -176,5 +177,42 @@ readonly final class StockItemQuery
             ->getQuery()
             ->setFetchMode(StockItem::class, 'product', ClassMetadata::FETCH_EAGER)
             ->getResult();
+    }
+
+    /**
+     * @return array<string, array<StockItem>>
+     */
+    public function getForOrder(UuidInterface $orderId): array
+    {
+        $connection = $this->entityManager->getConnection();
+
+        $sql = <<<SQL
+SELECT oi.product_id
+FROM order_item oi
+WHERE oi.order_id = :orderId
+SQL;
+
+        /** @var array<string> $products */
+        $products = $connection->fetchFirstColumn($sql, ['orderId' => $orderId]);
+
+        /** @var array<StockItem> $items */
+        $items = $this->entityManager->createQueryBuilder()
+            ->from(StockItem::class, 'si')
+            ->select('si, p, l')
+            ->join('si.position', 'p')
+            ->join('p.location', 'l')
+            ->where('si.product IN (:products)')
+            ->setParameter('products', $products)
+            ->getQuery()
+            ->getResult();
+
+        /** @var array<string, array<StockItem>> $positions */
+        $positions = [];
+
+        foreach ($items as $item) {
+            $positions[$item->ean][] = $item;
+        }
+
+        return $positions;
     }
 }
