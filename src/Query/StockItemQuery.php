@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\Query;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Ramsey\Uuid\UuidInterface;
+use TheDevs\WMS\Entity\OrderItem;
 use TheDevs\WMS\Entity\StockItem;
 use TheDevs\WMS\Exceptions\MultipleStockItemsFound;
 use TheDevs\WMS\Exceptions\StockItemNotFound;
+use TheDevs\WMS\QueryResult\StockDemand;
 
 readonly final class StockItemQuery
 {
@@ -214,5 +217,54 @@ SQL;
         }
 
         return $positions;
+    }
+
+    /**
+     * @return array<StockDemand>
+     */
+    public function getStockDemand(): array
+    {
+        $connection = $this->entityManager->getConnection();
+
+        $sql = <<<SQL
+SELECT
+    order_item.sku,
+    order_item.title,
+    order_item.ean,
+    COALESCE(SUM(stock_item.quantity), 0) AS stock_quantity,
+    SUM(order_item.quantity - order_item.prepared_quantity) AS unpicked_ordered_quantity,
+    COALESCE(SUM(stock_item.quantity), 0) - SUM(order_item.quantity - order_item.prepared_quantity) AS stock_difference
+FROM
+    order_item
+LEFT JOIN
+    stock_item
+ON
+    order_item.product_id = stock_item.product_id
+GROUP BY
+    order_item.sku,
+    order_item.title,
+    order_item.ean
+HAVING
+    SUM(order_item.quantity - order_item.prepared_quantity) > 0
+ORDER BY
+    stock_difference ASC
+SQL;
+
+        /**
+         * @var array<array{
+         *     sku: string,
+         *     title: string,
+         *     ean: string,
+         *     stock_quantity: float,
+         *     unpicked_ordered_quantity: int,
+         *     stock_difference: int,
+         * }> $data
+         */
+        $data = $connection->fetchAllAssociative($sql);
+
+        return array_map(
+            static fn(array $row) => StockDemand::fromArray($row),
+            $data
+        );
     }
 }

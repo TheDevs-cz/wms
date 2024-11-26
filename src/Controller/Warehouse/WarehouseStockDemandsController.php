@@ -9,17 +9,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use TheDevs\WMS\Entity\User;
-use TheDevs\WMS\Entity\Warehouse;
+use TheDevs\WMS\Query\StockItemQuery;
 
 final class WarehouseStockDemandsController extends AbstractController
 {
+    public function __construct(
+        readonly private StockItemQuery $stockItemQuery,
+    ) {
+    }
 
-    #[Route(path: '/warehouse/{id}/stock-demands', name: 'warehouse_stock_demands')]
+    #[Route(path: '/stock-demands', name: 'warehouse_stock_demands')]
     #[IsGranted(User::ROLE_WAREHOUSEMAN)]
-    public function __invoke(Warehouse $warehouse): Response
+    public function __invoke(): Response
     {
         return $this->render('warehouse/stock_demands.html.twig', [
-            'warehouse' => $warehouse,
+            'stock_demands' => $this->stockItemQuery->getStockDemand(),
         ]);
     }
 }

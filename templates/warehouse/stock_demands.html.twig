@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Skladové nároky - {{ warehouse.title }}{% endblock %}
+{% block title %}Skladové nároky{% endblock %}
 
 {% block content %}
-    <h1>Skladové nároky - {{ warehouse.title }}</h1>
+    <h1>Skladové nároky</h1>
 
     <div class="table-responsive shadow-lg">
         <table class="table table-hover mb-0">
@@ -12,14 +12,26 @@
                 <th scope="col">SKU</th>
                 <th scope="col">Název</th>
                 <th scope="col">EAN</th>
-                <th scope="col">Objednáno</th>
+                <th scope="col">K vychystání</th>
                 <th scope="col">Skladem</th>
+                <th scope="col">Rozdíl</th>
             </tr>
             </thead>
             <tbody>
+            {% for stock_demand in stock_demands %}
                 <tr>
-
+                    <td>{{ stock_demand.sku }}</td>
+                    <td>{{ stock_demand.title }}</td>
+                    <td>{{ stock_demand.ean }}</td>
+                    <td>{{ stock_demand.unpickedOrderedQuantity }}</td>
+                    <td>{{ stock_demand.stockQuantity }}</td>
+                    <td>
+                        <span class="{{ stock_demand.stockDifference < 0 ? 'badge text-bg-danger' }}">
+                            {{ stock_demand.stockDifference }}
+                        </span>
+                    </td>
                 </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
