@@ -9,6 +9,7 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use TheDevs\WMS\Entity\Location;
+use TheDevs\WMS\Entity\Order;
 use TheDevs\WMS\Entity\Position;
 use TheDevs\WMS\Entity\Product;
 use TheDevs\WMS\Entity\StockMovement;
@@ -31,6 +32,9 @@ final class StockMovementsCard extends AbstractController
 
     #[LiveProp]
     public null|Location $location = null;
+
+    #[LiveProp]
+    public null|Order $order = null;
 
     public function __construct(
         readonly private StockMovementQuery $stockMovementQuery,
@@ -56,6 +60,10 @@ final class StockMovementsCard extends AbstractController
 
         if ($this->warehouse !== null) {
             return $this->stockMovementQuery->getForWarehouse($this->warehouse->id);
+        }
+
+        if ($this->order !== null) {
+            return $this->stockMovementQuery->getForOrder($this->order->id);
         }
 
         return [];

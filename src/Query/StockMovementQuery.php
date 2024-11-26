@@ -18,7 +18,7 @@ readonly final class StockMovementQuery
     /**
      * @return array<StockMovement>
      */
-    public function getForProduct(UuidInterface $productId): array
+    public function getForProduct(UuidInterface $productId, int $limit = 30): array
     {
         return $this->entityManager->createQueryBuilder()
             ->from(StockMovement::class, 'sm')
@@ -26,6 +26,7 @@ readonly final class StockMovementQuery
             ->where('sm.product = :productId')
             ->setParameter('productId', $productId)
             ->orderBy('sm.movedAt', 'DESC')
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
@@ -33,7 +34,7 @@ readonly final class StockMovementQuery
     /**
      * @return array<StockMovement>
      */
-    public function getForWarehouse(UuidInterface $warehouseId): array
+    public function getForWarehouse(UuidInterface $warehouseId, int $limit = 30): array
     {
         return $this->entityManager->createQueryBuilder()
             ->from(StockMovement::class, 'sm')
@@ -47,6 +48,7 @@ readonly final class StockMovementQuery
             ->where('(fromWarehouse IS NOT NULL AND fromWarehouse.id = :warehouseId) OR (toWarehouse IS NOT NULL AND toWarehouse.id = :warehouseId)')
             ->setParameter('warehouseId', $warehouseId)
             ->orderBy('sm.movedAt', 'DESC')
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
@@ -54,7 +56,7 @@ readonly final class StockMovementQuery
     /**
      * @return array<StockMovement>
      */
-    public function getForLocation(UuidInterface $locationId): array
+    public function getForLocation(UuidInterface $locationId, int $limit = 30): array
     {
         return $this->entityManager->createQueryBuilder()
             ->from(StockMovement::class, 'sm')
@@ -64,6 +66,7 @@ readonly final class StockMovementQuery
             ->where('(fromPos IS NOT NULL AND fromPos.location = :locationId) OR (toPos IS NOT NULL AND toPos.location = :locationId)')
             ->setParameter('locationId', $locationId)
             ->orderBy('sm.movedAt', 'DESC')
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
@@ -71,7 +74,7 @@ readonly final class StockMovementQuery
     /**
      * @return array<StockMovement>
      */
-    public function getForPosition(UuidInterface $positionId): array
+    public function getForPosition(UuidInterface $positionId, int $limit = 30): array
     {
         return $this->entityManager->createQueryBuilder()
             ->from(StockMovement::class, 'sm')
@@ -79,6 +82,23 @@ readonly final class StockMovementQuery
             ->where('sm.fromPosition = :positionId OR sm.toPosition = :positionId')
             ->setParameter('positionId', $positionId)
             ->orderBy('sm.movedAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return array<StockMovement>
+     */
+    public function getForOrder(UuidInterface $orderId, int $limit = 30): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->from(StockMovement::class, 'sm')
+            ->select('sm')
+            ->where('sm.order = :orderId')
+            ->setParameter('orderId', $orderId)
+            ->orderBy('sm.movedAt', 'DESC')
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }

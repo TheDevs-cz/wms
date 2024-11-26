@@ -130,10 +130,11 @@
 
     <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
         <div class="col">
-            <p>TODO: historie objednávky</p>
+            <twig:Order:OrderHistoryCard order="{{ order }}" />
         </div>
+
         <div class="col">
-            <p>TODO: historie položek (picking)</p>
+            <twig:Stock:StockMovementsCard order="{{ order }}" />
         </div>
     </div>
 {% endblock %}

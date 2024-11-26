@@ -1,0 +1,31 @@
+<div {{ attributes }} data-poll="delay(30000)|$render" class="card">
+    <div class="card-body">
+        <h3>Změny</h3>
+
+        {% set history = this.history %}
+
+        {% if history|length == 0 %}
+            <div class="alert alert-info">
+                Žádná historie
+            </div>
+        {% else %}
+            <ul class="list-unstyled">
+                {% for log in history %}
+                    <li class="mb-1">
+                        <small class="me-2">{{ log.happenedAt|date('d.m.Y H:i:s') }}</small>
+
+                        {% if log.fromStatus %}
+                            <twig:Order:StatusBadge status="{{ log.fromStatus.value }}" />
+                        {% endif %}
+
+                        <i class="bi bi-arrow-right"></i>
+
+                        {% if log.toStatus %}
+                            <twig:Order:StatusBadge status="{{ log.toStatus.value }}" />
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>

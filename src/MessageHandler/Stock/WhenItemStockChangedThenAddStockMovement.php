@@ -51,7 +51,7 @@ readonly final class WhenItemStockChangedThenAddStockMovement
         $order = null;
 
         if ($event->orderId !== null) {
-            $this->orderRepository->get($event->orderId);
+            $order = $this->orderRepository->get($event->orderId);
         }
 
         $movement = new StockMovement(
