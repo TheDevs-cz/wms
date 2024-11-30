@@ -28,6 +28,7 @@
         "doctrine/orm": "^3.0",
         "endroid/qr-code-bundle": "^5.0",
         "jetbrains/phpstorm-attributes": "^1.0",
+        "knplabs/knp-snappy-bundle": "^1.10",
         "knplabs/knp-time-bundle": "^2.2",
         "monolog/monolog": "^3.0",
         "nelmio/cors-bundle": "^2.4",
