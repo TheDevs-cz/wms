@@ -29,8 +29,12 @@ final class PositionQrController extends AbstractController
         ));
 
         $pdfOptions = [
-            'page-width' => '25mm',
-            'page-height' => '90mm',
+            'page-width' => '90mm',
+            'page-height' => '25mm',
+            'margin-left' => '1mm',
+            'margin-right' => '1mm',
+            'margin-bottom' => '0.5mm',
+            'margin-top' => '0.5mm',
         ];
 
         return new PdfResponse($this->pdf->getOutputFromHtml($html, $pdfOptions),'label.pdf');
