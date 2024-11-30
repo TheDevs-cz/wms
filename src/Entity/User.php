@@ -66,6 +66,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         /** @var array<string> */
         #[Column(type: Types::JSON)]
         private array $roles = [],
+
+        #[Immutable(Immutable::PRIVATE_WRITE_SCOPE)]
+        #[Column(nullable: true)]
+        public null|string $omnicadoToken = null,
     ) {
     }
 

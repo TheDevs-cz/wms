@@ -24,21 +24,6 @@ services:
             PHP_IDE_CONFIG: "serverName=localhost"
             SERVER_NAME: :80
 
-    messenger-consumer:
-        image: ghcr.io/thedevs-cz/php:8.3
-        restart: unless-stopped
-        command: "bash -c 'wait-for-it postgres:5432 -- sleep 15 && bin/console messenger:consume async -vv --time-limit 60 --memory-limit 128M'"
-        volumes:
-            - .:/app
-            - ./.docker/docker-entrypoint.sh:/usr/local/bin/docker-php-entrypoint
-        depends_on:
-            - web
-            - postgres
-        environment:
-            XDEBUG_CONFIG: "client_host=host.docker.internal"
-            XDEBUG_MODE: debug
-            PHP_IDE_CONFIG: "serverName=localhost"
-
     postgres:
         image: postgres:17.0
         environment:
