@@ -35,7 +35,7 @@
                         {{ order.user.email }}
                     </td>
                     <td>
-                        {{ order.carrier }}
+                        {{ order.carrier ?: '<span class="badge bg-warning">Neuveden</span>' }}
                     </td>
                     <td>
                         {{ order.email }} {{ order.phone }}{% if order.email or order.phone %}<br>{% endif %}

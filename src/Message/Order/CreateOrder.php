@@ -19,7 +19,7 @@ readonly final class CreateOrder
         public float $cashOnDelivery,
         public float $paymentPrice,
         public float $deliveryPrice,
-        public string $carrier,
+        public null|string $carrier,
         public null|string $email,
         public null|string $phone,
         public Address $deliveryAddress,

@@ -55,7 +55,7 @@
                     <h3>Doručovací adresa</h3>
 
                     {{ order.email }} {{ order.phone }}{% if order.email or order.phone %}<br>{% endif %}
-                    Dopravce: {{ order.carrier }}<br>
+                    Dopravce: {{ order.carrier ?: '<span class="badge bg-warning">Neuveden</span>' }}<br>
                     {{ order.deliveryAddress.name }}<br>
                     {{ order.deliveryAddress.street }}<br>
                     {{ order.deliveryAddress.city }} {{ order.deliveryAddress.postalCode }}

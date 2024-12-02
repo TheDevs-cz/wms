@@ -93,8 +93,8 @@ class Order implements EntityWithEvents
         #[Column]
         readonly public float $deliveryPrice,
 
-        #[Column]
-        readonly public string $carrier,
+        #[Column(nullable: true)]
+        readonly public null|string $carrier,
 
         #[Column(nullable: true)]
         readonly public null|string $email,

@@ -25,8 +25,7 @@ readonly final class CreateOrderHandler
         private ProvideIdentity $provideIdentity,
         private UserRepository $userRepository,
         private ProductQuery $productQuery,
-    )
-    {
+    ) {
     }
 
     /**

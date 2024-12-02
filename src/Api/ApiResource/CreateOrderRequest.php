@@ -41,7 +41,7 @@ final class CreateOrderRequest
     #[ApiProperty(example: 'DPD')]
     #[Length(max: 100)]
     #[NotBlank]
-    public string $carrier = '';
+    public null|string $carrier = null;
 
     #[ApiProperty(example: 'john@doe.com')]
     #[Email]
