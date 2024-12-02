@@ -214,7 +214,8 @@ class Order implements EntityWithEvents
 
     public function canPrintLabel(): bool
     {
-        return $this->status === OrderStatus::Picking
+        return $this->shippingLabel !== null
+            || $this->status === OrderStatus::Picking
             || $this->status === OrderStatus::Completed
             || $this->status === OrderStatus::Packing
             || $this->status === OrderStatus::Packed;
