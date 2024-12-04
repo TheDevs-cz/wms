@@ -148,6 +148,11 @@ class Order implements EntityWithEvents
         $this->changeStatus(OrderStatus::Shipped, $userId, $now);
     }
 
+    public function return(UuidInterface $userId, DateTimeImmutable $now): void
+    {
+        $this->changeStatus(OrderStatus::Returned, $userId, $now);
+    }
+
     /**
      * @throws OrderItemAlreadyFullyPrepared
      * @throws OrderItemNotFound
@@ -239,6 +244,11 @@ class Order implements EntityWithEvents
             && $this->status !== OrderStatus::Shipped
             && $this->status !== OrderStatus::Cancelled
             && $this->status !== OrderStatus::Returned;
+    }
+
+    public function canBeReturned(): bool
+    {
+        return $this->status === OrderStatus::Shipped;
     }
 
     private function changeStatus(OrderStatus $newStatus, UuidInterface $byUserId, DateTimeImmutable $now): void

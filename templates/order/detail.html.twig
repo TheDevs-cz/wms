@@ -37,15 +37,17 @@
 
             {% if order.canMarkAsProblematic %}
                 <a class="btn btn-outline-danger me-2 mb-2" href="{{ path('order_mark_has_problem', {'id': order.id}) }}">
-                    <i class="bi bi-exclamation-circle"></i> Označit jako problém
+                    <i class="bi bi-exclamation-circle"></i> Problém
+                </a>
+            {% endif %}
+
+            {% if order.canBeReturned %}
+                <a class="btn btn-outline-danger me-2 mb-2" href="{{ path('order_return', {'id': order.id}) }}">
+                    <i class="bi bi-recycle"></i> Vratka
                 </a>
             {% endif %}
         </div>
     </div>
-
-    <p>
-        <twig:Order:StatusBadge status="{{ order.status.value }}" />
-    </p>
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
 
@@ -74,7 +76,7 @@
                     {% if order.expeditionDate %}
                         Expedovat dne: <twig:Order:ExpeditionDate order="{{ order }}" /><br>
                     {% endif %}
-                    Stav: {{ order.status.value }}<br>
+                    Stav: <twig:Order:StatusBadge status="{{ order.status.value }}" /><br>
                 </div>
             </div>
         </div>
