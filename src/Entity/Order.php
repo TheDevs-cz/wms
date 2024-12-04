@@ -199,7 +199,8 @@ class Order implements EntityWithEvents
     public function isFinalStatus(): bool
     {
         return $this->status === OrderStatus::Shipped
-            || $this->status === OrderStatus::Cancelled;
+            || $this->status === OrderStatus::Cancelled
+            || $this->status === OrderStatus::Returned;
     }
 
     public function canBePicked(): bool
@@ -235,7 +236,9 @@ class Order implements EntityWithEvents
     public function canMarkAsProblematic(): bool
     {
         return $this->status !== OrderStatus::Problem
-            && $this->status !== OrderStatus::Shipped;
+            && $this->status !== OrderStatus::Shipped
+            && $this->status !== OrderStatus::Cancelled
+            && $this->status !== OrderStatus::Returned;
     }
 
     private function changeStatus(OrderStatus $newStatus, UuidInterface $byUserId, DateTimeImmutable $now): void

@@ -3,7 +3,7 @@
     {% set today = "now"|date('Y-m-d') %}
     {% set expeditionDate = order.expeditionDate|date('Y-m-d') %}
 
-    {% if order.finalStatus  %}
+    {% if not order.finalStatus  %}
         {% if expeditionDate == today %}
             {% set badgeColor = 'text-bg-warning' %}
         {% elseif expeditionDate < today %}
