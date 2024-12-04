@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vyúčtování{% endblock %}
+
+{% block content %}
+    <h1>Vyúčtvoání</h1>
+
+    <div class="table-responsive shadow-lg">
+        <table class="table table-hover mb-0">
+            <thead class="table-dark">
+            <tr>
+                <th>Email</th>
+                {% for month in monthly_accounting.months %}
+                    <th>{{ month }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in monthly_accounting.data %}
+                <tr>
+                    <th>{{ user.email }}</th>
+                    {% for month in monthly_accounting.months %}
+                        <td>{{ user.data[month] ?? 0 }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
