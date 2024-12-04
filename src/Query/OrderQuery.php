@@ -27,8 +27,7 @@ readonly final class OrderQuery
             ->from(Order::class, 'o')
             ->leftJoin('o.items', 'oi')
             ->select('o, oi')
-            ->orderBy('o.expeditionDate')
-            ->addOrderBy('o.orderedAt')
+            ->orderBy('o.orderedAt', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -69,8 +68,7 @@ readonly final class OrderQuery
                 OrderStatus::Cancelled,
                 OrderStatus::Returned,
             ])
-            ->orderBy('o.expeditionDate')
-            ->addOrderBy('o.orderedAt')
+            ->orderBy('o.orderedAt', 'DESC')
             ->getQuery()
             ->getResult();
     }
