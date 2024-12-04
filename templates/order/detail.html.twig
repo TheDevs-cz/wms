@@ -72,7 +72,7 @@
                     Dobírka: {{ order.cashOnDelivery }} Kč<br>
                     Vytvořena: {{ order.orderedAt|date('d.m.Y H:i:s') }}<br>
                     {% if order.expeditionDate %}
-                        Expedovat dne: {{ order.expeditionDate|date('d.m.Y') }}<br>
+                        Expedovat dne: <twig:Order:ExpeditionDate order="{{ order }}" /><br>
                     {% endif %}
                     Stav: {{ order.status.value }}<br>
                 </div>

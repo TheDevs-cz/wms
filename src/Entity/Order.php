@@ -196,6 +196,12 @@ class Order implements EntityWithEvents
         $this->shippingLabel = $label;
     }
 
+    public function isFinalStatus(): bool
+    {
+        return $this->status === OrderStatus::Shipped
+            || $this->status === OrderStatus::Cancelled;
+    }
+
     public function canBePicked(): bool
     {
         return $this->status === OrderStatus::Open
