@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\Controller\Location;
 
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,15 +15,31 @@ use TheDevs\WMS\Entity\User;
 
 final class LocationQrBatchController extends AbstractController
 {
+    public function __construct(
+        readonly private Pdf $pdf,
+    ) {
+    }
+
     #[Route(path: '/admin/location/{id}/qr-batch', name: 'location_qr_batch')]
     #[IsGranted(User::ROLE_ADMIN)]
     public function __invoke(
         Location $location,
     ): Response
     {
-        return $this->render('location/qr_batch.html.twig', [
-            'locations' => $location,
+       $html = $this->renderView('position/qr_label_25_95.html.twig', array(
             'positions' => $location->positions(),
-        ]);
+            'location' => $location,
+        ));
+
+        $pdfOptions = [
+            'page-width' => '90mm',
+            'page-height' => '25mm',
+            'margin-left' => '1mm',
+            'margin-right' => '1mm',
+            'margin-bottom' => '0.5mm',
+            'margin-top' => '0.5mm',
+        ];
+
+        return new PdfResponse($this->pdf->getOutputFromHtml($html, $pdfOptions),'labels.pdf');
     }
 }

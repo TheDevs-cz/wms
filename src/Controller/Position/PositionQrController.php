@@ -25,7 +25,8 @@ final class PositionQrController extends AbstractController
     public function __invoke(Position $position): Response
     {
         $html = $this->renderView('position/qr_label_25_95.html.twig', array(
-            'position' => $position,
+            'positions' => [$position],
+            'location' => $position->location,
         ));
 
         $pdfOptions = [
