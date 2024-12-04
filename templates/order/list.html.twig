@@ -30,6 +30,10 @@
                     </td>
                     <td>
                         {{ order.orderedAt|date('d.m.Y H:i') }}
+                        {% if order.expeditionDate %}
+                            <br>
+                            <small>Expedovat do: {{ order.expeditionDate|date('d.m.Y') }}</small>
+                        {% endif %}
                     </td>
                     <td>
                         {{ order.user.email }}
