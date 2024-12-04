@@ -24,7 +24,7 @@ final class PositionQrController extends AbstractController
     #[IsGranted(User::ROLE_WAREHOUSEMAN)]
     public function __invoke(Position $position): Response
     {
-        $html = $this->renderView('position/qr.html.twig', array(
+        $html = $this->renderView('position/qr_label_25_95.html.twig', array(
             'position' => $position,
         ));
 
