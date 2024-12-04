@@ -41,19 +41,19 @@
                     <ul class="navbar-nav me-auto">
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{{ path('scan_info') }}">
+                            <a class="nav-link {{ app.request.attributes.get('_route') == 'scan_info' ? 'active' }}" href="{{ path('scan_info') }}">
                                 <i class="bi bi-upc-scan"></i> Skenování
                             </a>
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{{ path('orders') }}">
+                            <a class="nav-link {{ app.request.attributes.get('_route') == 'orders' ? 'active' }}" href="{{ path('orders') }}">
                                 <i class="bi bi-card-list"></i> Objednávky
                             </a>
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="{{ path('warehouse_stock_demands') }}">
+                            <a class="nav-link {{ app.request.attributes.get('_route') == 'warehouse_stock_demands' ? 'active' }}" href="{{ path('warehouse_stock_demands') }}">
                                 <i class="bi bi-clipboard-check"></i> Skladové nároky
                             </a>
                         </li>
@@ -68,22 +68,22 @@
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <li>
-                                            <a class="dropdown-item" href="{{ path('accounting_breakdown') }}">Vyúčtování</a>
+                                            <a class="dropdown-item {{ app.request.attributes.get('_route') == 'accounting_breakdown' ? 'active' }}" href="{{ path('accounting_breakdown') }}">Vyúčtování</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{ path('warehouses') }}">Sklady</a>
+                                            <a class="dropdown-item {{ app.request.attributes.get('_route') == 'warehouses' ? 'active' }}" href="{{ path('warehouses') }}">Sklady</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{ path('locations') }}">Lokace</a>
+                                            <a class="dropdown-item {{ app.request.attributes.get('_route') == 'locations' ? 'active' }}" href="{{ path('locations') }}">Lokace</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{ path('positions') }}">Pozice</a>
+                                            <a class="dropdown-item {{ app.request.attributes.get('_route') == 'positions' ? 'active' }}" href="{{ path('positions') }}">Pozice</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{ path('products') }}">Produkty</a>
+                                            <a class="dropdown-item {{ app.request.attributes.get('_route') == 'products' ? 'active' }}" href="{{ path('products') }}">Produkty</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{ path('users') }}">Uživatelé</a>
+                                            <a class="dropdown-item {{ app.request.attributes.get('_route') == 'users' ? 'active' }}" href="{{ path('users') }}">Uživatelé</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -94,7 +94,7 @@
                                     <i class="bi bi-person-circle"></i> Můj účet
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="myAccountDropdown">
-                                    <li><a class="dropdown-item" href="{{ path('user_profile') }}">Nastavení účtu</a></li>
+                                    <li><a class="dropdown-item {{ app.request.attributes.get('_route') == 'user_profile' ? 'active' }}" href="{{ path('user_profile') }}">Nastavení účtu</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{{ path('logout') }}"><i class="bi bi-box-arrow-right"></i> Odhlásit se</a></li>
                                 </ul>

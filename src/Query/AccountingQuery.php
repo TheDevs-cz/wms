@@ -29,7 +29,7 @@ readonly final class AccountingQuery
         INNER JOIN 
             "order" o ON o.id = oh.order_id
         INNER JOIN 
-            user u ON u.id = o.user_id
+            "user" u ON u.id = o.user_id
         WHERE 
             oh.to_status = :finalStatus
         GROUP BY 
