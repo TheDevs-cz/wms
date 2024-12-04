@@ -24,6 +24,10 @@
                         <a href="{{ path('order_detail', {'id': order.id}) }}">
                             {{ order.number }}
                         </a>
+                        <br>
+                        <small>
+                            Položek: {{ order.itemsCount }}
+                        </small>
                     </td>
                     <td>
                         <twig:Order:StatusBadge status="{{ order.status.value }}" />
@@ -32,7 +36,7 @@
                         {{ order.orderedAt|date('d.m.Y H:i') }}
                         {% if order.expeditionDate %}
                             <br>
-                            <small>Expedovat do: {{ order.expeditionDate|date('d.m.Y') }}</small>
+                            <small>Expedovat do: <twig:Order:ExpeditionDate order="{{ order }}" /></small>
                         {% endif %}
                     </td>
                     <td>

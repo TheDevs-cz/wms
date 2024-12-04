@@ -25,7 +25,8 @@ readonly final class OrderQuery
     {
         return $this->entityManager->createQueryBuilder()
             ->from(Order::class, 'o')
-            ->select('o')
+            ->leftJoin('o.items', 'oi')
+            ->select('o, oi')
             ->orderBy('o.orderedAt', 'DESC')
             ->getQuery()
             ->getResult();

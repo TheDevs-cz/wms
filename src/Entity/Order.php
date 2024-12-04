@@ -116,6 +116,11 @@ class Order implements EntityWithEvents
         );
     }
 
+    public function itemsCount(): int
+    {
+        return $this->items->count();
+    }
+
     public function addItem(OrderItem $item): void
     {
         if ($this->items->contains($item) === false) {

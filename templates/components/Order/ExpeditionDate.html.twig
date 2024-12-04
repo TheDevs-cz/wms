@@ -1,0 +1,19 @@
+{% if order.expeditionDate %}
+    {% set badgeColor = '' %}
+    {% set today = "now"|date('Y-m-d') %}
+    {% set expeditionDate = order.expeditionDate|date('Y-m-d') %}
+
+    {% if order.status.value != 'shipped' %}
+        {% if expeditionDate == today %}
+            {% set badgeColor = 'text-bg-warning' %}
+        {% elseif expeditionDate < today %}
+            {% set badgeColor = 'text-bg-danger' %}
+        {% endif %}
+    {% endif %}
+
+    {% if badgeColor %}
+        <span class="badge {{ badgeColor }}">{{ order.expeditionDate|date('d.m.Y') }}</span>
+    {% else %}
+        {{ order.expeditionDate|date('d.m.Y') }}
+    {% endif %}
+{% endif %}
