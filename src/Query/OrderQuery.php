@@ -27,7 +27,50 @@ readonly final class OrderQuery
             ->from(Order::class, 'o')
             ->leftJoin('o.items', 'oi')
             ->select('o, oi')
-            ->orderBy('o.orderedAt', 'DESC')
+            ->orderBy('o.expeditionDate')
+            ->addOrderBy('o.orderedAt')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return array<Order>
+     */
+    public function getUnfinished(): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->from(Order::class, 'o')
+            ->leftJoin('o.items', 'oi')
+            ->select('o, oi')
+            ->where('o.status NOT IN (:finishedStatuses)')
+            ->setParameter('finishedStatuses', [
+                OrderStatus::Shipped,
+                OrderStatus::Cancelled,
+                OrderStatus::Returned,
+            ])
+            ->orderBy('o.expeditionDate')
+            ->addOrderBy('o.orderedAt')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return array<Order>
+     */
+    public function getFinished(): array
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->from(Order::class, 'o')
+            ->leftJoin('o.items', 'oi')
+            ->select('o, oi')
+            ->where('o.status IN (:finishedStatuses)')
+            ->setParameter('finishedStatuses', [
+                OrderStatus::Shipped,
+                OrderStatus::Cancelled,
+                OrderStatus::Returned,
+            ])
+            ->orderBy('o.expeditionDate')
+            ->addOrderBy('o.orderedAt')
             ->getQuery()
             ->getResult();
     }

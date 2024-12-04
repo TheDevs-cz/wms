@@ -5,16 +5,21 @@
 {% block content %}
     <h1>Objednávky</h1>
 
+    <div class="btn-group my-2" role="group" aria-label="Basic outlined example">
+        {% for filter in filters %}
+            <a href="{{ path('orders', {'filter': filter.value}) }}" class="btn {{ filter == active_filter ? 'btn-primary' : 'btn-outline-primary' }}">{{ filter.text }}</a>
+        {% endfor %}
+    </div>
+
     <div class="table-responsive shadow-lg">
         <table class="table table-hover mb-0">
             <thead class="table-dark">
             <tr>
                 <th scope="col">Číslo</th>
-                <th scope="col">Stav</th>
                 <th scope="col">Datum</th>
-                <th scope="col">Uživatel</th>
                 <th scope="col">Dopravce</th>
                 <th scope="col">Doručovací adresa</th>
+                <th scope="col">Uživatel</th>
             </tr>
             </thead>
             <tbody>
@@ -28,19 +33,15 @@
                         <small>
                             Položek: {{ order.itemsCount }}
                         </small>
-                    </td>
-                    <td>
+                        <br>
                         <twig:Order:StatusBadge status="{{ order.status.value }}" />
                     </td>
                     <td>
                         {{ order.orderedAt|date('d.m.Y H:i') }}
                         {% if order.expeditionDate %}
                             <br>
-                            <small>Expedovat do: <twig:Order:ExpeditionDate order="{{ order }}" /></small>
+                            <small>Expedovat: <twig:Order:ExpeditionDate order="{{ order }}" /></small>
                         {% endif %}
-                    </td>
-                    <td>
-                        {{ order.user.email }}
                     </td>
                     <td>
                         {{ order.carrier ?: '<span class="badge bg-warning">Neuveden</span>' }}
@@ -50,6 +51,9 @@
                         {{ order.deliveryAddress.name }}<br>
                         {{ order.deliveryAddress.street }}<br>
                         {{ order.deliveryAddress.city }} {{ order.deliveryAddress.postalCode }}
+                    </td>
+                    <td>
+                        {{ order.user.email }}
                     </td>
                 </tr>
             {% endfor %}
