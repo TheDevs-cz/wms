@@ -6,7 +6,7 @@
     <h1>Objednávka {{ order.number }}</h1>
 
     <div class="mb-2">
-        <div class="d-flex align-items-start">
+        <div class="d-sm-flex align-items-start">
             {% if order.canBePicked %}
                 <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_prepare_item', {'id': order.id}) }}">
                     <i class="bi bi-box-seam"></i> Vychystávání
@@ -14,19 +14,19 @@
             {% endif %}
 
             {% if order.canStartPacking %}
-                <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_start_packing', {'id': order.id}) }}">
+                <a class="btn btn-outline-primary me-2 mb-2" href="{{ path('order_start_packing', {'id': order.id}) }}">
                     <i class="bi bi-box-fill"></i> Začít balení
                 </a>
             {% endif %}
 
             {% if order.canBePacked %}
-                <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_pack', {'id': order.id}) }}">
+                <a class="btn btn-outline-primary me-2 mb-2" href="{{ path('order_pack', {'id': order.id}) }}">
                     <i class="bi bi-box-seam-fill"></i> Zabaleno
                 </a>
             {% endif %}
 
             {% if order.canBeShipped %}
-                <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_ship', {'id': order.id}) }}">
+                <a class="btn btn-outline-primary me-2 mb-2" href="{{ path('order_ship', {'id': order.id}) }}">
                     <i class="bi bi-truck"></i> Předáno dopravci
                 </a>
             {% endif %}
@@ -36,7 +36,7 @@
             {% endif %}
 
             {% if order.canMarkAsProblematic %}
-                <a class="btn btn-outline-danger me-2 mb-1" href="{{ path('order_mark_has_problem', {'id': order.id}) }}">
+                <a class="btn btn-outline-danger me-2 mb-2" href="{{ path('order_mark_has_problem', {'id': order.id}) }}">
                     <i class="bi bi-exclamation-circle"></i> Označit jako problém
                 </a>
             {% endif %}
