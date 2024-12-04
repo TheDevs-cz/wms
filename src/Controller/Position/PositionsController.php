@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use TheDevs\WMS\Entity\User;
 use TheDevs\WMS\Query\PositionQuery;
+use TheDevs\WMS\Value\LabelType;
 
 final class PositionsController extends AbstractController
 {
@@ -24,6 +25,7 @@ final class PositionsController extends AbstractController
     {
         return $this->render('position/list.html.twig', [
             'positions' => $this->positionQuery->getAll(),
+            'labelTypes' => LabelType::cases(),
         ]);
     }
 }

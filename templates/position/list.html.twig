@@ -52,13 +52,16 @@
                             {% endif %}
                         </td>
                         <td class="text-end">
-                            <a target="_blank" href="{{ path('qr_code_generate', {'builder': 'default', 'data': url('position_info', {'id': position.id})}) }}" class="btn btn-sm btn-outline-primary me-1">
-                                <i class="bi bi-printer"></i> Tisk štítku
-                            </a>
-
-                            <a target="_blank" href="{{ path('position_qr', {'id': position.id}) }}" class="btn btn-sm btn-outline-primary me-1">
-                                <i class="bi bi-printer"></i> Tisk štítku 90x25
-                            </a>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-primary me-1 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-printer"></i> Štítky
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% for labelType in labelTypes %}
+                                        <li><a data-turbo="false" class="dropdown-item" href="{{ path('position_qr', {'id': position.id, 'labelType': labelType.value}) }}">Tisk {{ labelType.value }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
 
                             <a href="{{ path('position_edit', {'id': position.id}) }}" class="btn btn-sm btn-outline-primary me-1">
                                 <i class="bi bi-pencil"></i> Editovat

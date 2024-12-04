@@ -1,0 +1,9 @@
+<body style="padding: 0;margin: 0;font-family: Arial, serif;font-size: 28pt;text-align: center;">
+    {% for position in positions %}
+        <img src="{{ qr_code_data_uri( url('position_info', {'id': position.id}) ) }}" style="width: 99%;">
+
+        <span style="display: inline-block;padding-top: 4mm;">
+            {{ location.name }} - {{ position.name }}
+        </span>
+    {% endfor %}
+</body>

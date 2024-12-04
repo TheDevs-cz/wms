@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use TheDevs\WMS\Entity\Position;
 use TheDevs\WMS\Entity\User;
+use TheDevs\WMS\Value\LabelType;
 
 final class PositionQrController extends AbstractController
 {
@@ -20,18 +21,18 @@ final class PositionQrController extends AbstractController
     ) {
     }
 
-    #[Route(path: '/admin/position/{id}/qr', name: 'position_qr')]
+    #[Route(path: '/admin/position/{id}/qr/{labelType}', name: 'position_qr')]
     #[IsGranted(User::ROLE_WAREHOUSEMAN)]
-    public function __invoke(Position $position): Response
+    public function __invoke(Position $position, LabelType $labelType): Response
     {
-        $html = $this->renderView('position/qr_label_25_95.html.twig', array(
+        $html = $this->renderView('position/qr_label_' . $labelType->value . '.html.twig', [
             'positions' => [$position],
             'location' => $position->location,
-        ));
+        ]);
 
         $pdfOptions = [
-            'page-width' => '90mm',
-            'page-height' => '25mm',
+            'page-width' => $labelType->getWidth(),
+            'page-height' => $labelType->getHeight(),
             'margin-left' => '1mm',
             'margin-right' => '1mm',
             'margin-bottom' => '0.5mm',

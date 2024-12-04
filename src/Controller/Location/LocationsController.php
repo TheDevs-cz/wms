@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use TheDevs\WMS\Entity\User;
 use TheDevs\WMS\Query\LocationQuery;
+use TheDevs\WMS\Value\LabelType;
 
 final class LocationsController extends AbstractController
 {
@@ -24,6 +25,7 @@ final class LocationsController extends AbstractController
     {
         return $this->render('location/list.html.twig', [
             'locations' => $this->locationQuery->getAll(),
+            'labelTypes' => LabelType::cases(),
         ]);
     }
 }
