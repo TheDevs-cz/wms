@@ -11,6 +11,7 @@ use TheDevs\WMS\Events\OrderStatusChanged;
 use TheDevs\WMS\Exceptions\OrderNotFound;
 use TheDevs\WMS\Repository\OrderHistoryRepository;
 use TheDevs\WMS\Repository\OrderRepository;
+use TheDevs\WMS\Repository\UserRepository;
 use TheDevs\WMS\Services\ProvideIdentity;
 
 #[AsMessageHandler]
@@ -21,6 +22,7 @@ readonly final class WhenOrderStatusChangedThenAddOrderHistoryHandler
         private ClockInterface $clock,
         private OrderRepository $orderRepository,
         private OrderHistoryRepository $orderHistoryRepository,
+        private UserRepository $userRepository,
     ) {
     }
 
@@ -30,11 +32,12 @@ readonly final class WhenOrderStatusChangedThenAddOrderHistoryHandler
     public function __invoke(OrderStatusChanged $event): void
     {
         $order = $this->orderRepository->get($event->orderId);
+        $author = $this->userRepository->getById($event->userId);
 
         $history = new OrderHistory(
             $this->provideIdentity->next(),
             $order,
-            $order->user,
+            $author,
             $this->clock->now(),
             $event->fromStatus,
             $event->toStatus,
