@@ -18,14 +18,12 @@ use TheDevs\WMS\Exceptions\UserNotFound;
 use TheDevs\WMS\Message\Order\PrepareOrderItem;
 use TheDevs\WMS\Query\StockItemQuery;
 use TheDevs\WMS\Repository\OrderRepository;
-use TheDevs\WMS\Repository\UserRepository;
 
 #[AsMessageHandler]
 readonly final class PrepareOrderItemHandler
 {
     public function __construct(
         private OrderRepository $orderRepository,
-        private UserRepository $userRepository,
         private StockItemQuery $stockItemQuery,
         private ClockInterface $clock,
     ) {
@@ -44,7 +42,6 @@ readonly final class PrepareOrderItemHandler
     public function __invoke(PrepareOrderItem $message): void
     {
         $order = $this->orderRepository->get($message->orderId);
-        $user = $this->userRepository->getById($message->userId);
         $stockItem = null;
 
         if ($message->ean !== null && $message->positionId === null) {

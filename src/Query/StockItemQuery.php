@@ -88,6 +88,7 @@ readonly final class StockItemQuery
                 ->setParameter('ean', $ean)
                 ->andWhere('p.user = :userId')
                 ->setParameter('userId', $userId)
+                ->andWhere('si.quantity > 0')
                 ->getQuery()
                 ->getSingleResult();
 
@@ -127,6 +128,7 @@ readonly final class StockItemQuery
             ->select('si')
             ->where('si.product = :productId')
             ->setParameter('productId', $productId)
+            ->andWhere('si.quantity > 0')
             ->getQuery()
             ->setFetchMode(StockItem::class, 'position', ClassMetadata::FETCH_EAGER)
             ->getResult();
@@ -143,6 +145,7 @@ readonly final class StockItemQuery
             ->join('si.position', 'pos')
             ->where('pos.location = :locationId')
             ->setParameter('locationId', $locationId)
+            ->andWhere('si.quantity > 0')
             ->getQuery()
             ->setFetchMode(StockItem::class, 'product', ClassMetadata::FETCH_EAGER)
             ->setFetchMode(StockItem::class, 'position', ClassMetadata::FETCH_EAGER)
@@ -163,6 +166,7 @@ readonly final class StockItemQuery
             ->setParameter('positionId', $positionId)
             ->andWhere('p.user = :userId')
             ->setParameter('userId', $userId)
+            ->andWhere('si.quantity > 0')
             ->getQuery()
             ->getResult();
     }
@@ -177,6 +181,7 @@ readonly final class StockItemQuery
             ->select('si')
             ->where('si.position = :positionId')
             ->setParameter('positionId', $positionId)
+            ->andWhere('si.quantity > 0')
             ->getQuery()
             ->setFetchMode(StockItem::class, 'product', ClassMetadata::FETCH_EAGER)
             ->getResult();

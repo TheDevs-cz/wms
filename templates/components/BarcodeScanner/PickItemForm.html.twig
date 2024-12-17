@@ -33,10 +33,17 @@
     </div>
 
     {% if code %}
-        {% for positionForEan in this.positionsForEan %}
-            <div class="alert alert-info m-3">
-                {{ positionForEan.position.name }}
-            </div>
-        {% endfor %}
+        <div class="alert alert-info mx-3">
+            <strong>Pozice pro EAN {{ code }}:</strong>
+            {% for stockItem in this.stockItemsForEan %}
+                <br>{{ stockItem.position.location.name }} / {{ stockItem.position.name }} - {{ stockItem.quantity}} ks (<small><code>{{ stockItem.position.id }}</code></small>)
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if this.position %}
+        <div class="alert alert-info mx-3">
+            <strong>Pozice:</strong> {{ this.position.location.name }} / {{ this.position.name }}
+        </div>
     {% endif %}
 </div>
