@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\Query;
 
-use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Ramsey\Uuid\UuidInterface;
-use TheDevs\WMS\Entity\OrderItem;
 use TheDevs\WMS\Entity\StockItem;
 use TheDevs\WMS\Exceptions\MultipleStockItemsFound;
 use TheDevs\WMS\Exceptions\StockItemNotFound;
 use TheDevs\WMS\QueryResult\StockDemand;
 
+/**
+ * @phpstan-import-type StockDemandData from StockDemand
+ */
 readonly final class StockItemQuery
 {
     public function __construct(
@@ -239,12 +240,8 @@ SELECT
     COALESCE(SUM(stock_item.quantity), 0) AS stock_quantity,
     SUM(order_item.quantity - order_item.prepared_quantity) AS unpicked_ordered_quantity,
     COALESCE(SUM(stock_item.quantity), 0) - SUM(order_item.quantity - order_item.prepared_quantity) AS stock_difference
-FROM
-    order_item
-LEFT JOIN
-    stock_item
-ON
-    order_item.product_id = stock_item.product_id
+FROM order_item
+LEFT JOIN stock_item ON order_item.product_id = stock_item.product_id
 GROUP BY
     order_item.sku,
     order_item.title,
@@ -256,20 +253,55 @@ ORDER BY
 SQL;
 
         /**
-         * @var array<array{
-         *     sku: string,
-         *     title: string,
-         *     ean: string,
-         *     stock_quantity: int,
-         *     unpicked_ordered_quantity: int,
-         *     stock_difference: int,
-         * }> $data
+         * @var array<StockDemandData> $data
          */
         $data = $connection->fetchAllAssociative($sql);
 
         return array_map(
-            static fn(array $row) => StockDemand::fromArray($row),
-            $data
+            callback: static fn(array $row) => StockDemand::fromArray($row),
+            array: $data,
+        );
+    }
+
+    /**
+     * @return array<StockDemand>
+     */
+    public function getStockDemandForUser(UuidInterface $userId): array
+    {
+        $connection = $this->entityManager->getConnection();
+
+        $sql = <<<SQL
+SELECT
+    order_item.sku,
+    order_item.title,
+    order_item.ean,
+    COALESCE(SUM(stock_item.quantity), 0) AS stock_quantity,
+    SUM(order_item.quantity - order_item.prepared_quantity) AS unpicked_ordered_quantity,
+    COALESCE(SUM(stock_item.quantity), 0) - SUM(order_item.quantity - order_item.prepared_quantity) AS stock_difference
+FROM order_item
+INNER JOIN "order" ON "order".id = order_item.order_id 
+LEFT JOIN stock_item ON order_item.product_id = stock_item.product_id
+WHERE "order".user_id = :userId
+GROUP BY
+    order_item.sku,
+    order_item.title,
+    order_item.ean
+HAVING
+    SUM(order_item.quantity - order_item.prepared_quantity) > 0
+ORDER BY
+    stock_difference ASC
+SQL;
+
+        /**
+         * @var array<StockDemandData> $data
+         */
+        $data = $connection->fetchAllAssociative($sql, [
+            'userId' => $userId->toString(),
+        ]);
+
+        return array_map(
+            callback: static fn(array $row) => StockDemand::fromArray($row),
+            array: $data,
         );
     }
 }

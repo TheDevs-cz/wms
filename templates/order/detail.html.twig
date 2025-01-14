@@ -5,49 +5,51 @@
 {% block content %}
     <h1>Objednávka {{ order.number }}</h1>
 
-    <div class="mb-2">
-        <div class="d-sm-flex align-items-start">
-            {% if order.canBePicked %}
-                <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_prepare_item', {'id': order.id}) }}">
-                    <i class="bi bi-box-seam"></i> Vychystávání
-                </a>
-            {% endif %}
+    {% if is_granted('ROLE_WAREHOUSEMAN') %}
+        <div class="mb-2">
+            <div class="d-sm-flex align-items-start">
+                {% if order.canBePicked %}
+                    <a class="btn btn-outline-primary me-2 mb-1" href="{{ path('order_prepare_item', {'id': order.id}) }}">
+                        <i class="bi bi-box-seam"></i> Vychystávání
+                    </a>
+                {% endif %}
 
-            {% if order.canStartPacking %}
-                <a class="btn btn-outline-primary me-2 mb-2" href="{{ path('order_start_packing', {'id': order.id}) }}">
-                    <i class="bi bi-box-fill"></i> Začít balení
-                </a>
-            {% endif %}
+                {% if order.canStartPacking %}
+                    <a class="btn btn-outline-primary me-2 mb-2" href="{{ path('order_start_packing', {'id': order.id}) }}">
+                        <i class="bi bi-box-fill"></i> Začít balení
+                    </a>
+                {% endif %}
 
-            {% if order.canBePacked %}
-                <a class="btn btn-outline-primary me-2 mb-2" href="{{ path('order_pack', {'id': order.id}) }}">
-                    <i class="bi bi-box-seam-fill"></i> Zabaleno
-                </a>
-            {% endif %}
+                {% if order.canBePacked %}
+                    <a class="btn btn-outline-primary me-2 mb-2" href="{{ path('order_pack', {'id': order.id}) }}">
+                        <i class="bi bi-box-seam-fill"></i> Zabaleno
+                    </a>
+                {% endif %}
 
-            {% if order.canBeShipped %}
-                <a class="btn btn-outline-primary me-2 mb-2" href="{{ path('order_ship', {'id': order.id}) }}">
-                    <i class="bi bi-truck"></i> Předáno dopravci
-                </a>
-            {% endif %}
+                {% if order.canBeShipped %}
+                    <a class="btn btn-outline-primary me-2 mb-2" href="{{ path('order_ship', {'id': order.id}) }}">
+                        <i class="bi bi-truck"></i> Předáno dopravci
+                    </a>
+                {% endif %}
 
-            {% if order.canPrintLabel %}
-                <twig:Label:PrintLabelForm order="{{ order }}" />
-            {% endif %}
+                {% if order.canPrintLabel %}
+                    <twig:Label:PrintLabelForm order="{{ order }}" />
+                {% endif %}
 
-            {% if order.canMarkAsProblematic %}
-                <a class="btn btn-outline-danger me-2 mb-2" href="{{ path('order_mark_has_problem', {'id': order.id}) }}">
-                    <i class="bi bi-exclamation-circle"></i> Problém
-                </a>
-            {% endif %}
+                {% if order.canMarkAsProblematic %}
+                    <a class="btn btn-outline-danger me-2 mb-2" href="{{ path('order_mark_has_problem', {'id': order.id}) }}">
+                        <i class="bi bi-exclamation-circle"></i> Problém
+                    </a>
+                {% endif %}
 
-            {% if order.canBeReturned %}
-                <a class="btn btn-outline-danger me-2 mb-2" href="{{ path('order_return', {'id': order.id}) }}">
-                    <i class="bi bi-recycle"></i> Vratka
-                </a>
-            {% endif %}
+                {% if order.canBeReturned %}
+                    <a class="btn btn-outline-danger me-2 mb-2" href="{{ path('order_return', {'id': order.id}) }}">
+                        <i class="bi bi-recycle"></i> Vratka
+                    </a>
+                {% endif %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
 

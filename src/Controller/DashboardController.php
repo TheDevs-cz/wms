@@ -23,10 +23,22 @@ final class DashboardController extends AbstractController
     #[Route(path: '/', name: 'dashboard')]
     public function __invoke(#[CurrentUser] User $user): Response
     {
+        if ($this->isGranted(User::ROLE_WAREHOUSEMAN)) {
+            $warehouses = $this->warehouseQuery->getAll();
+            $positionsCount = $this->warehouseQuery->positionsCount();
+            $userId = null;
+        } else {
+            $warehouses = [];
+            $positionsCount = [];
+            $userId = $user->id;
+        }
+
+        $countOpenOrders = $this->orderQuery->countOpenOrders($userId);
+
         return $this->render('dashboard.html.twig', [
-            'warehouses' => $this->warehouseQuery->getAll(),
-            'positionsCount' => $this->warehouseQuery->positionsCount(),
-            'openOrdersCount' => $this->orderQuery->countOpenOrders(),
+            'warehouses' => $warehouses,
+            'positionsCount' => $positionsCount,
+            'openOrdersCount' => $countOpenOrders,
         ]);
     }
 }

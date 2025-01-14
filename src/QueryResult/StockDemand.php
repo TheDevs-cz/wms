@@ -4,7 +4,16 @@ declare(strict_types=1);
 
 namespace TheDevs\WMS\QueryResult;
 
-
+/**
+ * @phpstan-type StockDemandData array{
+ *      sku: string,
+ *      title: string,
+ *      ean: string,
+ *      stock_quantity: int,
+ *      unpicked_ordered_quantity: int,
+ *      stock_difference: int,
+ *  }
+ */
 readonly final class StockDemand
 {
     public function __construct(
@@ -17,14 +26,7 @@ readonly final class StockDemand
     ) {}
 
     /**
-     * @param array{
-     *     sku: string,
-     *     title: string,
-     *     ean: string,
-     *     stock_quantity: int,
-     *     unpicked_ordered_quantity: int,
-     *     stock_difference: int,
-     * } $data
+     * @param StockDemandData $data
      */
     public static function fromArray(array $data): self
     {

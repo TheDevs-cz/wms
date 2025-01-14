@@ -21,23 +21,28 @@ readonly final class OrderQuery
     /**
      * @return array<Order>
      */
-    public function getAll(): array
+    public function getAll(null|UuidInterface $userId): array
     {
-        return $this->entityManager->createQueryBuilder()
+        $queryBuilder = $this->entityManager->createQueryBuilder()
             ->from(Order::class, 'o')
             ->leftJoin('o.items', 'oi')
             ->select('o, oi')
-            ->orderBy('o.orderedAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('o.orderedAt', 'DESC');
+
+        if ($userId !== null) {
+            $queryBuilder->andWhere('o.user = :userId')
+                ->setParameter('userId', $userId);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
      * @return array<Order>
      */
-    public function getUnfinished(): array
+    public function getUnfinished(null|UuidInterface $userId): array
     {
-        return $this->entityManager->createQueryBuilder()
+        $queryBuilder = $this->entityManager->createQueryBuilder()
             ->from(Order::class, 'o')
             ->leftJoin('o.items', 'oi')
             ->select('o, oi')
@@ -48,17 +53,22 @@ readonly final class OrderQuery
                 OrderStatus::Returned,
             ])
             ->orderBy('o.expeditionDate')
-            ->addOrderBy('o.orderedAt')
-            ->getQuery()
-            ->getResult();
+            ->addOrderBy('o.orderedAt');
+
+        if ($userId !== null) {
+            $queryBuilder->andWhere('o.user = :userId')
+                ->setParameter('userId', $userId);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
      * @return array<Order>
      */
-    public function getFinished(): array
+    public function getFinished(null|UuidInterface $userId): array
     {
-        return $this->entityManager->createQueryBuilder()
+        $queryBuilder = $this->entityManager->createQueryBuilder()
             ->from(Order::class, 'o')
             ->leftJoin('o.items', 'oi')
             ->select('o, oi')
@@ -68,9 +78,14 @@ readonly final class OrderQuery
                 OrderStatus::Cancelled,
                 OrderStatus::Returned,
             ])
-            ->orderBy('o.orderedAt', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('o.orderedAt', 'DESC');
+
+        if ($userId !== null) {
+            $queryBuilder->andWhere('o.user = :userId')
+                ->setParameter('userId', $userId);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
@@ -96,14 +111,19 @@ readonly final class OrderQuery
         }
     }
 
-    public function countOpenOrders(): int
+    public function countOpenOrders(null|UuidInterface $userId): int
     {
-        return (int) $this->entityManager->createQueryBuilder()
+        $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select('COUNT(o.id)')
             ->from(Order::class, 'o')
             ->where('o.status = :status')
-            ->setParameter('status', OrderStatus::Open)
-            ->getQuery()
-            ->getSingleScalarResult();
+            ->setParameter('status', OrderStatus::Open);
+
+        if ($userId !== null) {
+            $queryBuilder->andWhere('o.user = :userId')
+                ->setParameter('userId', $userId);
+        }
+
+        return (int) $queryBuilder->getQuery()->getSingleScalarResult();
     }
 }
