@@ -233,23 +233,33 @@ SQL;
         $connection = $this->entityManager->getConnection();
 
         $sql = <<<SQL
+WITH stock_totals AS (
+    SELECT
+        product_id,
+        COALESCE(SUM(quantity), 0) AS stock_quantity
+    FROM stock_item
+    GROUP BY product_id
+),
+order_totals AS (
+    SELECT
+        product_id,
+        SUM(quantity - prepared_quantity) AS unpicked_ordered_quantity
+    FROM order_item
+    GROUP BY product_id
+)
 SELECT
-    order_item.sku,
-    order_item.title,
-    order_item.ean,
-    COALESCE(SUM(stock_item.quantity), 0) AS stock_quantity,
-    SUM(order_item.quantity - order_item.prepared_quantity) AS unpicked_ordered_quantity,
-    COALESCE(SUM(stock_item.quantity), 0) - SUM(order_item.quantity - order_item.prepared_quantity) AS stock_difference
-FROM order_item
-LEFT JOIN stock_item ON order_item.product_id = stock_item.product_id
-GROUP BY
-    order_item.sku,
-    order_item.title,
-    order_item.ean
-HAVING
-    SUM(order_item.quantity - order_item.prepared_quantity) > 0
-ORDER BY
-    stock_difference ASC
+    oi.sku,
+    oi.title,
+    oi.ean,
+    COALESCE(st.stock_quantity, 0) AS stock_quantity,
+    COALESCE(ot.unpicked_ordered_quantity, 0) AS unpicked_ordered_quantity,
+    COALESCE(st.stock_quantity, 0) - COALESCE(ot.unpicked_ordered_quantity, 0) AS stock_difference
+FROM order_item oi
+LEFT JOIN stock_totals st ON oi.product_id = st.product_id
+LEFT JOIN order_totals ot ON oi.product_id = ot.product_id
+WHERE COALESCE(ot.unpicked_ordered_quantity, 0) > 0
+GROUP BY oi.sku, oi.title, oi.ean, st.stock_quantity, ot.unpicked_ordered_quantity
+ORDER BY stock_difference ASC;
 SQL;
 
         /**
@@ -271,25 +281,36 @@ SQL;
         $connection = $this->entityManager->getConnection();
 
         $sql = <<<SQL
+WITH stock_totals AS (
+    SELECT
+        product_id,
+        COALESCE(SUM(quantity), 0) AS stock_quantity
+    FROM stock_item
+    GROUP BY product_id
+),
+order_totals AS (
+    SELECT
+        oi.product_id,
+        oi.sku,
+        oi.title,
+        oi.ean,
+        SUM(oi.quantity - oi.prepared_quantity) AS unpicked_ordered_quantity
+    FROM order_item oi
+    INNER JOIN "order" o ON o.id = oi.order_id
+    WHERE o.user_id = :userId
+    GROUP BY oi.product_id, oi.sku, oi.title, oi.ean
+)
 SELECT
-    order_item.sku,
-    order_item.title,
-    order_item.ean,
-    COALESCE(SUM(stock_item.quantity), 0) AS stock_quantity,
-    SUM(order_item.quantity - order_item.prepared_quantity) AS unpicked_ordered_quantity,
-    COALESCE(SUM(stock_item.quantity), 0) - SUM(order_item.quantity - order_item.prepared_quantity) AS stock_difference
-FROM order_item
-INNER JOIN "order" ON "order".id = order_item.order_id 
-LEFT JOIN stock_item ON order_item.product_id = stock_item.product_id
-WHERE "order".user_id = :userId
-GROUP BY
-    order_item.sku,
-    order_item.title,
-    order_item.ean
-HAVING
-    SUM(order_item.quantity - order_item.prepared_quantity) > 0
-ORDER BY
-    stock_difference ASC
+    ot.sku,
+    ot.title,
+    ot.ean,
+    COALESCE(st.stock_quantity, 0) AS stock_quantity,
+    COALESCE(ot.unpicked_ordered_quantity, 0) AS unpicked_ordered_quantity,
+    COALESCE(st.stock_quantity, 0) - COALESCE(ot.unpicked_ordered_quantity, 0) AS stock_difference
+FROM order_totals ot
+LEFT JOIN stock_totals st ON ot.product_id = st.product_id
+WHERE ot.unpicked_ordered_quantity > 0
+ORDER BY stock_difference ASC;
 SQL;
 
         /**
