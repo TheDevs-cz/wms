@@ -21,6 +21,7 @@
             <tr>
                 <th scope="col">Název</th>
                 <th scope="col">EAN</th>
+                <th scope="col">Dostupné množství</th>
                 <th scope="col">Uživatel</th>
                 <th scope="col" class="text-end">Akce</th>
             </tr>
@@ -34,6 +35,7 @@
                         </a>
                     </td>
                     <td>{{ product.ean }}</td>
+                    <td>{{ available_stocks[product.id.toString] ?? '0' }}</td>
                     <td>{{ product.user.email }}</td>
                     <td class="text-end">
                         <a href="{{ path('product_info', {'id': product.id}) }}" class="btn btn-sm btn-outline-primary">

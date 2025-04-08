@@ -325,4 +325,42 @@ SQL;
             array: $data,
         );
     }
+
+
+    /**
+     * @return array<string, string> $productId => $availableStock
+     */
+    public function getAvailableStock(): array
+    {
+        $connection = $this->entityManager->getConnection();
+
+        $sql = <<<SQL
+WITH stock_totals AS (
+    SELECT
+        product_id,
+        COALESCE(SUM(quantity), 0) AS stock_quantity
+    FROM stock_item
+    GROUP BY product_id
+),
+order_totals AS (
+    SELECT
+        product_id,
+        SUM(quantity - prepared_quantity) AS unpicked_ordered_quantity
+    FROM order_item
+    GROUP BY product_id
+)
+SELECT
+    oi.product_id,
+    SUM(COALESCE(st.stock_quantity, 0) - COALESCE(ot.unpicked_ordered_quantity, 0)) AS available_stock
+FROM order_item oi
+LEFT JOIN stock_totals st ON oi.product_id = st.product_id
+LEFT JOIN order_totals ot ON oi.product_id = ot.product_id
+GROUP BY oi.product_id
+SQL;
+
+        /** @var array<string, string> $data */
+        $data = $connection->fetchAllKeyValue($sql);
+
+        return $data;
+    }
 }
