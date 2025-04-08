@@ -30,6 +30,20 @@ readonly final class OrderRepository
         throw new OrderNotFound();
     }
 
+    /**
+     * @throws OrderNotFound
+     */
+    public function getByNumber(UuidInterface $id): Order
+    {
+        $order = $this->entityManager->find(Order::class, $id);
+
+        if ($order instanceof Order) {
+            return $order;
+        }
+
+        throw new OrderNotFound();
+    }
+
     public function add(Order $order): void
     {
         $this->entityManager->persist($order);

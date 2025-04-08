@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -33,6 +34,7 @@ use TheDevs\WMS\Events\OrderStatusChanged;
 use TheDevs\WMS\Exceptions\InsufficientStockItemQuantity;
 use TheDevs\WMS\Exceptions\OrderItemAlreadyFullyPrepared;
 use TheDevs\WMS\Exceptions\OrderItemNotFound;
+use TheDevs\WMS\Message\Order\CancelOrder;
 use TheDevs\WMS\Value\Address;
 use TheDevs\WMS\Value\OrderStatus;
 
@@ -41,6 +43,7 @@ use TheDevs\WMS\Value\OrderStatus;
 #[UniqueConstraint(name: 'unique_number', columns: ['number', 'user_id'])]
 #[ApiResource]
 #[Post(input: CreateOrderRequest::class, processor: CreateOrderProcessor::class)]
+#[Put(uriTemplate: '/orders/cancel', status: 202, input: CancelOrder::class, output: false, messenger: 'input')]
 #[Get]
 class Order implements EntityWithEvents
 {
@@ -151,6 +154,11 @@ class Order implements EntityWithEvents
     public function return(UuidInterface $userId, DateTimeImmutable $now): void
     {
         $this->changeStatus(OrderStatus::Returned, $userId, $now);
+    }
+
+    public function cancel(UuidInterface $userId, DateTimeImmutable $now): void
+    {
+        $this->changeStatus(OrderStatus::Cancelled, $userId, $now);
     }
 
     /**
