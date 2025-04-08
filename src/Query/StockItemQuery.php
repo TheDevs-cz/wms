@@ -248,17 +248,19 @@ order_totals AS (
     GROUP BY product_id
 )
 SELECT
-    oi.sku,
-    oi.title,
-    oi.ean,
+    p.id AS product_id,
+    p.sku,
+    p.title,
+    p.ean,
     COALESCE(st.stock_quantity, 0) AS stock_quantity,
     COALESCE(ot.unpicked_ordered_quantity, 0) AS unpicked_ordered_quantity,
     COALESCE(st.stock_quantity, 0) - COALESCE(ot.unpicked_ordered_quantity, 0) AS stock_difference
 FROM order_item oi
-LEFT JOIN stock_totals st ON oi.product_id = st.product_id
-LEFT JOIN order_totals ot ON oi.product_id = ot.product_id
+INNER JOIN product p ON p.id = oi.product_id
+LEFT JOIN stock_totals st ON p.id = st.product_id
+LEFT JOIN order_totals ot ON p.id = ot.product_id
 WHERE COALESCE(ot.unpicked_ordered_quantity, 0) > 0
-GROUP BY oi.sku, oi.title, oi.ean, st.stock_quantity, ot.unpicked_ordered_quantity
+GROUP BY p.id, p.sku, p.title, p.ean, st.stock_quantity, ot.unpicked_ordered_quantity
 ORDER BY stock_difference ASC;
 SQL;
 
@@ -290,17 +292,19 @@ WITH stock_totals AS (
 ),
 order_totals AS (
     SELECT
-        oi.product_id,
-        oi.sku,
-        oi.title,
-        oi.ean,
+        p.id AS product_id,
+        p.sku,
+        p.title,
+        p.ean,
         SUM(oi.quantity - oi.prepared_quantity) AS unpicked_ordered_quantity
     FROM order_item oi
     INNER JOIN "order" o ON o.id = oi.order_id
+    LEFT JOIN product p ON p.id = oi.product_id
     WHERE o.user_id = :userId
-    GROUP BY oi.product_id, oi.sku, oi.title, oi.ean
+    GROUP BY p.id, p.sku, p.title, p.ean
 )
 SELECT
+    ot.product_id,
     ot.sku,
     ot.title,
     ot.ean,

@@ -6,6 +6,7 @@ namespace TheDevs\WMS\QueryResult;
 
 /**
  * @phpstan-type StockDemandData array{
+ *      product_id: string,
  *      sku: string,
  *      title: string,
  *      ean: string,
@@ -17,6 +18,7 @@ namespace TheDevs\WMS\QueryResult;
 readonly final class StockDemand
 {
     public function __construct(
+        public string $productId,
         public string $sku,
         public string $title,
         public string $ean,
@@ -31,6 +33,7 @@ readonly final class StockDemand
     public static function fromArray(array $data): self
     {
         return new self(
+            productId: $data['product_id'],
             sku: $data['sku'],
             title: $data['title'],
             ean: $data['ean'],

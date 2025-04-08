@@ -20,8 +20,16 @@
             <tbody>
             {% for stock_demand in stock_demands %}
                 <tr>
-                    <td>{{ stock_demand.sku }}</td>
-                    <td>{{ stock_demand.title }}</td>
+                    <td>
+                        <a href="{{ path('product_info', {'id': stock_demand.productId}) }}">
+                            {{ stock_demand.sku }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('product_info', {'id': stock_demand.productId}) }}">
+                            {{ stock_demand.title }}
+                        </a>
+                    </td>
                     <td>{{ stock_demand.ean }}</td>
                     <td>{{ stock_demand.unpickedOrderedQuantity }}</td>
                     <td>{{ stock_demand.stockQuantity }}</td>
