@@ -350,12 +350,12 @@ order_totals AS (
     GROUP BY product_id
 )
 SELECT
-    oi.product_id,
+    p.id,
     SUM(COALESCE(st.stock_quantity, 0) - COALESCE(ot.unpicked_ordered_quantity, 0)) AS available_stock
-FROM order_item oi
-LEFT JOIN stock_totals st ON oi.product_id = st.product_id
-LEFT JOIN order_totals ot ON oi.product_id = ot.product_id
-GROUP BY oi.product_id
+FROM product p
+LEFT JOIN stock_totals st ON p.id = st.product_id
+LEFT JOIN order_totals ot ON p.id = ot.product_id
+GROUP BY p.id
 SQL;
 
         /** @var array<string, string> $data */
